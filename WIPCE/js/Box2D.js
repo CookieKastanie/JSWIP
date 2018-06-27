@@ -27,7 +27,7 @@ class Box2D {
   }
 
   project(axe){
-    const liste = new Projection();
+    const liste = new Projection(axe);
 
     for (let v of this.vertices) {
       liste.push(v.project(axe));

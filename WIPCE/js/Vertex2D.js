@@ -22,9 +22,9 @@ class Vertex2D {
   project(b){
     const a = this;
 
-    const dp = this.x * b.x + this.y * b.y;
-
-    return dp;
+    const dp = a.x * b.x + a.y * b.y;
+    //console.log(dp / (b.x * b.x + b.y * b.y));
+    return dp / (b.x * b.x + b.y * b.y);
     //const inter = dp / (b.x * b.x + b.y * b.y);
 
     //return new Vertex2D(inter * b.x, inter * b.y);
