@@ -64,11 +64,4 @@ window.addEventListener('wheel', (e) =>  {
   d = e.deltaY/500;
 
   boxes[0].rotate(d);
-
-  /*if(e.deltaY > 0){
-    if(this.zoom > 0.2 && this.player.getPseudo() == "#img.debug@//"){this.zoom-=0.1;}
-    else if(this.zoom > 1){this.zoom-=0.1;}
-  } else{
-    if(this.zoom < 5){this.zoom+=0.1;}
-  }*/
 });
