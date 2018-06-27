@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <p></p>
+    <script type="text/javascript" src="Manette.logs.js"></script>
+    <script type="text/javascript">
+      Manette.set();
+
+      const p = document.getElementsByTagName("p")[0];
+
+      Manette[0].bind((m) => {
+        p.innerHTML = "x1 = " + (m.axes[0]).toFixed(2) + " | y1 = "+ (m.axes[1]).toFixed(2) + "<br>x2 = " + (m.axes[2]).toFixed(2) + " | y2 = " + (m.axes[3]).toFixed(2);
+      });
+
+      let b = () => {
+        Manette.update();
+        requestAnimationFrame(b);
+      }
+
+      requestAnimationFrame(b);
+    </script>
+  </body>
+</html>

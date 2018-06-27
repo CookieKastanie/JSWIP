@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <script type="text/javascript" src="DocumentMaker.js"></script>
+    <script type="text/javascript">
+      let doc = new DocumentMaker();
+
+      let a = doc.createElement("a");
+      a.href = "http://eeeeeeeeee";
+      a.appendChild("Du texte brute !");
+
+      let p = doc.createElement("p");
+      p.id = "lien";
+      p.salade = "ah";
+      p.innerHTML = "click !";
+
+      a.appendChild(p);
+
+      doc.body.appendChild(a);
+
+      console.log(doc.toString());
+    </script>
+  </body>
+</html>
