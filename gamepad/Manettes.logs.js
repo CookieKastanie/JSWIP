@@ -1,14 +1,14 @@
-class Manette {}
+class Manettes {}
 
-Manette.set = () => {
-  for (let i = 0; i < 4; ++i) Manette[i] = {
+Manettes.reset = () => {
+  for (let i = 0; i < 4; ++i) Manettes[i] = {
     exec: () => {},
     bind: function(e){
       this.exec = e;
     }
   };
 
-  if(!Manette.isSet) {
+  if(!Manettes.isSet) {
     window.addEventListener("gamepadconnected", (m) => {
       console.log("Connexion de "+ m.gamepad.id +" (manette "+ m.gamepad.index +")");
     });
@@ -18,10 +18,11 @@ Manette.set = () => {
     });
   }
 
-  Manette.isSet = true;
+  Manettes.isSet = true;
 }
+Manettes.reset();
 
-Manette.update = () => {
+Manettes.update = () => {
   let i = 0;
-  for (let m of navigator.getGamepads()) if(m) Manette[i++].exec(m);
+  for (let m of navigator.getGamepads()) if(m) Manettes[i++].exec(m);
 }

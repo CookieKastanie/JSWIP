@@ -6,18 +6,19 @@
   </head>
   <body>
     <p></p>
-    <script type="text/javascript" src="Manette.logs.js"></script>
+    <script type="text/javascript" src="Manettes.logs.js"></script>
     <script type="text/javascript">
-      Manette.set();
-
       const p = document.getElementsByTagName("p")[0];
 
-      Manette[0].bind((m) => {
-        p.innerHTML = "x1 = " + (m.axes[0]).toFixed(2) + " | y1 = "+ (m.axes[1]).toFixed(2) + "<br>x2 = " + (m.axes[2]).toFixed(2) + " | y2 = " + (m.axes[3]).toFixed(2);
+      Manettes[0].bind((m) => {
+        p.innerHTML = "x1 = " + (m.axes[0]).toFixed(2) + " | y1 = "+ (m.axes[1]).toFixed(2) + "<br>x2 = " + (m.axes[2]).toFixed(2) + " | y2 = " + (m.axes[3]).toFixed(2) + "<br>";
+        for (let b of m.buttons) {
+          p.innerHTML += (b.pressed ? "X" : "O") + " | " + b.value + "<br>";
+        }
       });
 
       let b = () => {
-        Manette.update();
+        Manettes.update();
         requestAnimationFrame(b);
       }
 
