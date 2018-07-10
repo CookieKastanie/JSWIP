@@ -12,14 +12,16 @@ class Projection extends Array{
     const bMin = Math.min(...other);
     const bMax = Math.max(...other);
 
-    /*if (aMin <= bMin && bMin <= aMax) return bMin - aMax;
-    if (aMin <= bMax && bMax <= aMax) return bMax - aMin;
-    if (aMax < bMin || bMax < aMin) return 0;
-    else return aMin - bMax;*/
+    this.t = 0;
 
-    if (aMin <= bMin && bMin <= aMax) return true;
+    if (aMin <= bMin && bMin <= aMax) {this.t = 1; return Math.abs(bMin - aMax);};
+    if (aMin <= bMax && bMax <= aMax) { this.t = 2; return Math.abs(bMax - aMin);};
+    if (aMax < bMin || bMax < aMin) return 0;
+    else {this.t = 3; return Math.abs(aMin - bMax);};
+
+    /*if (aMin <= bMin && bMin <= aMax) return true;
     if (aMin <= bMax && bMax <= aMax) return true;
     if (aMax < bMin || bMax < aMin) return false;
-    else return true;
+    else return true;*/
   }
 }

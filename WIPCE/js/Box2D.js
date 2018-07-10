@@ -9,11 +9,12 @@ class Box2D {
       this.vertices.push(new Vertex2D(x + 50, y + 100));
       this.vertices.push(new Vertex2D(x - 50, y + 50));
     } else {
+      this.vertices.push(new Vertex2D(x - 50, y + 50));
       this.vertices.push(new Vertex2D(x - 50, y - 100));
       this.vertices.push(new Vertex2D(x + 150, y - 50));
       this.vertices.push(new Vertex2D(x + 150, y + 50));
       this.vertices.push(new Vertex2D(x + 50, y + 100));
-      this.vertices.push(new Vertex2D(x - 50, y + 50));
+
     }
   }
 
@@ -57,14 +58,29 @@ class Box2D {
     const axes2 = other.getAxes();
     //console.log(axes1, axes2);
 
+    let min = Infinity;
+    let minAxis = null;
+    let b = false;
+    let t;
+
     for (let i = 0; i < axes1.length; ++i) {
       let axis = axes1[i];
       let p1 = this.project(axis);
       let p2 = other.project(axis);
 
-      if (!p1.overlap(p2)) {
-        return false;
+      let res = p1.overlap(p2);
+
+      if(res == 0) return false;
+
+      if(res < min){
+        min = res;
+        minAxis = axis;
+        t = p1.t;
       }
+
+      /*if (!p1.overlap(p2)) {
+        return false;
+      }*/
     }
 
     for (let i = 0; i < axes2.length; ++i) {
@@ -72,10 +88,42 @@ class Box2D {
       let p1 = this.project(axis);
       let p2 = other.project(axis);
 
-      if (!p1.overlap(p2)) {
-        return false;
+      let res = p1.overlap(p2);
+
+      if(res == 0) return false;
+
+      if(res < min){
+        min = res;
+        minAxis = axis;
+        b = true;
+        t = p1.t;
       }
+
+      /*if (!p1.overlap(p2)) {
+        return false;
+      }*/
     }
+
+
+
+
+
+
+
+
+    ///////////////////////////////////////////////
+
+
+    console.log(minAxis, min, t);
+
+    let direction = minAxis.norm();
+    if (b) {
+      this.move(direction.x * min, direction.y * min);
+    } else {
+      this.move(-direction.x * min, -direction.y * min);
+    }
+
+
 
     return true;
   }

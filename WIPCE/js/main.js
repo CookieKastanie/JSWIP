@@ -1,5 +1,5 @@
 const canvas = document.createElement('canvas');
-canvas.width = 700;
+canvas.width = 800;
 canvas.height = 700;
 document.getElementsByTagName('body')[0].appendChild(canvas);
 const ctx = canvas.getContext('2d');
@@ -14,6 +14,9 @@ const draw = () => {
   for (let b of boxes) {
     ctx.beginPath();
     let first = true;
+    let axis = b.getAxes();
+
+
     for (let v of b.vertices) {
       if(first){
         ctx.moveTo(v.x, v.y);
@@ -24,12 +27,43 @@ const draw = () => {
 
     ctx.closePath();
     ctx.stroke();
+
+    ctx.save();
+    ctx.strokeStyle = '#0f0';
+    for (let i = 0; i < b.vertices.length; i++) {
+      let v = b.vertices[i];
+      let axe = axis[i].norm();
+      axe.x *= 100;
+      axe.y *= 100;
+
+      ctx.beginPath();
+      ctx.moveTo(v.x, v.y);
+      ctx.lineTo(v.x + axe.x, v.y + axe.y);
+      ctx.stroke();
+    }
+    ctx.restore();
   }
 
   ctx.strokeStyle = '#fff';
 }
 
+
+let mouseX = 0;
+let mouseY = 0;
+
+
 const update = () => {
+  let box = boxes[0];
+
+  let vx = mouseX - box.pos.x;
+  let vy = mouseY - box.pos.y;
+
+  let dist = Math.sqrt(vx * vx + vy * vy) / 1000;
+
+  box.move(vx * dist, vy * dist);
+
+//////////////////////////
+
   if (boxes[0].test(boxes[1])) {
     ctx.strokeStyle = '#f00';
   }
@@ -47,17 +81,16 @@ loop();
 
 const body = document.getElementsByTagName('body')[0];
 
-let lastX = 0;
-let lastY = 0;
+
 
 document.addEventListener("mousemove", (event) => {
-  let newX = ((event.clientX + body.scrollLeft) - canvas.offsetLeft)*(canvas.width/canvas.offsetWidth);
-  let newY = ((event.clientY + body.scrollTop) - canvas.offsetTop)*(canvas.height/canvas.offsetHeight);
+  mouseX = ((event.clientX + body.scrollLeft) - canvas.offsetLeft)*(canvas.width/canvas.offsetWidth);
+  mouseY = ((event.clientY + body.scrollTop) - canvas.offsetTop)*(canvas.height/canvas.offsetHeight);
 
-  boxes[0].move(newX - lastX, newY - lastY);
+  /*boxes[0].move(newX - lastX, newY - lastY);
 
   lastX = newX;
-  lastY = newY;
+  lastY = newY;*/
 });
 
 window.addEventListener('wheel', (e) =>  {

@@ -24,7 +24,7 @@ class Vertex2D {
 
     const dp = a.x * b.x + a.y * b.y;
     //console.log(dp / (b.x * b.x + b.y * b.y));
-    return dp / (b.x * b.x + b.y * b.y);
+    return dp / Math.sqrt(b.x * b.x + b.y * b.y);
     //const inter = dp / (b.x * b.x + b.y * b.y);
 
     //return new Vertex2D(inter * b.x, inter * b.y);
@@ -40,5 +40,10 @@ class Vertex2D {
 
   perp(){
     return new Vertex2D(-this.y, this.x);
+  }
+
+  norm(){
+    let l =  Math.sqrt(this.x * this.x + this.y * this.y)
+    return new Vertex2D(this.x / l, this.y / l);
   }
 }
