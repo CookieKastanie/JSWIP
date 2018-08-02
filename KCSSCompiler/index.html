@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <script type="text/javascript" src="js/KCSSReader.js"></script>
+    <script type="text/javascript">
+      let text = `
+        ?test : orange
+
+
+        // ?varasup
+
+        ?test3: span
+
+        /*
+
+        plein de
+        commentaire
+        */
+
+        body{
+
+          ?test2:purple;
+
+          color: ?test2
+
+          p{
+            color : ?test
+            position : absolut;
+
+            :not(?test3){
+              color: black;
+            }
+          }
+        }
+
+      `;
+
+      try {
+        let kcss = new KCSSReader(text);
+      } catch (e) {
+        console.error(e);
+      }
+    </script>
+  </body>
+</html>

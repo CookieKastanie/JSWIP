@@ -43,7 +43,7 @@ class Vertex2D {
   }
 
   norm(){
-    let l =  Math.sqrt(this.x * this.x + this.y * this.y)
+    let l = Math.sqrt(this.x * this.x + this.y * this.y)
     return new Vertex2D(this.x / l, this.y / l);
   }
 }

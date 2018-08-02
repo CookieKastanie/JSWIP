@@ -5,8 +5,6 @@ class Projection extends Array{
   }
 
   overlap(other){
-    //console.log("jey", this, other);
-
     const aMin = Math.min(...this);
     const aMax = Math.max(...this);
     const bMin = Math.min(...other);
@@ -15,7 +13,7 @@ class Projection extends Array{
     this.t = 0;
 
     if (aMin <= bMin && bMin <= aMax) {this.t = 1; return Math.abs(bMin - aMax);};
-    if (aMin <= bMax && bMax <= aMax) { this.t = 2; return Math.abs(bMax - aMin);};
+    if (aMin <= bMax && bMax <= aMax) {this.t = 2; return Math.abs(bMax - aMin);};
     if (aMax < bMin || bMax < aMin) return 0;
     else {this.t = 3; return Math.abs(aMin - bMax);};
 
