@@ -3,44 +3,46 @@
   <head>
     <meta charset="utf-8">
     <title></title>
+    <style media="screen">
+
+    </style>
   </head>
   <body>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+    <span>spanspanspanspan</span>
+    <a href="#">un lien</a>
+
     <script type="text/javascript" src="js/KCSSReader.js"></script>
     <script type="text/javascript">
       let text = `
-        ?test : orange
+      ?bg_color : lightblue
 
-
-        // ?varasup
-
-        ?test3: span
-
-        /*
-
-        plein de
-        commentaire
-        */
-
-        body{
-
-          ?test2:purple;
-
-          color: ?test2
-
-          p{
-            color : ?test
-            position : absolut;
-
-            :not(?test3){
-              color: black;
-            }
-          }
+      body{
+        a, p{
+          color: red
+          position: relatif
         }
 
+        :hover{
+          background-color : pink
+        }
+      }
+
+      @media only screen and (max-width: 600px) {
+        body {
+          background-color: ?bg_color
+        }
+      }
       `;
 
       try {
-        let kcss = new KCSSReader(text);
+        let kcss = new KCSSReader();
+        kcss.readKCSS(text);
+
+        let css = kcss.writeCSS();
+        
+        console.log(css);
+        document.getElementsByTagName('style')[0].innerHTML = css;
       } catch (e) {
         console.error(e);
       }
