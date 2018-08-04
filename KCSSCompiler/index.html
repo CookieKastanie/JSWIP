@@ -3,9 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title></title>
-    <style media="screen">
-
-    </style>
+    <style media="screen"></style>
   </head>
   <body>
     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
@@ -14,8 +12,9 @@
 
     <script type="text/javascript" src="js/KCSSReader.js"></script>
     <script type="text/javascript">
-      let text = `
+      let fichierKCSS = `
       ?bg_color : lightblue
+      ?width : 600px
 
       body{
         a, p{
@@ -28,7 +27,7 @@
         }
       }
 
-      @media only screen and (max-width: 600px) {
+      @media only screen and (max-width: ?width) {
         body {
           background-color: ?bg_color
         }
@@ -37,10 +36,10 @@
 
       try {
         let kcss = new KCSSReader();
-        kcss.readKCSS(text);
+        kcss.readKCSS(fichierKCSS);
 
         let css = kcss.writeCSS();
-        
+
         console.log(css);
         document.getElementsByTagName('style')[0].innerHTML = css;
       } catch (e) {
