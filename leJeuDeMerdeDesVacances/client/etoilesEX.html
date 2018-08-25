@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+  </body>
+  <script type="text/javascript">
+    var etoiles = new Array();
+
+    //for (var i = 0; i< 600;i++){
+    for (var i = 0; i< 120;i++){
+    	const rng = Math.floor(Math.random()*4);
+      /*const _x = Math.floor(Math.random()*10000 - 5000);
+      const _y = Math.floor(Math.random()*10000 - 5000);*/
+      const _x = Math.floor(Math.random()*4500 - 2250) + 18500;
+      const _y = Math.floor(Math.random()*4500 - 2250) + 18500;
+
+      switch (rng) {
+        case 0: etoiles.push({nom: "etoile1.png", paralax: 2.2 - Math.random()*0.2, x: _x, y: _y}); break;
+        case 1: etoiles.push({nom: "etoile2.png", paralax: 2.3 - Math.random()*0.2, x: _x, y: _y}); break;
+        case 2: etoiles.push({nom: "etoile3.png", paralax: 2.6 - Math.random()*0.2, x: _x, y: _y}); break;
+        case 3: etoiles.push({nom: "etoile4.png", paralax: 2.7 - Math.random()*0.2, x: _x, y: _y}); break;
+      }
+	   }
+
+    //for (var i = 0; i < 150; i++) {
+    for (var i = 0; i < 20; i++) {
+      const rng = Math.floor(Math.random()*2);
+      //const _x = Math.floor(Math.random()*10000 - 5000);
+      //const _y = Math.floor(Math.random()*10000 - 5000);
+      const _x = Math.floor(Math.random()*4500 - 2250) + 21400;
+      const _y = Math.floor(Math.random()*4500 - 2250) + 21400;
+
+      switch (rng) {
+        case 0: etoiles.push({nom: "etoile5.png", paralax: 3.4 - Math.random()*0.4, x: _x, y: _y}); break;
+        case 1: etoiles.push({nom: "etoile6.png", paralax: 3.6 - Math.random()*0.4, x: _x, y: _y}); break;
+      }
+    }
+
+    console.log(JSON.stringify(etoiles));
+  </script>
+</html>
