@@ -1,55 +1,49 @@
-const display = new Display(1000, 1000);
-display.setClearColor(0.3, 0.6, 0.0, 1.0);
+let shadersBank, texturesBank;
+let display, shader, mesh, texture;
 
+const init = () => {
+  display = new Display(1000, 1000);
+  display.setClearColor(0.3, 0.6, 0.0, 1.0);
 
+  shader = new Shader(display, shadersBank.get("test1.vs"), shadersBank.get("test1.fs"));
 
-const shader = new Shader(display, `
-precision mediump float;
+  mesh = new Mesh(display, [
+    -0.5, -0.5, 0.5,    0.0, 1.0,
+    0.0, 0.5, 0.5,      0.5, 0.0,
+    0.5, -0.5, 0.5,     1.0, 1.0
+  ], 3);
 
-attribute vec3 position;
-attribute vec2 texCoord;
-
-varying vec2 texCoord0;
-
-void main(){
-  gl_Position = vec4(position, 1.0);
-  texCoord0 = texCoord;
-}
-`, `
-precision mediump float;
-
-varying vec2 texCoord0;
-uniform sampler2D diffuse;
-
-void main(){
-  gl_FragColor = texture2D(diffuse, texCoord0);
-}
-
-`);
-
-
-
-const mesh = new Mesh(display, [
-  -0.5, -0.5, 0.0, 0.0, 1.0,
-  0.0, 0.5, 0.0, 0.5, 0.0,
-  0.5, -0.5, 0.0, 1.0, 1.0
-], 3);
-
-
-const img = new Image();
-
-img.onload = () => {
-
-  const texture = new Texture(display, img);
+  texture = new Texture(display, texturesBank.get("leeroy"));
 
   shader.bind();
+  draw();
+}
 
-  ///
-
+const draw = () => {
   display.clear();
-
   texture.bind(0);
   mesh.draw();
 }
 
-img.src = "imgs/leeroy.png";
+/////////////////////////////////////////////////////////////////////////////////////
+
+shadersBank = new Bank("js/shaders", ["test1.vs", "test1.fs"]);
+texturesBank = new Bank("imgs", ["gg", "leeroy"], {
+  type: "png",
+  bind: "img"
+});
+
+const prog = (v) => {
+  console.log(" -> "+ v +"%");
+}
+
+console.log("Chargement des shaders :");
+shadersBank.chargement(prog).then(() => {
+  console.log("Chargement des textures :");
+  return texturesBank.chargement(prog);
+}).then(() => {
+  console.log("Chargements terminés");
+  init();
+}).catch((e) => {
+  console.error(e);
+});

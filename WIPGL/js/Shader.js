@@ -11,8 +11,8 @@ class Shader {
 
     this.createProgramme();
 
-    this.ctx.bindAttribLocation(this.program, 0, "position");
-    this.ctx.bindAttribLocation(this.program, 1, "texCoord");
+    this.ctx.bindAttribLocation(this.program, Shader.POSITION, "position");
+    this.ctx.bindAttribLocation(this.program, Shader.TEXCOORD, "texCoord");
   }
 
   delete(){
@@ -65,3 +65,6 @@ class Shader {
     else console.error(this.name + ' -> Programme invalide');
   }
 }
+
+Shader.POSITION = 0;
+Shader.TEXCOORD = 1;

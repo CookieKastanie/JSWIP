@@ -28,7 +28,7 @@ class Texture {
   }
 
   bind(unit = 0){
-    if (unit < 0 || unit > (this.ctx.MAX_COMBINED_TEXTURE_IMAGE_UNITS - 1)) {
+    if (unit < 0 || unit > 31) {
       console.error("Numero de texture invalide");
       return;
     }

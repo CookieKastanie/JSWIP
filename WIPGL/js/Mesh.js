@@ -9,8 +9,8 @@ class Mesh {
   	this.ctx.bindBuffer(this.ctx.ARRAY_BUFFER, this.vertexBuffer);
   	this.ctx.bufferData(this.ctx.ARRAY_BUFFER, new Float32Array(data), this.ctx.STATIC_DRAW);
 
-    this.ctx.enableVertexAttribArray(0); // position
-    this.ctx.enableVertexAttribArray(1); // texCoord
+    this.ctx.enableVertexAttribArray(Shader.POSITION);
+    this.ctx.enableVertexAttribArray(Shader.TEXCOORD);
   }
 
   delete(){
@@ -21,7 +21,7 @@ class Mesh {
     this.ctx.bindBuffer(this.ctx.ARRAY_BUFFER, this.vertexBuffer);
 
   	this.ctx.vertexAttribPointer(
-  		0, //attribLocation
+  		Shader.POSITION, //attribLocation
   		3, // nb d'elements par attr
   		this.ctx.FLOAT,
   		this.ctx.FALSE,
@@ -30,7 +30,7 @@ class Mesh {
   	);
 
     this.ctx.vertexAttribPointer(
-      1, //attribLocation
+      Shader.TEXCOORD, //attribLocation
       2, // nb d'elements par attr
       this.ctx.FLOAT,
       this.ctx.FALSE,
