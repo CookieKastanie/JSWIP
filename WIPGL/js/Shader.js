@@ -13,6 +13,9 @@ class Shader {
 
     this.ctx.bindAttribLocation(this.program, Shader.POSITION, "position");
     this.ctx.bindAttribLocation(this.program, Shader.TEXCOORD, "texCoord");
+
+    this.projectionLocation = this.ctx.getUniformLocation(this.program, 'projection');
+    this.cameraLocation = this.ctx.getUniformLocation(this.program, 'camera');
   }
 
   delete(){
@@ -63,6 +66,14 @@ class Shader {
   bind(){
     if(this.program) this.ctx.useProgram(this.program);
     else console.error(this.name + ' -> Programme invalide');
+  }
+
+  bindCam(mat){
+    this.ctx.uniformMatrix4fv(this.cameraLocation, this.ctx.FALSE, mat);
+  }
+
+  bindProj(mat){
+    this.ctx.uniformMatrix4fv(this.projectionLocation, this.ctx.FALSE, mat);
   }
 }
 
