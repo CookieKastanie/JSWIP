@@ -12,10 +12,18 @@ class Shader {
     this.createProgramme();
 
     this.ctx.bindAttribLocation(this.program, Shader.POSITION, "position");
-    this.ctx.bindAttribLocation(this.program, Shader.TEXCOORD, "texCoord");
+    this.ctx.bindAttribLocation(this.program, Shader.NORMALE, "normale");
 
     this.projectionLocation = this.ctx.getUniformLocation(this.program, 'projection');
     this.cameraLocation = this.ctx.getUniformLocation(this.program, 'camera');
+    this.worldPositionLocation = this.ctx.getUniformLocation(this.program, 'worldPosition');
+
+    this.world = new Float32Array([
+      1.0, 0.0, 0.0, 0.0,
+      0.0, 1.0, 0.0, 0.0,
+      0.0, 0.0, 1.0, 0.0,
+      0.0, 0.0, 0.0, 1.0,
+    ]);
   }
 
   delete(){
@@ -64,7 +72,10 @@ class Shader {
   }
 
   bind(){
-    if(this.program) this.ctx.useProgram(this.program);
+    if(this.program){
+      this.ctx.useProgram(this.program);
+      this.worldPosition();
+    }
     else console.error(this.name + ' -> Programme invalide');
   }
 
@@ -75,7 +86,15 @@ class Shader {
   bindProj(mat){
     this.ctx.uniformMatrix4fv(this.projectionLocation, this.ctx.FALSE, mat);
   }
+
+  worldPosition(x = 0.0, y = 0.0, z = 0.0){
+    this.world[12] = x;
+    this.world[13] = y;
+    this.world[14] = z;
+    this.ctx.uniformMatrix4fv(this.worldPositionLocation, this.ctx.FALSE, this.world);
+  }
 }
 
 Shader.POSITION = 0;
-Shader.TEXCOORD = 1;
+Shader.NORMALE = 1;
+Shader.TEXCOORD = 2;

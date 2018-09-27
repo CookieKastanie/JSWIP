@@ -30,6 +30,10 @@ class Display {
     this.ctx.enable(this.ctx.BLEND);
     this.ctx.enable(this.ctx.SAMPLE_ALPHA_TO_COVERAGE);
     this.ctx.blendFunc(this.ctx.SRC_ALPHA, this.ctx.ONE_MINUS_SRC_ALPHA);
+
+    this.ctx.enable(this.ctx.CULL_FACE);
+  	this.ctx.frontFace(this.ctx.CCW);
+  	this.ctx.cullFace(this.ctx.BACK);
   }
 
   setClearColor(r, g, b, a){

@@ -4,6 +4,7 @@ class Bank {
     this.liste = liste;
     this.type = opts.type || "";
     this.mediaType = opts.bind || "";
+    this.traitement = opts.func || null;
 
     switch (this.mediaType) {
       case "img":
@@ -51,7 +52,8 @@ class Bank {
     requete.onreadystatechange = () => {
       if(requete.readyState == 4){
         if(requete.status == 200){
-          this.obj[index] = requete.responseText;
+          if (this.traitement) this.obj[index] = this.traitement(requete.responseText);
+          else this.obj[index] = requete.responseText;
           this.compte(stateEvent, resolve, reject);
         } else {
           reject("Resource: "+ this.rep +"/"+ index + this.type +" inaccessible");
