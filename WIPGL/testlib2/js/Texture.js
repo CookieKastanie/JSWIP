@@ -4,6 +4,8 @@ class Texture {
 
     this.texture = this.ctx.createTexture();
     this.ctx.bindTexture(this.ctx.TEXTURE_2D, this.texture);
+
+    this.ctx.bindTexture(this.ctx.TEXTURE_2D, this.texture);
     this.ctx.texImage2D(this.ctx.TEXTURE_2D,
       0, // niveau du bitmap
       this.ctx.RGBA, //internalFormat
@@ -13,11 +15,11 @@ class Texture {
     );
 
     if (this.isPowerOf2(img.width) && this.isPowerOf2(img.height)) {
-      this.ctx.generateMipmap(this.ctx.TEXTURE_2D);
+       this.ctx.generateMipmap(this.ctx.TEXTURE_2D);
     } else {
-      this.ctx.texParameteri(this.ctx.TEXTURE_2D, this.ctx.TEXTURE_WRAP_S, this.ctx.CLAMP_TO_EDGE /*this.ctx.REPEAT*/);
-      this.ctx.texParameteri(this.ctx.TEXTURE_2D, this.ctx.TEXTURE_WRAP_T, this.ctx.CLAMP_TO_EDGE /*this.ctx.REPEAT*/);
-      this.ctx.texParameteri(this.ctx.TEXTURE_2D, this.ctx.TEXTURE_MIN_FILTER, this.ctx.LINEAR);
+       this.ctx.texParameteri(this.ctx.TEXTURE_2D, this.ctx.TEXTURE_WRAP_S, this.ctx.CLAMP_TO_EDGE /*this.ctx.REPEAT*/);
+       this.ctx.texParameteri(this.ctx.TEXTURE_2D, this.ctx.TEXTURE_WRAP_T, this.ctx.CLAMP_TO_EDGE /*this.ctx.REPEAT*/);
+       this.ctx.texParameteri(this.ctx.TEXTURE_2D, this.ctx.TEXTURE_MIN_FILTER, this.ctx.LINEAR);
     }
   }
 

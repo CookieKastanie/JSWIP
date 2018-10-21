@@ -64,8 +64,8 @@ const draw = () => {
   shader.bindCam(camera);
   shader.bindProj(proj);
 
-  /*texture2.bind(0);
-  mesh.draw();
+  texture2.bind(0);
+  /*mesh.draw();
 
   texture.bind(0);
   mesh.draw();*/
@@ -100,20 +100,24 @@ const prog = (v) => {
   console.log(" -> "+ v +"%");
 }
 
+new Promise(async (resolve, reject) => {
+  try {
+    console.log("Chargement des shaders :");
+    await shadersBank.chargement(prog);
 
+    console.log("Chargement des meshs :");
+    await meshsBank.chargement(prog);
 
-console.log("Chargement des shaders :");
-shadersBank.chargement(prog).then(() => {
-  console.log("Chargement des meshs :");
-  return meshsBank.chargement(prog);
-}).then(() => {
-  console.log("Chargement des textures :");
-  return texturesBank.chargement(prog);
-}).then(() => {
-  console.log("Chargements terminés");
-  init();
-}).catch((e) => {
-  console.error(e);
+    console.log("Chargement des textures :");
+    await texturesBank.chargement(prog);
+
+    console.log("Chargements terminés");
+    init();
+  } catch (e) {
+    reject(e);
+  }
+}).catch(e => {
+  console.log(e);
 });
 
 ///////////////
@@ -129,11 +133,19 @@ document.addEventListener("keydown", (e) => {
       break;
 
     case 81:
-      camPos.vx = -0.05 * 10;
+      camPos.vx = 0.05 * 10;
       break;
 
     case 68:
-      camPos.vx = 0.05 * 10;
+      camPos.vx = -0.05 * 10;
+      break;
+
+    case 65:
+      camPos.vy = 0.05 * 10;
+      break;
+
+    case 69:
+      camPos.vy = -0.05 * 10;
       break;
   }
 });
@@ -154,6 +166,14 @@ document.addEventListener("keyup", (e) => {
 
     case 68:
       camPos.vx = 0;
+      break;
+
+    case 65:
+      camPos.vy = 0;
+      break;
+
+    case 69:
+      camPos.vy = 0;
       break;
   }
 });

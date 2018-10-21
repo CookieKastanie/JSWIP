@@ -1,8 +1,10 @@
 class Texture {
-  constructor(display, img) {
-    this.ctx = display.ctx;
+  constructor(ctx, img) {
+    this.ctx = ctx;
 
     this.texture = this.ctx.createTexture();
+    this.ctx.bindTexture(this.ctx.TEXTURE_2D, this.texture);
+
     this.ctx.bindTexture(this.ctx.TEXTURE_2D, this.texture);
     this.ctx.texImage2D(this.ctx.TEXTURE_2D,
       0, // niveau du bitmap
@@ -13,11 +15,11 @@ class Texture {
     );
 
     if (this.isPowerOf2(img.width) && this.isPowerOf2(img.height)) {
-      this.ctx.generateMipmap(this.ctx.TEXTURE_2D);
+       this.ctx.generateMipmap(this.ctx.TEXTURE_2D);
     } else {
-      this.ctx.texParameteri(this.ctx.TEXTURE_2D, this.ctx.TEXTURE_WRAP_S, this.ctx.CLAMP_TO_EDGE /*this.ctx.REPEAT*/);
-      this.ctx.texParameteri(this.ctx.TEXTURE_2D, this.ctx.TEXTURE_WRAP_T, this.ctx.CLAMP_TO_EDGE /*this.ctx.REPEAT*/);
-      this.ctx.texParameteri(this.ctx.TEXTURE_2D, this.ctx.TEXTURE_MIN_FILTER, this.ctx.LINEAR);
+       this.ctx.texParameteri(this.ctx.TEXTURE_2D, this.ctx.TEXTURE_WRAP_S, this.ctx.CLAMP_TO_EDGE /*this.ctx.REPEAT*/);
+       this.ctx.texParameteri(this.ctx.TEXTURE_2D, this.ctx.TEXTURE_WRAP_T, this.ctx.CLAMP_TO_EDGE /*this.ctx.REPEAT*/);
+       this.ctx.texParameteri(this.ctx.TEXTURE_2D, this.ctx.TEXTURE_MIN_FILTER, this.ctx.LINEAR);
     }
   }
 
@@ -25,7 +27,7 @@ class Texture {
     return (val & (val - 1)) == 0;
   }
 
-  bind(unit = 0){
+  use(unit = 0){
     if (unit < 0 || unit > 31) {
       console.error("Numero de texture invalide");
       return;
