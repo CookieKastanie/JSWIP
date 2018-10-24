@@ -25,7 +25,7 @@ class Display {
     }
 
     this.ctx.enable(this.ctx.DEPTH_TEST);
-    this.setClearColor(0.5, 0.5, 0.5, 1.0);
+    this.setClearColor(Math.random(), Math.random(), Math.random(), 1.0);
 
     this.ctx.enable(this.ctx.BLEND);
     this.ctx.enable(this.ctx.SAMPLE_ALPHA_TO_COVERAGE);
@@ -34,6 +34,8 @@ class Display {
     this.ctx.enable(this.ctx.CULL_FACE);
   	this.ctx.frontFace(this.ctx.CCW);
   	this.ctx.cullFace(this.ctx.BACK);
+
+    this.clear();
   }
 
   setClearColor(r, g, b, a){

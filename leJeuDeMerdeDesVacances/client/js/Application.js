@@ -160,7 +160,7 @@ class Application {
   }
 
   init(ip, pseudo){
-    var p = pseudo.trim();
+    var p = pseudo.trim().normalize('NFD').replace(/[\u0300-\u036f]/g, "").replace(/[^\x00-\x7F]/g, "");
     if (p == "") {
       p = "Anonyme";
     } else if (p.length > 20){

@@ -103,3 +103,35 @@ class ArrayBuffer3_2 extends ArrayBuffer{
   	);
   }
 }
+
+class ArrayBuffer3_3 extends ArrayBuffer{
+  constructor(ctx, data, attribLocation1, attribLocation2) {
+    super(ctx, data);
+
+    this.size = 6 * this.dataType.BYTES_PER_ELEMENT;
+    this.decal = 3 * this.dataType.BYTES_PER_ELEMENT;
+
+    this.attribLocation1 = attribLocation1;
+    this.attribLocation2 = attribLocation2;
+  }
+
+  setVertexAttribPointer(){
+    this.ctx.vertexAttribPointer(
+  		this.attribLocation1,
+  		3,
+  		this.ctx.FLOAT,
+  		this.ctx.FALSE,
+  		this.size,
+  		0
+  	);
+
+    this.ctx.vertexAttribPointer(
+  		this.attribLocation2,
+  		3,
+  		this.ctx.FLOAT,
+  		this.ctx.FALSE,
+  		this.size,
+  		this.decal
+  	);
+  }
+}

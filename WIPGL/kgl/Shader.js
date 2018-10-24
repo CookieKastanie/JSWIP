@@ -117,8 +117,8 @@ class Shader {
     this.ctx.uniform4fv(location, value);
   }
 
-  sendMatrix4(location, value){
-    this.ctx.uniformMatrix4fv(location, value);
+  sendMat4(location, value){
+    this.ctx.uniformMatrix4fv(location, this.ctx.FALSE, value);
   }
 }
 

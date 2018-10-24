@@ -3,8 +3,8 @@ let texturesBank;
 let display, colorShader, texShadern, wowShader;
 let mesh, texture1, texture2;
 
-let varpointer;
-const W = 1920, H = 1080;
+let varpointer, pospointer;
+const W = 800, H = 800;
 
 const init = () => {
   display = new Display(W, H);
@@ -15,6 +15,7 @@ const init = () => {
   wowShader = new Shader(display.getCtx(), shadersBank.get("wow.vs"), shadersBank.get("wow.fs"), "wowShader");
 
   varpointer = wowShader.getUniformLocation("time");
+  pospointer = texShader.getUniformLocation("pos");
 
   mesh1 = new MeshIndex(colorShader, [
     0.0, 0.5, 0.1,
@@ -52,6 +53,28 @@ const init = () => {
 
   requestAnimationFrame(draw);
 }
+
+let pos1 = new Float32Array([
+  1.0, 0.0, 0.0, 0.0,
+  0.0, 1.0, 0.0, 0.0,
+  0.0, 0.0, 1.0, 0.0,
+  0.0, 0.0, 0.0, 1.0
+]);
+
+let pos2 = new Float32Array([
+  1.0, 0.0, 0.0, 0.0,
+  0.0, 1.0, 0.0, 0.0,
+  0.0, 0.0, 1.0, 0.0,
+  1.0, 0.0, 0.0, 1.0
+]);
+
+let pos3 = new Float32Array([
+  1.0, 0.0, 0.0, 0.0,
+  0.0, 1.0, 0.0, 0.0,
+  0.0, 0.0, 1.0, 0.0,
+  0.0, 1.0, 0.0, 1.0
+]);
+
 let lol = 0;
 const draw = (m) => {
   display.clear();
@@ -68,6 +91,11 @@ const draw = (m) => {
   if (lol < 90) texture1.use();
   else texture2.use();
 
+  texShader.sendMatrix4(pospointer, pos1);
+  mesh2.draw();
+  texShader.sendMatrix4(pospointer, pos2);
+  mesh2.draw();
+  texShader.sendMatrix4(pospointer, pos3);
   mesh2.draw();
 
 
@@ -80,25 +108,29 @@ const draw = (m) => {
 
 /////////////////////////////////////////////////////////////////////////////////////
 
-shadersBank = new Bank("js/shaders", ["color.vs", " color.fs ", "tex.vs", "tex.fs", "wow.vs", "wow.fs"]);
-texturesBank = new Bank("imgs", ["leeroy", "gg"],{
-  type: "png",
-  bind: "img"
-});
+const main = () => {
+  shadersBank = new Bank("shaders", ["color.vs", " color.fs ", "tex.vs", "tex.fs", "wow.vs", "wow.fs"]);
+  texturesBank = new Bank("imgs", ["leeroy", "gg"],{
+    type: "png",
+    bind: "img"
+  });
 
-const prog = (v) => {
-  console.log(" -> "+ v +"%");
+  const prog = (v) => {
+    console.log(" -> "+ v +"%");
+  }
+
+  console.log("Chargement des shaders :");
+  shadersBank.chargement(prog)
+  .then(() => {
+    console.log("Chargement des textures :");
+    return texturesBank.chargement(prog);
+  })
+  .then(() => {
+    init();
+  })
+  .catch((e) => {
+    console.error(e);
+  });
 }
 
-console.log("Chargement des shaders :");
-shadersBank.chargement(prog)
-.then(() => {
-  console.log("Chargement des textures :");
-  return texturesBank.chargement(prog);
-})
-.then(() => {
-  init();
-})
-.catch((e) => {
-  console.error(e);
-});
+loadKastanieGL(main);
