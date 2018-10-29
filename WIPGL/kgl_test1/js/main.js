@@ -91,11 +91,11 @@ const draw = (m) => {
   if (lol < 90) texture1.use();
   else texture2.use();
 
-  texShader.sendMatrix4(pospointer, pos1);
+  texShader.sendMat4(pospointer, pos1);
   mesh2.draw();
-  texShader.sendMatrix4(pospointer, pos2);
+  texShader.sendMat4(pospointer, pos2);
   mesh2.draw();
-  texShader.sendMatrix4(pospointer, pos3);
+  texShader.sendMat4(pospointer, pos3);
   mesh2.draw();
 
 

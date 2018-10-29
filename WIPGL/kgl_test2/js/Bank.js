@@ -49,6 +49,7 @@ class Bank {
   ajax(index, stateEvent, resolve, reject){
     let requete = new XMLHttpRequest();
     requete.open('GET', this.rep +"/"+ index + this.type, true);
+    requete.responseType = 'text';
     requete.onreadystatechange = () => {
       if(requete.readyState == 4){
         if(requete.status == 200){
