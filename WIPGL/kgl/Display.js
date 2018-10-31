@@ -2,16 +2,16 @@ class Display {
   constructor(width, height) {
     this.canvas = document.createElement('canvas');
 
-    this.canvas.style = "margin: 0; object-fit: contain; width: 100%; height: 100%;";
+    this.canvas.style = "margin: 0; object-fit: contain;";
 
-    const conteneur = document.getElementById('gl-screen');
+    this.conteneur = document.getElementById('gl-screen');
 
-    if (!conteneur) {
+    if (!this.conteneur) {
       console.error("Impossible de créer le canvas, il faut rajouter une balise avec l'id \"gl-screen\"");
       return;
     }
 
-    conteneur.appendChild(this.canvas);
+    this.conteneur.appendChild(this.canvas);
 
     this.canvas.width = width;
     this.canvas.height = height;
@@ -23,6 +23,8 @@ class Display {
       console.error("Impossible de d'initialiser le contexte OpenGL");
       return;
     }
+
+    this.use();
 
     this.ctx.enable(this.ctx.DEPTH_TEST);
     this.setClearColor(Math.random(), Math.random(), Math.random(), 1.0);
@@ -49,4 +51,10 @@ class Display {
   getCtx(){
     return this.ctx;
   }
+
+  use(){
+    Display.ctx = this.getCtx();
+  }
 }
+
+Display.ctx = null;

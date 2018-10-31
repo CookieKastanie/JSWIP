@@ -1,23 +1,22 @@
 class DataBuffer {
-  constructor(ctx, data, bufferType, dataType, usage = ctx.STATIC_DRAW) {
-    this.ctx = ctx;
+  constructor(data, bufferType, dataType, usage = Display.ctx.STATIC_DRAW) {
     this.bufferType = bufferType;
     this.dataType = dataType;
     this.dataLength = data.length;
 
     this.id = DataBuffer.idMax++;
 
-    this.pointer = this.ctx.createBuffer();
-  	this.ctx.bindBuffer(bufferType, this.pointer);
-  	this.ctx.bufferData(bufferType, new dataType(data), usage);
+    this.pointer = Display.ctx.createBuffer();
+  	this.bind();
+  	Display.ctx.bufferData(bufferType, new dataType(data), usage);
   }
 
   bind(){
-    this.ctx.bindBuffer(this.bufferType, this.pointer);
+    Display.ctx.bindBuffer(this.bufferType, this.pointer);
   }
 
   delete(){
-    this.ctx.deleteBuffer(this.pointer);
+    Display.ctx.deleteBuffer(this.pointer);
   }
 }
 
@@ -27,8 +26,8 @@ DataBuffer.currentId = -1;
 //////////////////////////////////////////////////////////
 
 class ArrayBuffer extends DataBuffer{
-  constructor(ctx, data) {
-    super(ctx, data, ctx.ARRAY_BUFFER, Float32Array);
+  constructor(data) {
+    super(data, Display.ctx.ARRAY_BUFFER, Float32Array);
   }
 
   use(){
@@ -44,8 +43,8 @@ class ArrayBuffer extends DataBuffer{
 }
 
 class IndexBuffer extends DataBuffer{
-  constructor(ctx, data) {
-    super(ctx, data, ctx.ELEMENT_ARRAY_BUFFER, Uint16Array);
+  constructor(data) {
+    super(data, Display.ctx.ELEMENT_ARRAY_BUFFER, Uint16Array);
   }
 
   use(){
@@ -56,16 +55,21 @@ class IndexBuffer extends DataBuffer{
 ////////////////////////////////////////////////////////////
 
 class ArrayBuffer3 extends ArrayBuffer{
-  constructor(ctx, data, attribLocation) {
-    super(ctx, data);
+  constructor(data, attribLocation) {
+    super(data);
+    this.setAttribLocation(attribLocation);
+  }
+
+  setAttribLocation(attribLocation){
+    this.attribLocation = attribLocation;
   }
 
   setVertexAttribPointer(){
-    this.ctx.vertexAttribPointer(
+    Display.ctx.vertexAttribPointer(
   		this.attribLocation,
   		3,
-  		this.ctx.FLOAT,
-  		this.ctx.FALSE,
+  		Display.ctx.FLOAT,
+  		Display.ctx.FALSE,
   		this.size,
   		0
   	);
@@ -73,31 +77,39 @@ class ArrayBuffer3 extends ArrayBuffer{
 }
 
 class ArrayBuffer3_2 extends ArrayBuffer{
-  constructor(ctx, data, attribLocation1, attribLocation2) {
-    super(ctx, data);
+  constructor(data, attribLocation1, attribLocation2) {
+    super(data);
 
     this.size = 5 * this.dataType.BYTES_PER_ELEMENT;
     this.decal = 3 * this.dataType.BYTES_PER_ELEMENT;
 
-    this.attribLocation1 = attribLocation1;
-    this.attribLocation2 = attribLocation2;
+    this.setAttribLocation1(attribLocation1);
+    this.setAttribLocation2(attribLocation2);
+  }
+
+  setAttribLocation1(attribLocation){
+    this.attribLocation1 = attribLocation;
+  }
+
+  setAttribLocation2(attribLocation){
+    this.attribLocation2 = attribLocation;
   }
 
   setVertexAttribPointer(){
-    this.ctx.vertexAttribPointer(
+    Display.ctx.vertexAttribPointer(
   		this.attribLocation1,
   		3,
-  		this.ctx.FLOAT,
-  		this.ctx.FALSE,
+  		Display.ctx.FLOAT,
+  		Display.ctx.FALSE,
   		this.size,
   		0
   	);
 
-    this.ctx.vertexAttribPointer(
+    Display.ctx.vertexAttribPointer(
   		this.attribLocation2,
   		2,
-  		this.ctx.FLOAT,
-  		this.ctx.FALSE,
+  		Display.ctx.FLOAT,
+  		Display.ctx.FALSE,
   		this.size,
   		this.decal
   	);
@@ -105,31 +117,39 @@ class ArrayBuffer3_2 extends ArrayBuffer{
 }
 
 class ArrayBuffer3_3 extends ArrayBuffer{
-  constructor(ctx, data, attribLocation1, attribLocation2) {
-    super(ctx, data);
+  constructor(data, attribLocation1, attribLocation2) {
+    super(data);
 
     this.size = 6 * this.dataType.BYTES_PER_ELEMENT;
     this.decal = 3 * this.dataType.BYTES_PER_ELEMENT;
 
-    this.attribLocation1 = attribLocation1;
-    this.attribLocation2 = attribLocation2;
+    this.setAttribLocation1(attribLocation1);
+    this.setAttribLocation2(attribLocation2);
+  }
+
+  setAttribLocation1(attribLocation){
+    this.attribLocation1 = attribLocation;
+  }
+
+  setAttribLocation2(attribLocation){
+    this.attribLocation2 = attribLocation;
   }
 
   setVertexAttribPointer(){
-    this.ctx.vertexAttribPointer(
+    Display.ctx.vertexAttribPointer(
   		this.attribLocation1,
   		3,
-  		this.ctx.FLOAT,
-  		this.ctx.FALSE,
+  		Display.ctx.FLOAT,
+  		Display.ctx.FALSE,
   		this.size,
   		0
   	);
 
-    this.ctx.vertexAttribPointer(
+    Display.ctx.vertexAttribPointer(
   		this.attribLocation2,
   		3,
-  		this.ctx.FLOAT,
-  		this.ctx.FALSE,
+  		Display.ctx.FLOAT,
+  		Display.ctx.FALSE,
   		this.size,
   		this.decal
   	);

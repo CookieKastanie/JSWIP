@@ -1,27 +1,25 @@
 class Texture {
-  constructor(ctx, img) {
-    this.ctx = ctx;
-
+  constructor(img) {
     this.id = Texture.idMax++;
 
-    this.texture = this.ctx.createTexture();
-    this.ctx.bindTexture(this.ctx.TEXTURE_2D, this.texture);
+    this.texture = Display.ctx.createTexture();
+    Display.ctx.bindTexture(Display.ctx.TEXTURE_2D, this.texture);
 
-    this.ctx.bindTexture(this.ctx.TEXTURE_2D, this.texture);
-    this.ctx.texImage2D(this.ctx.TEXTURE_2D,
+    Display.ctx.bindTexture(Display.ctx.TEXTURE_2D, this.texture);
+    Display.ctx.texImage2D(Display.ctx.TEXTURE_2D,
       0, // niveau du bitmap
-      this.ctx.RGBA, //internalFormat
-      this.ctx.RGBA, //srcFormat
-      this.ctx.UNSIGNED_BYTE, //srcType
+      Display.ctx.RGBA, //internalFormat
+      Display.ctx.RGBA, //srcFormat
+      Display.ctx.UNSIGNED_BYTE, //srcType
       img
     );
 
     if (this.isPowerOf2(img.width) && this.isPowerOf2(img.height)) {
-      this.ctx.generateMipmap(this.ctx.TEXTURE_2D);
+      Display.ctx.generateMipmap(Display.ctx.TEXTURE_2D);
     } else {
-      this.ctx.texParameteri(this.ctx.TEXTURE_2D, this.ctx.TEXTURE_WRAP_S, this.ctx.CLAMP_TO_EDGE /*this.ctx.REPEAT*/);
-      this.ctx.texParameteri(this.ctx.TEXTURE_2D, this.ctx.TEXTURE_WRAP_T, this.ctx.CLAMP_TO_EDGE /*this.ctx.REPEAT*/);
-      this.ctx.texParameteri(this.ctx.TEXTURE_2D, this.ctx.TEXTURE_MIN_FILTER, this.ctx.LINEAR);
+      Display.ctx.texParameteri(Display.ctx.TEXTURE_2D, Display.ctx.TEXTURE_WRAP_S, Display.ctx.CLAMP_TO_EDGE);
+      Display.ctx.texParameteri(Display.ctx.TEXTURE_2D, Display.ctx.TEXTURE_WRAP_T, Display.ctx.CLAMP_TO_EDGE);
+      Display.ctx.texParameteri(Display.ctx.TEXTURE_2D, Display.ctx.TEXTURE_MIN_FILTER, Display.ctx.LINEAR);
     }
   }
 
@@ -30,19 +28,19 @@ class Texture {
   }
 
   use(unit = 0){
-    if(Texture.currentId == this.id) return;
+    if(Texture.currentIds[unit] == this.id) return;
 
-    Texture.currentId = this.id;
+    Texture.currentIds[unit] = this.id;
 
     if (unit < 0 || unit > 31 ) {
       console.error("Numero de texture invalide");
       return;
     }
 
-    this.ctx.activeTexture(this.ctx.TEXTURE0 + unit);
-    this.ctx.bindTexture(this.ctx.TEXTURE_2D, this.texture);
+    Display.ctx.activeTexture(Display.ctx.TEXTURE0 + unit);
+    Display.ctx.bindTexture(Display.ctx.TEXTURE_2D, this.texture);
   }
 }
 
 Texture.idMax = 0;
-Texture.currentId = -1;
+Texture.currentIds = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1];

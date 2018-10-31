@@ -1,6 +1,5 @@
 class Mesh {
-  constructor(shader) {
-    this.ctx = shader.getCtx();
+  constructor() {
     this.id = Mesh.idMax++;
   }
 
@@ -20,12 +19,16 @@ Mesh.currentId = -1;
 /////////////////////////////////////////////////////////////////
 
 class MeshIndex extends Mesh{
-  constructor(shader, verts, indx) {
-    super(shader);
+  constructor(verts, indx, attribLocation) {
+    super();
 
     this.nbIndex = indx.length;
-    this.vertsArray = new ArrayBuffer3(this.ctx, verts, shader.bindAttribLocation("position"));
-    this.indexArray = new IndexBuffer(this.ctx, indx);
+    this.vertsArray = new ArrayBuffer3(verts, attribLocation);
+    this.indexArray = new IndexBuffer(indx);
+  }
+
+  setAttribLocation(attribLocation){
+    this.vertsArray.setAttribLocation(attribLocation);
   }
 
   useBuffers(){
@@ -35,7 +38,7 @@ class MeshIndex extends Mesh{
 
   draw(){
     this.use();
-    this.ctx.drawElements(this.ctx.TRIANGLES, this.nbIndex, this.ctx.UNSIGNED_SHORT, 0);
+    Display.ctx.drawElements(Display.ctx.TRIANGLES, this.nbIndex, Display.ctx.UNSIGNED_SHORT, 0);
   }
 
   delete(){
@@ -47,12 +50,17 @@ class MeshIndex extends Mesh{
 /////////////////////////////////////////////////////////////////
 
 class MeshTex extends Mesh{
-  constructor(shader, verts, indx) {
-    super(shader);
+  constructor(verts, indx, attr1, attr2) {
+    super();
 
     this.nbIndex = indx.length;
-    this.vertsArray = new ArrayBuffer3_2(this.ctx, verts, shader.bindAttribLocation("position"), shader.bindAttribLocation("texCoord"));
-    this.indexArray = new IndexBuffer(this.ctx, indx);
+    this.vertsArray = new ArrayBuffer3_2(verts, attr1, attr2);
+    this.indexArray = new IndexBuffer(indx);
+  }
+
+  setAttribLocations(attribLocation1, attribLocation2){
+    this.vertsArray.setAttribLocation1(attribLocation1);
+    this.vertsArray.setAttribLocation2(attribLocation2);
   }
 
   useBuffers(){
@@ -62,7 +70,7 @@ class MeshTex extends Mesh{
 
   draw(){
     this.use();
-    this.ctx.drawElements(this.ctx.TRIANGLES, this.nbIndex, this.ctx.UNSIGNED_SHORT, 0);
+    Display.ctx.drawElements(Display.ctx.TRIANGLES, this.nbIndex, Display.ctx.UNSIGNED_SHORT, 0);
   }
 
   delete(){
@@ -75,12 +83,17 @@ class MeshTex extends Mesh{
 
 
 class MeshNormale extends Mesh{
-  constructor(shader, verts, indx) {
-    super(shader);
+  constructor(verts, indx, attr1, attr2) {
+    super();
 
     this.nbIndex = indx.length;
-    this.vertsArray = new ArrayBuffer3_3(this.ctx, verts, shader.bindAttribLocation("position"), shader.bindAttribLocation("normale"));
-    this.indexArray = new IndexBuffer(this.ctx, indx);
+    this.vertsArray = new ArrayBuffer3_3(verts, attr1, attr2);
+    this.indexArray = new IndexBuffer(indx);
+  }
+
+  setAttribLocations(attribLocation1, attribLocation2){
+    this.vertsArray.setAttribLocation1(attribLocation1);
+    this.vertsArray.setAttribLocation2(attribLocation2);
   }
 
   useBuffers(){
@@ -90,7 +103,7 @@ class MeshNormale extends Mesh{
 
   draw(){
     this.use();
-    this.ctx.drawElements(this.ctx.TRIANGLES, this.nbIndex, this.ctx.UNSIGNED_SHORT, 0);
+    Display.ctx.drawElements(Display.ctx.TRIANGLES, this.nbIndex, Display.ctx.UNSIGNED_SHORT, 0);
   }
 
   delete(){

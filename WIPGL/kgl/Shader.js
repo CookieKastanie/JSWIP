@@ -1,34 +1,47 @@
 class Shader {
-  constructor(ctx, vs, fs, fileName = "Shaders") {
-    this.ctx = ctx;
+  constructor(vs, fs, fileName = "Shader") {
     this.name = fileName;
     this.program = null;
     this.attributList = new Object();
     this.attributNumber = 0;
 
-    this.vertexShader = this.createShader(this.ctx.VERTEX_SHADER, vs);
+    this.uniformList = new Object();
+
+    this.vertexShader = this.createShader(Display.ctx.VERTEX_SHADER, vs);
     if (!this.vertexShader) return;
-    this.fragmantShader = this.createShader(this.ctx.FRAGMENT_SHADER, fs);
+    this.fragmantShader = this.createShader(Display.ctx.FRAGMENT_SHADER, fs);
     if (!this.fragmantShader) return;
 
     this.createProgramme();
+
+    let uniform = null;
+    let index = 0;
+    const nbUnif = Display.ctx.getProgramParameter(this.program, Display.ctx.ACTIVE_UNIFORMS);
+
+    while (index < nbUnif){
+      uniform = Display.ctx.getActiveUniform(this.program, index++);
+      if (uniform) {
+        this.initUniformLocation(uniform.name);
+      }
+    }
   }
+
 
 ///////////////// Private
 
 
   delShad(s){
-    this.ctx.detacheShader(this.program, s);
-    this.ctx.deleteShader(s);
+    Display.ctx.detacheShader(this.program, s);
+    Display.ctx.deleteShader(s);
   }
 
   createShader(type, text) {
-    const shader = this.ctx.createShader(type);
+    const shader = Display.ctx.createShader(type);
 
-    this.ctx.shaderSource(shader, text);
-    this.ctx.compileShader(shader);
-  	if (!this.ctx.getShaderParameter(shader, this.ctx.COMPILE_STATUS)) {
-  		console.error(this.name + ' -> erreur de compilation '+ (type == this.ctx.VERTEX_SHADER ? 'vertex' : 'fragment') +' shader!', this.ctx.getShaderInfoLog(shader));
+    Display.ctx.shaderSource(shader, text);
+    Display.ctx.compileShader(shader);
+  	if (!Display.ctx.getShaderParameter(shader, Display.ctx.COMPILE_STATUS)) {
+  		console.error(this.name + ' -> erreur de compilation '+ (type == Display.ctx.VERTEX_SHADER ? 'vertex' : 'fragment') +' shader!', Display.ctx.getShaderInfoLog(shader));
   		return null;
   	}
 
@@ -36,21 +49,27 @@ class Shader {
   }
 
   createProgramme() {
-    let program = this.ctx.createProgram();
-  	this.ctx.attachShader(program, this.vertexShader);
-  	this.ctx.attachShader(program, this.fragmantShader);
-  	this.ctx.linkProgram(program);
-  	if (!this.ctx.getProgramParameter(program, this.ctx.LINK_STATUS)) {
-  		console.error(this.name + ' -> Impossible de lier le programme', this.ctx.getProgramInfoLog(program));
+    let program = Display.ctx.createProgram();
+  	Display.ctx.attachShader(program, this.vertexShader);
+  	Display.ctx.attachShader(program, this.fragmantShader);
+  	Display.ctx.linkProgram(program);
+  	if (!Display.ctx.getProgramParameter(program, Display.ctx.LINK_STATUS)) {
+  		console.error(this.name + ' -> Impossible de lier le programme', Display.ctx.getProgramInfoLog(program));
   		return;
   	}
-  	this.ctx.validateProgram(program);
-  	if (!this.ctx.getProgramParameter(program, this.ctx.VALIDATE_STATUS)) {
-  		console.error(this.name + ' -> erreur de validation du programme', this.ctx.getProgramInfoLog(program));
+  	Display.ctx.validateProgram(program);
+  	if (!Display.ctx.getProgramParameter(program, Display.ctx.VALIDATE_STATUS)) {
+  		console.error(this.name + ' -> erreur de validation du programme', Display.ctx.getProgramInfoLog(program));
   		return;
   	}
 
     this.program = program;
+  }
+
+  initUniformLocation(nom){
+    const pointer = Display.ctx.getUniformLocation(this.program, nom);
+    if(pointer) this.uniformList[nom] = pointer;
+    else console.error("Uniform '"+ nom +"' n'existe pas dans "+ this.name);
   }
 
 
@@ -62,63 +81,60 @@ class Shader {
       this.delShad(this.vertexShader);
       this.delShad(this.fragmantShader);
 
-      this.ctx.deleteProgram(this.program);
+      Display.ctx.deleteProgram(this.program);
       this.program = null;
     }
   }
 
   use(){
     if(!this.program) return console.error(this.name + ' -> Programme invalide');
-    this.ctx.useProgram(this.program);
+    Display.ctx.useProgram(this.program);
     for (let i = 0; i <= Shader.attributeMax; ++i) {
-      if(i < this.attributNumber) {this.ctx.enableVertexAttribArray(i);}
-      else {this.ctx.disableVertexAttribArray(i);}
+      if(i <= this.attributNumber) {Display.ctx.enableVertexAttribArray(i);}
+      else {Display.ctx.disableVertexAttribArray(i);}
     }
-  }
-
-  getCtx(){
-    return this.ctx;
   }
 
 //////////////////// Variables attributs
 
-  bindAttribLocation(nom){
+  getAttribLocation(nom){
     if(this.attributList[nom] === undefined){
-      const num = this.attributNumber++;
+      const num = Display.ctx.getAttribLocation(this.program, nom);
 
+      if(num < 0) {
+        console.error("L'attribut '"+ nom +"' n'existe pas dans "+ this.name);
+        return;
+      }
+
+      if(this.attributNumber < num) this.attributNumber = num;
       if(Shader.attributeMax < num) Shader.attributeMax = num;
 
       this.attributList[nom] = num;
-      this.ctx.bindAttribLocation(this.program, num, nom);
     }
 
-    return this.getAttribLocation(nom);
-  }
-
-  getAttribLocation(nom){
     return this.attributList[nom];
   }
 
 //////////////////// Variables uniformes
 
   getUniformLocation(nom){
-    return this.ctx.getUniformLocation(this.program, nom);
+    return this.uniformList[nom];
   }
 
-  sendFloat(location, valeur){
-    this.ctx.uniform1f(location, valeur);
+  sendFloat(nom, value){
+    Display.ctx.uniform1f(this.getUniformLocation(nom), value);
   }
 
-  sendInteger(location, value){
-    this.ctx.uniform1i(location, value);
+  sendInt(nom, value){
+    Display.ctx.uniform1i(this.getUniformLocation(nom), value);
   }
 
-  sendVec4(location, value){
-    this.ctx.uniform4fv(location, value);
+  sendVec4(nom, value){
+    Display.ctx.uniform4fv(this.getUniformLocation(nom), value);
   }
 
-  sendMat4(location, value){
-    this.ctx.uniformMatrix4fv(location, this.ctx.FALSE, value);
+  sendMat4(nom, value){
+    Display.ctx.uniformMatrix4fv(this.getUniformLocation(nom), Display.ctx.FALSE, value);
   }
 }
 

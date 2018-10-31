@@ -3,21 +3,17 @@ let texturesBank;
 let display, colorShader, texShadern, wowShader;
 let mesh, texture1, texture2;
 
-let varpointer, pospointer;
 const W = 800, H = 800;
 
 const init = () => {
   display = new Display(W, H);
   display.setClearColor(0.3, 0.3, 0.3, 1.0);
 
-  colorShader = new Shader(display.getCtx(), shadersBank.get("color.vs"), shadersBank.get("color.fs"), "colorShader");
-  texShader = new Shader(display.getCtx(), shadersBank.get("tex.vs"), shadersBank.get("tex.fs"), "texShader");
-  wowShader = new Shader(display.getCtx(), shadersBank.get("wow.vs"), shadersBank.get("wow.fs"), "wowShader");
+  colorShader = new Shader(shadersBank.get("color.vs"), shadersBank.get("color.fs"), "colorShader");
+  texShader = new Shader(shadersBank.get("tex.vs"), shadersBank.get("tex.fs"), "texShader");
+  wowShader = new Shader(shadersBank.get("wow.vs"), shadersBank.get("wow.fs"), "wowShader");
 
-  varpointer = wowShader.getUniformLocation("time");
-  pospointer = texShader.getUniformLocation("pos");
-
-  mesh1 = new MeshIndex(colorShader, [
+  mesh1 = new MeshIndex([
     0.0, 0.5, 0.1,
     -1.0, 0.5, 0.1,
     -1.0, -0.5, 0.1,
@@ -25,22 +21,22 @@ const init = () => {
   ], [
     0, 1, 2,
     0, 2, 3
-  ]);
+  ], colorShader.getAttribLocation("position"));
 
-  texture1 = new Texture(display.getCtx(), texturesBank.get("leeroy"));
-  texture2 = new Texture(display.getCtx(), texturesBank.get("gg"));
+  texture1 = new Texture(texturesBank.get("leeroyb"));
+  texture2 = new Texture(texturesBank.get("gg"));
 
-  mesh2 = new MeshTex(texShader, [
-    0.5, 0.5, 0.0,  1.0, 0.0,
+  mesh2 = new MeshTex([
+    0.5, 0.5, 0.0,  2.0, 0.0,
     -0.5, 0.5, 0.0, 0.0, 0.0,
-    -0.5, -0.5, 0.0,  0.0, 1.0,
-    0.5, -0.5, 0.0,  1.0, 1.0
+    -0.5, -0.5, 0.0,  0.0, 2.0,
+    0.5, -0.5, 0.0,  2.0, 2.0
   ], [
     0, 1, 2,
     0, 2, 3
-  ]);
+  ], texShader.getAttribLocation("position"), texShader.getAttribLocation("texCoord"));
 
-  mesh3 = new MeshIndex(wowShader, [
+  mesh3 = new MeshIndex([
     1.0, 1.0, 0.2,
     -1.0, 1.0, 0.2,
     -1.0, -1.0, 0.2,
@@ -48,7 +44,7 @@ const init = () => {
   ], [
     0, 1, 2,
     0, 2, 3
-  ]);
+  ], wowShader.getAttribLocation("position"));
 
 
   requestAnimationFrame(draw);
@@ -88,19 +84,23 @@ const draw = (m) => {
   if (lol == 180) {
     lol = 0;
   }
-  if (lol < 90) texture1.use();
-  else texture2.use();
 
-  texShader.sendMat4(pospointer, pos1);
+  if (lol < 90) texShader.sendInt("diffuse", 0);
+  else texShader.sendInt("diffuse", 1);
+
+  texture1.use(0);
+  texture2.use(1);
+
+  texShader.sendMat4("pos", pos1);
   mesh2.draw();
-  texShader.sendMat4(pospointer, pos2);
+  texShader.sendMat4("pos", pos2);
   mesh2.draw();
-  texShader.sendMat4(pospointer, pos3);
+  texShader.sendMat4("pos", pos3);
   mesh2.draw();
 
 
   wowShader.use();
-  wowShader.sendFloat(varpointer, m);
+  wowShader.sendFloat("time", m%10000.0);
   mesh3.draw();
 
   requestAnimationFrame(draw);
@@ -110,7 +110,7 @@ const draw = (m) => {
 
 const main = () => {
   shadersBank = new Bank("shaders", ["color.vs", " color.fs ", "tex.vs", "tex.fs", "wow.vs", "wow.fs"]);
-  texturesBank = new Bank("imgs", ["leeroy", "gg"],{
+  texturesBank = new Bank("imgs", ["leeroyb", "gg"],{
     type: "png",
     bind: "img"
   });

@@ -12,11 +12,12 @@ const main = async () => {
   await load();
 
   let display = new Display(800, 800);
-  let mainShader = new Shader(display.getCtx(), shads.get('main.vs'), shads.get('main.fs'));
+  let mainShader = new Shader(shads.get('main.vs'), shads.get('main.fs'), "mainShader");
   let dragon = new MeshNormale(mainShader, objFiles.get('Dragon').vertices, objFiles.get('Dragon').faces);
 
-  let p_camera = mainShader.getUniformLocation("camera");
-  let m_camera = new Float32Array([
+  mainShader.initUniformLocation("camera");
+
+  let camera = new Float32Array([
     1.0, 0.0, 0.0, 0.0,
     0.0, 1.0, 0.0, 0.0,
     0.0, 0.0, 1.0, 0.0,
@@ -24,7 +25,7 @@ const main = async () => {
   ]);
 
   mainShader.use();
-  mainShader.sendMat4(p_camera, m_camera);
+  mainShader.sendMat4("camera", camera);
 }
 
 loadKastanieGL(main);
