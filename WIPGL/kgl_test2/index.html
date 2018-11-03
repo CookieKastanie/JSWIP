@@ -14,13 +14,26 @@
         margin: 0 auto;
         text-align: center;
       }
+
+      #btns{
+        position: absolute;
+        top: 5px;
+        left: 5px;
+      }
     </style>
 
     <script type="text/javascript" src="../kgl/KastanieGL.js"></script>
     <script type="text/javascript" src="js/Bank.js"></script>
-    <script type="text/javascript" src="js/main.js"></script>
+    <script type="text/javascript" src="js/main.js" async></script>
   </head>
   <body>
     <div id="gl-screen"></div>
+    <div id="btns">
+      <input type="range" id="tile" value="1.0" min="0.001" max="10.0" step="any">
+      <br>
+      <input type="range" id="r" value="1.0" min="0.0" max="1.0" step="any">
+      <input type="range" id="g" value="1.0" min="0.0" max="1.0" step="any">
+      <input type="range" id="b" value="1.0" min="0.0" max="1.0" step="any">
+    </div>
   </body>
 </html>

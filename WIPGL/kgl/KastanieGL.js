@@ -9,7 +9,10 @@ let loadKastanieGL = (main) => {
   let nb = 0;
 
   const reg = new RegExp('KastanieGL.js', 'g');
-  for (let s of document.getElementsByTagName('script')) {
+  const scripts = document.getElementsByTagName('script');
+  for (let i in scripts) {
+    let s = scripts[i];
+    
     if(s.src.match(reg)){
 
       let path = s.src.split('/');

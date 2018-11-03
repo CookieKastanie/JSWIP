@@ -102,7 +102,7 @@ class Shader {
       const num = Display.ctx.getAttribLocation(this.program, nom);
 
       if(num < 0) {
-        console.error("L'attribut '"+ nom +"' n'existe pas dans "+ this.name);
+        console.error("L'attribut '"+ nom +"' n'existe pas, ou il n'est pas utilisé dans "+ this.name);
         return;
       }
 
@@ -127,6 +127,10 @@ class Shader {
 
   sendInt(nom, value){
     Display.ctx.uniform1i(this.getUniformLocation(nom), value);
+  }
+
+  sendVec3(nom, value){
+    Display.ctx.uniform3fv(this.getUniformLocation(nom), value);
   }
 
   sendVec4(nom, value){

@@ -13,8 +13,7 @@ class Display {
 
     this.conteneur.appendChild(this.canvas);
 
-    this.canvas.width = width;
-    this.canvas.height = height;
+    this.setSize(width, height);
 
     this.ctx = this.canvas.getContext("webgl");
 
@@ -38,6 +37,19 @@ class Display {
   	this.ctx.cullFace(this.ctx.BACK);
 
     this.clear();
+  }
+
+  setSize(h, w){
+    this.canvas.width = w;
+    this.canvas.height = h;
+  }
+
+  getWidth(){
+    return this.canvas.width;
+  }
+
+  getHeight(){
+    return this.canvas.height;
   }
 
   setClearColor(r, g, b, a){
