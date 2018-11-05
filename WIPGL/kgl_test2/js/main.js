@@ -38,7 +38,7 @@ const main = async () => {
 
 
   let wall_01 = {
-    mesh: new MeshTex([
+    mesh: new Mesh([
       0.5, 0.0, 0.5,  1.0, 0.0,
       -0.5, 0.0, 0.5, 0.0, 0.0,
       -0.5, 0.0, -0.5,  0.0, 1.0,
@@ -46,7 +46,7 @@ const main = async () => {
     ], [
       0, 2, 1,
       0, 3, 2
-    ], mainShader.getAttribLocation("position"), mainShader.getAttribLocation("texCoord")),
+    ], "3,2", [mainShader.getAttribLocation("position"), mainShader.getAttribLocation("texCoord")]),
     diffuse: new Texture(texFiles.get("wall_01_Diffuse")),
     normal: new Texture(texFiles.get("wall_01_Normal"))
   }

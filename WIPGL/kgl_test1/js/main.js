@@ -13,7 +13,7 @@ const init = () => {
   texShader = new Shader(shadersBank.get("tex.vs"), shadersBank.get("tex.fs"), "texShader");
   wowShader = new Shader(shadersBank.get("wow.vs"), shadersBank.get("wow.fs"), "wowShader");
 
-  mesh1 = new MeshIndex([
+  mesh1 = new Mesh([
     0.0, 0.5, 0.1,
     -1.0, 0.5, 0.1,
     -1.0, -0.5, 0.1,
@@ -21,12 +21,12 @@ const init = () => {
   ], [
     0, 1, 2,
     0, 2, 3
-  ], colorShader.getAttribLocation("position"));
+  ], 3, colorShader.getAttribLocation("position"));
 
   texture1 = new Texture(texturesBank.get("leeroyb"));
   texture2 = new Texture(texturesBank.get("gg"));
 
-  mesh2 = new MeshTex([
+  mesh2 = new Mesh([
     0.5, 0.5, 0.0,  2.0, 0.0,
     -0.5, 0.5, 0.0, 0.0, 0.0,
     -0.5, -0.5, 0.0,  0.0, 2.0,
@@ -34,9 +34,9 @@ const init = () => {
   ], [
     0, 1, 2,
     0, 2, 3
-  ], texShader.getAttribLocation("position"), texShader.getAttribLocation("texCoord"));
+  ], "3,2", [texShader.getAttribLocation("position"), texShader.getAttribLocation("texCoord")]);
 
-  mesh3 = new MeshIndex([
+  mesh3 = new Mesh([
     1.0, 1.0, 0.2,
     -1.0, 1.0, 0.2,
     -1.0, -1.0, 0.2,
@@ -44,7 +44,7 @@ const init = () => {
   ], [
     0, 1, 2,
     0, 2, 3
-  ], wowShader.getAttribLocation("position"));
+  ], "3", wowShader.getAttribLocation("position"));
 
 
   requestAnimationFrame(draw);
@@ -110,7 +110,7 @@ const draw = (m) => {
 
 const main = () => {
   shadersBank = new Bank("shaders", ["color.vs", " color.fs ", "tex.vs", "tex.fs", "wow.vs", "wow.fs"]);
-  texturesBank = new Bank("imgs", ["leeroyb", "gg"],{
+  texturesBank = new Bank("imgs", ["leeroy", "leeroyb", "gg"],{
     type: "png",
     bind: "img"
   });

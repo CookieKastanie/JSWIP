@@ -1,11 +1,11 @@
-class Mesh {
+class Mesh_Base {
   constructor() {
-    this.id = Mesh.idMax++;
+    this.id = Mesh_Base.idMax++;
   }
 
   use(){
-    if (this.id != Mesh.currentId) {
-      Mesh.currentId = this.id;
+    if (this.id != Mesh_Base.currentId) {
+      Mesh_Base.currentId = this.id;
       this.useBuffers();
     }
   }
@@ -13,22 +13,24 @@ class Mesh {
   useBuffers(){}
 }
 
-Mesh.idMax = 0;
-Mesh.currentId = -1;
+Mesh_Base.idMax = 0;
+Mesh_Base.currentId = -1;
+
 
 /////////////////////////////////////////////////////////////////
 
-class MeshIndex extends Mesh{
-  constructor(verts, indx, attribLocation) {
+
+class Mesh extends Mesh_Base{
+  constructor(verts, indx, format, attribLocations) {
     super();
 
     this.nbIndex = indx.length;
-    this.vertsArray = new ArrayBuffer3(verts, attribLocation);
+    this.vertsArray = new ArrayBuffer(verts, format, attribLocations);
     this.indexArray = new IndexBuffer(indx);
   }
 
-  setAttribLocation(attribLocation){
-    this.vertsArray.setAttribLocation(attribLocation);
+  setAttribLocations(attribLocation){
+    this.vertsArray.setAttribLocations(attribLocation);
   }
 
   useBuffers(){
@@ -47,67 +49,26 @@ class MeshIndex extends Mesh{
   }
 }
 
-/////////////////////////////////////////////////////////////////
-
-class MeshTex extends Mesh{
-  constructor(verts, indx, attr1, attr2) {
-    super();
-
-    this.nbIndex = indx.length;
-    this.vertsArray = new ArrayBuffer3_2(verts, attr1, attr2);
-    this.indexArray = new IndexBuffer(indx);
-  }
-
-  setAttribLocations(attribLocation1, attribLocation2){
-    this.vertsArray.setAttribLocation1(attribLocation1);
-    this.vertsArray.setAttribLocation2(attribLocation2);
+class MeshClassic extends Mesh_Base {
+  constructor(verts, format, attribLocations) {
+    this.dataLength = verts.length;
+    this.vertsArray = new ArrayBuffer(verts, format, attribLocations);
   }
 
   useBuffers(){
     this.vertsArray.use();
-    this.indexArray.use();
+  }
+
+  setAttribLocations(attribLocation){
+    this.vertsArray.setAttribLocations(attribLocation);
   }
 
   draw(){
     this.use();
-    Display.ctx.drawElements(Display.ctx.TRIANGLES, this.nbIndex, Display.ctx.UNSIGNED_SHORT, 0);
+    Display.ctx.drawArrays(Display.ctx.TRIANGLES, 0, this.dataLength);
   }
 
   delete(){
     this.vertsArray.delete();
-    this.indexArray.delete();
-  }
-}
-
-/////////////////////////////////////////////////////////////////
-
-
-class MeshNormale extends Mesh{
-  constructor(verts, indx, attr1, attr2) {
-    super();
-
-    this.nbIndex = indx.length;
-    this.vertsArray = new ArrayBuffer3_3(verts, attr1, attr2);
-    this.indexArray = new IndexBuffer(indx);
-  }
-
-  setAttribLocations(attribLocation1, attribLocation2){
-    this.vertsArray.setAttribLocation1(attribLocation1);
-    this.vertsArray.setAttribLocation2(attribLocation2);
-  }
-
-  useBuffers(){
-    this.vertsArray.use();
-    this.indexArray.use();
-  }
-
-  draw(){
-    this.use();
-    Display.ctx.drawElements(Display.ctx.TRIANGLES, this.nbIndex, Display.ctx.UNSIGNED_SHORT, 0);
-  }
-
-  delete(){
-    this.vertsArray.delete();
-    this.indexArray.delete();
   }
 }
