@@ -4,7 +4,7 @@ let loadKastanieGL = (main) => {
     return;
   }
 
-  const liste = ["Display.js", "Shader.js", "DataBuffers.js", "Texture.js", "Mesh.js", "ObjParser.js", "Matrix4.js"];
+  const liste = ["Display.js", "Shader.js", "DataBuffers.js", "Texture.js", "Mesh.js", "ObjParser.js", "Matrix4.js", "Bank.js"];
 
   let nb = 0;
 
@@ -12,7 +12,7 @@ let loadKastanieGL = (main) => {
   const scripts = document.getElementsByTagName('script');
   for (let i in scripts) {
     let s = scripts[i];
-    
+
     if(s.src.match(reg)){
 
       let path = s.src.split('/');

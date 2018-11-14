@@ -1,0 +1,30 @@
+let shads, objFiles, texFiles, display, mainShader;
+
+
+const load = async () => {
+  shads = new Bank("shaders", []);
+  objFiles = new Bank("meshs", [], {func: ObjParser.getVertsAndFaces, type: "obj"})
+  texFiles = new Bank("imgs", [], {bind: "img", type: "png"})
+
+  await shads.chargement();
+  await objFiles.chargement();
+  await texFiles.chargement();
+}
+
+const main = async () => {
+  await load();
+
+  let display = new Display(800, 800);
+  display.setClearColor(0.0, 0.0, 0.0, 0.0);
+  mainShader = new Shader(shads.get('.vs'), shads.get('.fs'), "mainShader");
+
+  draw();
+}
+
+const draw = () => {
+  display.clear();
+
+  requestAnimationFrame(draw);
+}
+
+loadKastanieGL(main);

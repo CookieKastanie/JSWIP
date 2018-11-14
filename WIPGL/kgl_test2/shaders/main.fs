@@ -16,9 +16,7 @@ const float reflectivity = 0.6;
 void main(){
   vec3 viewVector = normalize(toCameraVector);
 
-  //vec3 normal = normalize((texture2D(texNormal, uv) * 2.0 - 1.0).xyz);
-  vec4 t = texture2D(texNormal, uv * texTile);
-  vec3 normal = vec3(t.r * 2.0 - 1.0, t.g * 2.0 - 1.0, t.b * 2.0 - 1.0);
+  vec3 normal = normalize((texture2D(texNormal, uv * texTile) * 2.0 - 1.0).xyz);
   normal = normalize(normal);
 
   vec3 reflectedLight = reflect(normalize(fromLightVector), normal);
@@ -27,5 +25,5 @@ void main(){
   vec3 specularHightlights = lightColour * specular * reflectivity;
 
   gl_FragColor = texture2D(diffuse, uv * texTile) + vec4(specularHightlights, 0.0);
-  //gl_FragColor = texture2D(diffuse, uv);
+  //gl_FragColor = texture2D(texNormal, uv);
 }
