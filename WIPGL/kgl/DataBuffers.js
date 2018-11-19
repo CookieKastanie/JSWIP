@@ -1,6 +1,8 @@
 class ArrayBuffer {
-  constructor(data, format, attribLocations, usage = Display.ctx.STATIC_DRAW) {
+  constructor(data, format, attribLocations, usage) {
     this.id = ArrayBuffer.idMax++;
+
+    this.setUsage(usage);
 
     if(typeof format == "string") format = format.split(',').map(val => parseInt(val));
     if(typeof format != "object") format = [format];
@@ -22,8 +24,16 @@ class ArrayBuffer {
     }
 
     this.pointer = Display.ctx.createBuffer();
-  	this.bind();
-  	Display.ctx.bufferData(Display.ctx.ARRAY_BUFFER, new Float32Array(data), usage);
+  	this.setData(data, usage);
+  }
+
+  setData(data){
+    this.use();
+  	Display.ctx.bufferData(Display.ctx.ARRAY_BUFFER, new Float32Array(data), this.usage);
+  }
+
+  setUsage(usage = ArrayBuffer.STATIC_DRAW){
+    this.usage = Display.ctx[usage];
   }
 
   setVertexAttribPointer(){
@@ -39,21 +49,16 @@ class ArrayBuffer {
     }
   }
 
-  bind(){
-    Display.ctx.bindBuffer(Display.ctx.ARRAY_BUFFER, this.pointer);
-  }
-
   setAttribLocations(attribLocations){
     if(typeof attribLocations != "object") attribLocations = [attribLocations];
     this.attribLocations = attribLocations;
   }
 
   use(){
-    this.bind();
-
     if (this.id != ArrayBuffer.currentId) {
-      ArrayBuffer.currentId = this.id;
+      Display.ctx.bindBuffer(Display.ctx.ARRAY_BUFFER, this.pointer);
       this.setVertexAttribPointer();
+      ArrayBuffer.currentId = this.id;
     }
   }
 
@@ -68,10 +73,19 @@ ArrayBuffer.currentId = -1;
 //////////////////////////////////////////////////////////////////////////////
 
 class IndexBuffer{
-  constructor(data, usage = Display.ctx.STATIC_DRAW) {
+  constructor(data, usage) {
     this.pointer = Display.ctx.createBuffer();
-  	this.use();
-  	Display.ctx.bufferData(Display.ctx.ELEMENT_ARRAY_BUFFER, new Uint16Array(data), usage);
+    this.setUsage(usage);
+  	this.setData(data);
+  }
+
+  setData(data){
+    this.use();
+  	Display.ctx.bufferData(Display.ctx.ELEMENT_ARRAY_BUFFER, new Uint16Array(data), this.usage);
+  }
+
+  setUsage(usage = IndexBuffer.STATIC_DRAW){
+    this.usage = Display.ctx[usage];
   }
 
   use(){
@@ -82,3 +96,7 @@ class IndexBuffer{
     Display.ctx.deleteBuffer(this.pointer);
   }
 }
+
+ArrayBuffer.STATIC_DRAW = IndexBuffer.STATIC_DRAW = "STATIC_DRAW";
+ArrayBuffer.DYNAMIC_DRAW = IndexBuffer.DYNAMIC_DRAW = "DYNAMIC_DRAW";
+ArrayBuffer.STREAM_DRAW = IndexBuffer.STREAM_DRAW  = "STREAM_DRAW";

@@ -1,17 +1,28 @@
 class Texture {
-  constructor(img) {
+  constructor(_img, _height = null) {
+    let img, img_data;
+
+    if(_height != null && typeof _img == "number"){
+      img = {width: _img, height: _height};
+      img_data = null;
+    } else {
+      img = _img
+      img_data = _img;
+    }
+
     this.id = Texture.idMax++;
 
-    this.texture = Display.ctx.createTexture();
-    Display.ctx.bindTexture(Display.ctx.TEXTURE_2D, this.texture);
+    this.width = img.width;
+    this.height = img.height;
 
+    this.texture = Display.ctx.createTexture();
     Display.ctx.bindTexture(Display.ctx.TEXTURE_2D, this.texture);
     Display.ctx.texImage2D(Display.ctx.TEXTURE_2D,
       0, // niveau du bitmap
       Display.ctx.RGBA, //internalFormat
       Display.ctx.RGBA, //srcFormat
       Display.ctx.UNSIGNED_BYTE, //srcType
-      img
+      img_data
     );
 
     if (this.isPowerOf2(img.width) && this.isPowerOf2(img.height)) {
@@ -34,8 +45,7 @@ class Texture {
         break;
         case TRILINEAR:// trilinear interpolation on pyramid
         glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
-        GL_LINEAR_MIPMAP_LINEAR);
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
         break;
         }
 

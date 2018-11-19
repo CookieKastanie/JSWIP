@@ -13,7 +13,7 @@ const init = () => {
   texShader = new Shader(shadersBank.get("tex.vs"), shadersBank.get("tex.fs"), "texShader");
   wowShader = new Shader(shadersBank.get("wow.vs"), shadersBank.get("wow.fs"), "wowShader");
 
-  mesh1 = new Mesh([
+  mesh1 = new IndexedVAO([
     0.0, 0.5, 0.1,
     -1.0, 0.5, 0.1,
     -1.0, -0.5, 0.1,
@@ -26,7 +26,7 @@ const init = () => {
   texture1 = new Texture(texturesBank.get("leeroyb"));
   texture2 = new Texture(texturesBank.get("gg"));
 
-  mesh2 = new Mesh([
+  mesh2 = new IndexedVAO([
     0.5, 0.5, 0.0,  2.0, 0.0,
     -0.5, 0.5, 0.0, 0.0, 0.0,
     -0.5, -0.5, 0.0,  0.0, 2.0,
@@ -36,7 +36,7 @@ const init = () => {
     0, 2, 3
   ], "3,2", [texShader.getAttribLocation("position"), texShader.getAttribLocation("texCoord")]);
 
-  mesh3 = new Mesh([
+  mesh3 = new IndexedVAO([
     1.0, 1.0, 0.2,
     -1.0, 1.0, 0.2,
     -1.0, -1.0, 0.2,

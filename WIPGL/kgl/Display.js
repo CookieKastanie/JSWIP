@@ -67,6 +67,10 @@ class Display {
   use(){
     Display.ctx = this.getCtx();
   }
+
+  useDefaultFrameBuffer(){
+    this.ctx.bindFramebuffer(this.ctx.FRAMEBUFFER, null);
+  }
 }
 
 Display.ctx = null;

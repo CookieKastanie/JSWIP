@@ -38,7 +38,7 @@ const main = async () => {
 
 
   let wall_01 = {
-    mesh: new Mesh([
+    mesh: new IndexedVAO([
       0.5, 0.0, 0.5,  1.0, 0.0,
       -0.5, 0.0, 0.5, 0.0, 0.0,
       -0.5, 0.0, -0.5,  0.0, 1.0,
