@@ -1,36 +1,17 @@
-class VAOBase {
-  constructor(mode) {
-    this.id = VAOBase.idMax++;
-    this.setMode(mode);
-  }
-
-  use(){
-    if (this.id != VAOBase.currentId) {
-      VAOBase.currentId = this.id;
-      this.useBuffers();
-    }
-  }
-
-  setMode(mode = VAOBase.TRIANGLES){
-    this.mode = Display.ctx[mode];
-  }
-
-  useBuffers(){}
-}
-
-VAOBase.idMax = 0;
-VAOBase.currentId = -1;
-
-
-/////////////////////////////////////////////////////////////////
-
-
-class VAO extends VAOBase {
+class VAO {
   constructor(verts, format, attribLocations, mode) {
-    super(mode);
+    this.id = VAO.idMax++;
+    this.setMode(mode);
 
     this.dataLength = verts.length;
     this.vertsArray = new ArrayBuffer(verts, format, attribLocations);
+  }
+
+  use(){
+    if (this.id != VAO.currentId) {
+      VAO.currentId = this.id;
+      this.useBuffers();
+    }
   }
 
   useBuffers(){
@@ -49,6 +30,10 @@ class VAO extends VAOBase {
     this.vertsArray.setData(data);
   }
 
+  setMode(mode = VAO.TRIANGLES){
+    this.mode = Display.ctx[mode];
+  }
+
   draw(){
     this.use();
     Display.ctx.drawArrays(this.mode, 0, this.dataLength);
@@ -59,18 +44,15 @@ class VAO extends VAOBase {
   }
 }
 
+VAO.idMax = 0;
+VAO.currentId = -1;
 
-class IndexedVAO extends VAOBase{
+class IndexedVAO extends VAO{
   constructor(verts, indx, format, attribLocations, mode) {
-    super(mode);
+    super(verts, format, attribLocations, mode);
 
     this.nbIndex = indx.length;
-    this.vertsArray = new ArrayBuffer(verts, format, attribLocations);
     this.indexArray = new IndexBuffer(indx);
-  }
-
-  setAttribLocations(attribLocation){
-    this.vertsArray.setAttribLocations(attribLocation);
   }
 
   setUsage(v_usage, i_usage = null){
@@ -80,10 +62,6 @@ class IndexedVAO extends VAOBase{
 
   setIndexesUsage(usage){
     this.indexArray.setUsage(usage);
-  }
-
-  setData(data){
-    this.vertsArray.setData(data);
   }
 
   setIndexes(data){
@@ -107,16 +85,16 @@ class IndexedVAO extends VAOBase{
 }
 
 
-VAOBase.TRIANGLES = IndexedVAO.TRIANGLES = VAO.TRIANGLES = "TRIANGLES";
-VAOBase.TRIANGLE_STRIP = IndexedVAO.TRIANGLE_STRIP = VAO.TRIANGLE_STRIP = "TRIANGLE_STRIP";
-VAOBase.TRIANGLE_FAN = IndexedVAO.TRIANGLE_FAN = VAO.TRIANGLE_FAN = "TRIANGLE_FAN";
+IndexedVAO.TRIANGLES = VAO.TRIANGLES = "TRIANGLES";
+IndexedVAO.TRIANGLE_STRIP = VAO.TRIANGLE_STRIP = "TRIANGLE_STRIP";
+IndexedVAO.TRIANGLE_FAN = VAO.TRIANGLE_FAN = "TRIANGLE_FAN";
 
-VAOBase.POINTS = IndexedVAO.POINTS = VAO.POINTS = "POINTS";
+IndexedVAO.POINTS = VAO.POINTS = "POINTS";
 
-VAOBase.LINES = IndexedVAO.LINES = VAO.LINES = "LINES";
-VAOBase.LINE_STRIP = IndexedVAO.LINE_STRIP = VAO.LINE_STRIP = "LINE_STRIP";
-VAOBase.LINE_LOOP = IndexedVAO.LINE_LOOP = VAO.LINE_LOOP = "LINE_LOOP";
+IndexedVAO.LINES = VAO.LINES = "LINES";
+IndexedVAO.LINE_STRIP = VAO.LINE_STRIP = "LINE_STRIP";
+IndexedVAO.LINE_LOOP = VAO.LINE_LOOP = "LINE_LOOP";
 
-VAOBase.STATIC_DRAW = IndexedVAO.STATIC_DRAW = VAO.STATIC_DRAW = "STATIC_DRAW";
-VAOBase.DYNAMIC_DRAW = IndexedVAO.DYNAMIC_DRAW = VAO.DYNAMIC_DRAW = "DYNAMIC_DRAW";
-VAOBase.STREAM_DRAW = IndexedVAO.STREAM_DRAW = VAO.STREAM_DRAW = "STREAM_DRAW";
+IndexedVAO.STATIC_DRAW = VAO.STATIC_DRAW = "STATIC_DRAW";
+IndexedVAO.DYNAMIC_DRAW = VAO.DYNAMIC_DRAW = "DYNAMIC_DRAW";
+IndexedVAO.STREAM_DRAW = VAO.STREAM_DRAW = "STREAM_DRAW";
