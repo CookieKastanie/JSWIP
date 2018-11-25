@@ -3,8 +3,8 @@ class VAO {
     this.id = VAO.idMax++;
     this.setMode(mode);
 
-    this.dataLength = verts.length;
     this.vertsArray = new ArrayBuffer(verts, format, attribLocations);
+    this.dataLength = verts.length / (this.vertsArray.elementSize / Float32Array.BYTES_PER_ELEMENT);
   }
 
   use(){

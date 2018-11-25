@@ -89,37 +89,96 @@ class Matrix4 {
     return out;
   }
 
-  static mult(out, a, b) {
-	    let a00 = a[0], a01 = a[1], a02 = a[2], a03 = a[3],
-	        a10 = a[4], a11 = a[5], a12 = a[6], a13 = a[7],
-	        a20 = a[8], a21 = a[9], a22 = a[10], a23 = a[11],
-	        a30 = a[12], a31 = a[13], a32 = a[14], a33 = a[15];
-
-	    let b0  = b[0], b1 = b[1], b2 = b[2], b3 = b[3];
-	    out[0] = b0*a00 + b1*a10 + b2*a20 + b3*a30;
-	    out[1] = b0*a01 + b1*a11 + b2*a21 + b3*a31;
-	    out[2] = b0*a02 + b1*a12 + b2*a22 + b3*a32;
-	    out[3] = b0*a03 + b1*a13 + b2*a23 + b3*a33;
-
-	    b0 = b[4]; b1 = b[5]; b2 = b[6]; b3 = b[7];
-	    out[4] = b0*a00 + b1*a10 + b2*a20 + b3*a30;
-	    out[5] = b0*a01 + b1*a11 + b2*a21 + b3*a31;
-	    out[6] = b0*a02 + b1*a12 + b2*a22 + b3*a32;
-	    out[7] = b0*a03 + b1*a13 + b2*a23 + b3*a33;
-
-	    b0 = b[8]; b1 = b[9]; b2 = b[10]; b3 = b[11];
-	    out[8] = b0*a00 + b1*a10 + b2*a20 + b3*a30;
-	    out[9] = b0*a01 + b1*a11 + b2*a21 + b3*a31;
-	    out[10] = b0*a02 + b1*a12 + b2*a22 + b3*a32;
-	    out[11] = b0*a03 + b1*a13 + b2*a23 + b3*a33;
-
-	    b0 = b[12]; b1 = b[13]; b2 = b[14]; b3 = b[15];
-	    out[12] = b0*a00 + b1*a10 + b2*a20 + b3*a30;
-	    out[13] = b0*a01 + b1*a11 + b2*a21 + b3*a31;
-	    out[14] = b0*a02 + b1*a12 + b2*a22 + b3*a32;
-	    out[15] = b0*a03 + b1*a13 + b2*a23 + b3*a33;
+  static ortho(out, left, right, bottom, top, near, far) {
+	    let lr = 1 / (left - right),
+	        bt = 1 / (bottom - top),
+	        nf = 1 / (near - far);
+	    out[0] = -2 * lr;
+	    out[1] = 0;
+	    out[2] = 0;
+	    out[3] = 0;
+	    out[4] = 0;
+	    out[5] = -2 * bt;
+	    out[6] = 0;
+	    out[7] = 0;
+	    out[8] = 0;
+	    out[9] = 0;
+	    out[10] = 2 * nf;
+	    out[11] = 0;
+	    out[12] = (left + right) * lr;
+	    out[13] = (top + bottom) * bt;
+	    out[14] = (far + near) * nf;
+	    out[15] = 1;
 	    return out;
-	};
+	}
+
+  static mult(out, a, b) {
+    let a00 = a[0], a01 = a[1], a02 = a[2], a03 = a[3],
+        a10 = a[4], a11 = a[5], a12 = a[6], a13 = a[7],
+        a20 = a[8], a21 = a[9], a22 = a[10], a23 = a[11],
+        a30 = a[12], a31 = a[13], a32 = a[14], a33 = a[15];
+
+    let b0  = b[0], b1 = b[1], b2 = b[2], b3 = b[3];
+    out[0] = b0*a00 + b1*a10 + b2*a20 + b3*a30;
+    out[1] = b0*a01 + b1*a11 + b2*a21 + b3*a31;
+    out[2] = b0*a02 + b1*a12 + b2*a22 + b3*a32;
+    out[3] = b0*a03 + b1*a13 + b2*a23 + b3*a33;
+
+    b0 = b[4]; b1 = b[5]; b2 = b[6]; b3 = b[7];
+    out[4] = b0*a00 + b1*a10 + b2*a20 + b3*a30;
+    out[5] = b0*a01 + b1*a11 + b2*a21 + b3*a31;
+    out[6] = b0*a02 + b1*a12 + b2*a22 + b3*a32;
+    out[7] = b0*a03 + b1*a13 + b2*a23 + b3*a33;
+
+    b0 = b[8]; b1 = b[9]; b2 = b[10]; b3 = b[11];
+    out[8] = b0*a00 + b1*a10 + b2*a20 + b3*a30;
+    out[9] = b0*a01 + b1*a11 + b2*a21 + b3*a31;
+    out[10] = b0*a02 + b1*a12 + b2*a22 + b3*a32;
+    out[11] = b0*a03 + b1*a13 + b2*a23 + b3*a33;
+
+    b0 = b[12]; b1 = b[13]; b2 = b[14]; b3 = b[15];
+    out[12] = b0*a00 + b1*a10 + b2*a20 + b3*a30;
+    out[13] = b0*a01 + b1*a11 + b2*a21 + b3*a31;
+    out[14] = b0*a02 + b1*a12 + b2*a22 + b3*a32;
+    out[15] = b0*a03 + b1*a13 + b2*a23 + b3*a33;
+    return out;
+	}
+
+  static fromRotation(out, rad, axis) {
+    let x = axis[0], y = axis[1], z = axis[2],
+        len = Math.sqrt(x * x + y * y + z * z),
+        s, c, t;
+
+    if (Math.abs(len) < Matrix4.EPSILON) { return null; }
+
+    len = 1 / len;
+    x *= len;
+    y *= len;
+    z *= len;
+
+    s = Math.sin(rad);
+    c = Math.cos(rad);
+    t = 1 - c;
+
+    // Perform rotation-specific matrix multiplication
+    out[0] = x * x * t + c;
+    out[1] = y * x * t + z * s;
+    out[2] = z * x * t - y * s;
+    out[3] = 0;
+    out[4] = x * y * t - z * s;
+    out[5] = y * y * t + c;
+    out[6] = z * y * t + x * s;
+    out[7] = 0;
+    out[8] = x * z * t + y * s;
+    out[9] = y * z * t - x * s;
+    out[10] = z * z * t + c;
+    out[11] = 0;
+    out[12] = 0;
+    out[13] = 0;
+    out[14] = 0;
+    out[15] = 1;
+    return out;
+	}
 }
 
 Matrix4.EPSILON = 0.000001;

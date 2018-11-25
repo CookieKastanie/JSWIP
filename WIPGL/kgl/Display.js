@@ -13,9 +13,9 @@ class Display {
 
     this.conteneur.appendChild(this.canvas);
 
-    this.setSize(width, height);
-
     this.ctx = this.canvas.getContext("webgl");
+
+    this.setSize(width, height);
 
     if (!this.ctx) this.ctx = this.canvas.getContext("experimental-webgl");
     if (!this.ctx) {
@@ -39,9 +39,14 @@ class Display {
     this.clear();
   }
 
-  setSize(h, w){
+  getDiv(){
+    return this.conteneur;
+  }
+
+  setSize(w, h){
     this.canvas.width = w;
     this.canvas.height = h;
+    this.ctx.viewport(0, 0, w, h);
   }
 
   getWidth(){
@@ -71,6 +76,24 @@ class Display {
   useDefaultFrameBuffer(){
     this.ctx.bindFramebuffer(this.ctx.FRAMEBUFFER, null);
   }
+
+  enable(val){
+    this.ctx.enable(this.ctx[val]);
+  }
+
+  disable(val){
+    this.ctx.disable(this.ctx[val]);
+  }
 }
 
 Display.ctx = null;
+
+Display.BLEND = "BLEND";
+Display.CULL_FACE = "CULL_FACE";
+Display.DEPTH_TEST = "DEPTH_TEST";
+Display.DITHER = "DITHER";
+Display.POLYGON_OFFSET_FILL = "POLYGON_OFFSET_FILL";
+Display.SAMPLE_ALPHA_TO_COVERAGE = "SAMPLE_ALPHA_TO_COVERAGE";
+Display.SAMPLE_COVERAGE = "SAMPLE_COVERAGE";
+Display.SCISSOR_TEST = "SCISSOR_TEST";
+Display.STENCIL_TEST = "STENCIL_TEST";
