@@ -1,4 +1,4 @@
-const initPageManager = () => {
+const initPageManager = (changePageEvent = e => {}) => {
   const pages = document.getElementsByClassName('page');
 
   const NBPAGE = pages.length;
@@ -38,6 +38,8 @@ const initPageManager = () => {
   const selectedBtn = () => {
     menu.forEach(m => m.classList.remove('selected'));
     menu[currentPage].classList.add('selected');
+
+    changePageEvent(currentPage);
   }
 
   for (let i in menu) {

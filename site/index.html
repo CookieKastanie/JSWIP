@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Jérémy André</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/p1.css">
+    <link rel="stylesheet" href="css/p2.css">
+    <link rel="stylesheet" href="css/p3.css">
+    <link rel="stylesheet" href="css/p4.css">
+    <meta name="viewport" content="initial-scale=1, user-scalable=no">
+  </head>
+  <body>
+    <ul id="menu">
+      <li>Présentation</li>
+      <li>Parcours</li>
+      <li>Compétences</li>
+      <li>Autre</li>
+    </ul>
+    <div id="content">
+      <div class="page" id="p1">
+        <h1>
+          Jérémy André - Développeur web
+        </h1>
+        <div class="texts">
+          <p class="white-bg">
+            Pour faire court, j'ai 20 ans et je suis actuellement en licence informatique,
+            plus précisément dans le développement web et mobile.<br>
+            Si j'ai choisi cette orientation, c'est d'abord parce que je ne suis pas quelqu'un de très manuel,
+            mais aussi et surtout car la technique et la création sont des domaines qui m’intéressent particulièrement.
+          </p>
+          <p class="white-bg">
+            Me contacter :<br>
+            07 81 72 13 39<br>
+            jeremy.andre205@gmail.com
+          </p>
+        </div>
+        <img src="medias/profil.jpg">
+        <div class="mots">
+          <!--<span>Intuitif</span>-->
+          <span>Calme</span>
+          <span>Pensif</span>
+          <span>Explorateur</span>
+          <span>Déterminé</span>
+        </div>
+      </div>
+      <div class="page" id="p2">
+        <div class="scolaire">
+          <div class="table">
+            <!--<table class="white-bg">
+              <tr><td>Licence professionnelle, projets web et mobile</td><td>IUT, Belfort<br>2018 à aujourd'hui</td></tr>
+              <tr><td colspan="2"><img src="./medias/chapeau.png"></td></tr>
+              <tr><td>Institut Universitaire de Technologie spécialité informatique</td><td>IUT2, Grenoble<br>2016 à 2018</td></tr>
+              <tr><td colspan="2"><img src="./medias/bac.png"></td></tr>
+              <tr><td>Lycée Algoud-Laffemas option systèmes d'information et numérique</td><td>Briffaut, Valence<br>2013 à 2016</td></tr>
+            </table>-->
+            <table class="white-bg">
+              <tr><td>Licence professionnelle, projets web et mobile<br>IUT, Belfort, 2018 à aujourd'hui</td></tr>
+              <tr><td><img src="./medias/chapeau.png"></td></tr>
+              <tr><td>Institut Universitaire de Technologie spécialité informatique<br>IUT2, Grenoble, 2016 à 2018</td></tr>
+              <tr><td><img src="./medias/bac.png"></td></tr>
+              <tr><td>Lycée Algoud-Laffemas option systèmes d'information et numérique<br>Briffaut, Valence, 2013 à 2016</td></tr>
+            </table>
+          </div>
+        </div>
+        <div class="scolaire">
+          <div class="table">
+            <table class="white-bg">
+              <tr><td>Stage chez Elipce Informatique à Valence,<br>Intitulé : veille technologique et réalisation d’une application pilote sur les Progressive Web Apps, 2018</td></tr>
+              <tr><td>Petits dépannages informatique, 2017</td></tr>
+              <tr><td>Cours de maths (niveau seconde), 2017</td></tr>
+              <tr><td>Bénévolat (Dans plusieurs associations), 2010 à 2016</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="page" id="p3">
+        <div id="langages">
+          <canvas id="myChart" width="400" height="400"></canvas>
+        </div>
+        <div id="autresCompetences">
+          <ul class="white-bg">
+            <li>✔ Conception UML, Orientée Objet</li>
+            <li>✔ Système et assembleur</li>
+            <li>✔ Services réseaux</li>
+            <li>✔ Anglais (Fonctionnel)</li>
+          </ul>
+        </div>
+      </div>
+      <div class="page" id="p4">
+        <div id="loisirs" class="white-bg">
+          <h4>Loisirs</h4>
+          <p>
+            Rien d'extraordinaire, j'aime écouter de la musique, aller au cinéma, faire du ski ou aller à la plage selon la saison.
+            J'aime aussi passer du temps avec mes amis, jouer aux jeux vidéo et faire un peu d'airsoft.
+          </p>
+        </div>
+        <div id="realisations" class="white-bg">
+          <h4 >Réalisations</h4>
+          <p>
+            Un jeu de vaisseau multijoueur, un autre jeu mais cette fois-ci dans le cadre d'une GameJam, une petite application de dessin, et BEAUCOUP d'expérimentation.
+          </p>
+        </div>
+        <div class="images">
+          <div>
+            <img src="./medias/ljdmdv1.png" alt="">
+            <img src="./medias/ljdmdv2.png" alt="">
+            <img src="./medias/omotecy1.png" alt="">
+            <img src="./medias/omotecy2.jpg" alt="">
+            <img src="./medias/pixel.PNG" alt="">
+          </div>
+          <div>
+            <img src="./medias/serpents.PNG" alt="">
+            <img src="./medias/rpg.PNG" alt="">
+            <img src="./medias/ce.png" alt="">
+            <img src="./medias/gl1.PNG" alt="">
+            <img src="./medias/baballes.PNG" alt="">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="gl-screen"></div>
+
+    <!--<label class="switch">
+      <input type="checkbox" checked>
+      <span class="slider"></span>
+    </label>-->
+  </body>
+  <script type="text/javascript" src="js/Chart.min.js"></script>
+  <script type="text/javascript" src="kgl/KastanieGL.js"></script>
+  <script type="text/javascript" src="js/pageManager.js"></script>
+  <script type="text/javascript" src="js/main.js"></script>
+</html>

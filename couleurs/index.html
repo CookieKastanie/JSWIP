@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <input type="text" name="" value="" id="hex">
+    <input type="text" name="" value="" id="float">
+
+
+    <script type="text/javascript">
+      const vals = new Object();
+
+      const convertFrom = (type, val) => {
+        switch (type) {
+          case "hex": fromHex(val); break;
+          default:
+
+        }
+      }
+
+
+      const fromHex = val => {
+        console.log(val);
+
+        let r = Math.round(parseInt(val.substring(0, 2) || "ff", 16) / 255 * 1000) / 1000;
+        let g = Math.round(parseInt(val.substring(2, 4) || "ff", 16) / 255 * 1000) / 1000;
+        let b = Math.round(parseInt(val.substring(4, 6) || "ff", 16) / 255 * 1000) / 1000;
+        let a = Math.round(parseInt(val.substring(6, 8) || "ff", 16) / 255 * 1000) / 1000;
+
+        vals["float"] = r+", "+g+", "+b+", "+a;
+      }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+      {
+        /*const inputs = document.getElementsByTagName('input');
+        for (let i = 0; i < inputs.length; ++i) {
+          const e = inputs[i];
+          e.onchange = () => {
+            convertFrom(e.id, e.value);
+            for (let j = 0; j < inputs.length; ++j) {
+              if(j != i) inputs[j].value = vals[j];
+            }
+          }
+        }*/
+
+        const inputs = document.getElementsByTagName('input');
+        for (let i of inputs) {
+          i.onchange = () => {
+            convertFrom(i.id, i.value);
+            for (let j of inputs) {
+              if(j != i) j.value = vals[j.id];
+            }
+          }
+        }
+      }
+    </script>
+  </body>
+</html>

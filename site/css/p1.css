@@ -1,0 +1,44 @@
+#p1{
+  /*background-color: #54a0ff;*/
+  grid-template-columns: 33% auto;
+  grid-template-rows: 2.5em 2.2em auto;
+}
+#p1.bgcolor{
+  background-color: #54a0ff;
+}
+
+#p1 h1{
+  margin: 0;
+  padding: 0;
+  grid-row: 1;
+  grid-column: 1 / span 2;
+}
+
+#p1 img{
+  width: 100%;
+  grid-row: 3;
+  grid-column: 1;
+
+  border-radius: 50px 15px 50px 15px;
+}
+
+#p1 p:first-child{
+  margin-top: 0;
+}
+
+#p1 .mots{
+  grid-row: 2;
+  grid-column: 1 / span 2;
+}
+
+#p1 .mots span{
+  background-color: #55efc4;
+  border-radius: 50px;
+  padding: 0px 15px;
+  margin: 0 10px;
+}
+
+#p1 .texts{
+  grid-row: 3;
+  grid-column: 2;
+}
