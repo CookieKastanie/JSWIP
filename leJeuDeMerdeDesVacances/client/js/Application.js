@@ -271,9 +271,9 @@ class Application {
     const ipsave = ip;
     if(this.tutoriel || ip == ""){
       ip = "localhost";
-    } else if(ip == "serveur-dev"){
-      ip = "77.193.16.32";
-    }
+    } /*else if(ip == "serveur-dev"){
+      ip = "xx.xx.xx.xx";
+    }*/
 
     this.socket = io.connect("http://"+ ip +":3000");
 

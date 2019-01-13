@@ -2,9 +2,11 @@ class Texture {
   constructor(_img, _height = null) {
     let img, img_data;
 
+    let isBuffer = false;
+
     if(_height != null && typeof _img == "number"){
       img = {width: _img, height: _height};
-      img_data = null;
+      isBuffer = true;
     } else {
       img = _img
       img_data = _img;
@@ -17,13 +19,28 @@ class Texture {
 
     this.texture = Display.ctx.createTexture();
     Display.ctx.bindTexture(Display.ctx.TEXTURE_2D, this.texture);
-    Display.ctx.texImage2D(Display.ctx.TEXTURE_2D,
-      0, // niveau du bitmap
-      Display.ctx.RGBA, //internalFormat
-      Display.ctx.RGBA, //srcFormat
-      Display.ctx.UNSIGNED_BYTE, //srcType
-      img_data
-    );
+
+    if(!isBuffer){
+      Display.ctx.texImage2D(Display.ctx.TEXTURE_2D,
+        0, // niveau du bitmap
+        Display.ctx.RGBA, //internalFormat
+        Display.ctx.RGBA, //srcFormat
+        Display.ctx.UNSIGNED_BYTE, //srcType
+        img_data
+      );
+    } else {
+      Display.ctx.texImage2D(Display.ctx.TEXTURE_2D,
+        0,
+        Display.ctx.RGBA,
+        this.width,
+        this.height,
+        0,
+        Display.ctx.RGBA,
+        Display.ctx.UNSIGNED_BYTE,
+        null
+      );
+    }
+
 
     if (this.isPowerOf2(img.width) && this.isPowerOf2(img.height)) {
       Display.ctx.generateMipmap(Display.ctx.TEXTURE_2D);
@@ -59,6 +76,10 @@ class Texture {
     }
   }
 
+  getLocation(){
+    return this.texture;
+  }
+
   isPowerOf2(val){
     return (val & (val - 1)) == 0;
   }
@@ -68,10 +89,10 @@ class Texture {
 
     Texture.currentIds[unit] = this.id;
 
-    if (unit < 0 || unit > 31 ) {
+    /*if (unit < 0 || unit > 31 ) {
       console.error("Numero de texture invalide");
       return;
-    }
+    }*/
 
     Display.ctx.activeTexture(Display.ctx.TEXTURE0 + unit);
     Display.ctx.bindTexture(Display.ctx.TEXTURE_2D, this.texture);

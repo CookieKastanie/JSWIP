@@ -61,7 +61,7 @@ class MenuConnexion extends Menu {
 
   	ip.placeholder = "ip (xxx.xxx.xxx.xxx)";
       ip.type = "text";
-      ip.value     = "serveur-dev";
+      ip.value     = "letoutchaud.fr";
       ip.style.display ='none';
 
     bouton.type    = 'submit';

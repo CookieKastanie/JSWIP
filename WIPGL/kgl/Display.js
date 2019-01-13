@@ -2,6 +2,8 @@ class Display {
   constructor(width, height) {
     this.canvas = document.createElement('canvas');
 
+    this.canvas.id = "kgl-canvas";
+
     this.canvas.style = "margin: 0; object-fit: contain;";
 
     this.conteneur = document.getElementById('gl-screen');
@@ -31,6 +33,8 @@ class Display {
     this.ctx.enable(this.ctx.BLEND);
     this.ctx.enable(this.ctx.SAMPLE_ALPHA_TO_COVERAGE);
     this.ctx.blendFunc(this.ctx.SRC_ALPHA, this.ctx.ONE_MINUS_SRC_ALPHA);
+    //this.ctx.blendFunc(this.ctx.ONE, this.ctx.ZERO);
+    //this.ctx.blendFuncSeparate(this.ctx.SRC_COLOR, this.ctx.ONE_MINUS_SRC_ALPHA, this.ctx.ONE, this.ctx.ONE);
 
     this.ctx.enable(this.ctx.CULL_FACE);
   	this.ctx.frontFace(this.ctx.CCW);
@@ -75,6 +79,10 @@ class Display {
 
   useDefaultFrameBuffer(){
     this.ctx.bindFramebuffer(this.ctx.FRAMEBUFFER, null);
+    this.ctx.bindRenderbuffer(this.ctx.RENDERBUFFER, null);
+
+    //this.ctx.blendFunc(this.ctx.SRC_ALPHA, this.ctx.ONE_MINUS_SRC_ALPHA);
+    this.ctx.viewport(0, 0, this.getWidth(), this.getHeight());
   }
 
   enable(val){
