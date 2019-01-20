@@ -12,6 +12,7 @@ let projection;
 let fpsCam;
 
 const W = 800, H = 800;
+//const W = 1600, H = 900;
 
 const init = () => {
   display = new Display(W, H);
@@ -19,17 +20,21 @@ const init = () => {
 
   fpsCam = new FirstPersonneCamera(W, H);
 
+  fpsCam.z = -5;
+
   shaders = {
     color: new Shader(shadersBank.get("color.vs"), shadersBank.get("color.fs"), "colorShader"),
     lightCut: new Shader(shadersBank.get("lightCut.vs"), shadersBank.get("lightCut.fs"), "lightCut"),
     vertBlur: new Shader(shadersBank.get("vertBlur.vs"), shadersBank.get("blur.fs"), "vertBlur"),
     horBlur: new Shader(shadersBank.get("horBlur.vs"), shadersBank.get("blur.fs"), "horBlur"),
     mixBloom: new Shader(shadersBank.get("lightCut.vs"), shadersBank.get("mixBloom.fs"), "horBlur"),
+
+    fxaa: new Shader(shadersBank.get("./../../kgl_playground/shaders/fxaa.vs"), shadersBank.get("./../../kgl_playground/shaders/fxaa.fs"), "horBlur")
   };
 
   frameBuffers = {
     screen0: new FrameBuffer(W, H),
-    screen1: new FrameBuffer(W, H, {texColor: true}),
+    screen1: new FrameBuffer(W, H),
     screen2: new FrameBuffer(W, H, {texColor: true})
   }
 
@@ -70,6 +75,8 @@ const init = () => {
   meshs.posCube3[13] = -2.0;
   meshs.posCube3[14] = 1.0;
 
+//  shaders.color.sendMat4("projection", fpsCam.projMatrix);
+
   /*shaders.horBlur.use();
   shaders.horBlur.sendFloat("width", display.getWidth()/32);
 
@@ -80,6 +87,9 @@ const init = () => {
   shaders.mixBloom.sendInt("originalTex", 0);
   shaders.mixBloom.sendInt("cutTex", 1);
 
+  shaders.fxaa.use();
+  shaders.fxaa.sendVec2("iResolution", [W, H]);
+
   requestAnimationFrame(draw);
 }
 
@@ -87,18 +97,25 @@ const init = () => {
 const draw = () => {
   shaders.color.use();
 
-  frameBuffers.screen0.use();
+  //frameBuffers.screen0.use();
+  //display.useDefaultFrameBuffer();
+  frameBuffers.screen1.use();
   display.clear();
 
-  /*a += 0.01;
+  //a += 0.01;
 
-  cameraPos[0] = Math.cos(a)*3;
+  /*cameraPos[0] = Math.cos(a)*3;
   cameraPos[1] = 1.5;
   cameraPos[2] = Math.sin(a)*3;*/
+
+  /*cameraPos[0] = Math.cos(a)*fpsCam.x;
+  cameraPos[1] = 1.5;
+  cameraPos[2] = Math.sin(a)*fpsCam.x;*/
 
 //  Matrix4.lookAt(camera, cameraPos, [0.0, 0.0, 0.0], [0.0, 1.0, 0.0]);
   //fpsCam.eye = cameraPos;
   shaders.color.sendMat4("camera", fpsCam.getMatrix());
+  //shaders.color.sendMat4("camera", camera);
 
   shaders.color.sendMat4("worldPos", meshs.posCube1);
   meshs.cube.draw();
@@ -108,7 +125,15 @@ const draw = () => {
 
   shaders.color.sendMat4("worldPos", meshs.posCube3);
   meshs.cube.draw();
+/////////////////////////////////////////////////////////////
 
+
+  shaders.fxaa.use();
+  frameBuffers.screen0.use();
+  //display.useDefaultFrameBuffer();
+  display.clear();
+  frameBuffers.screen1.getTexture().use(0);
+  meshs.rect.draw();
 
   /////////////////////////////////////////////////
 
@@ -175,7 +200,7 @@ const draw = () => {
 /////////////////////////////////////////////////////////////////////////////////////
 
 const main = () => {
-  shadersBank = new Bank("shaders", ["color.vs", "color.fs", "horBlur.vs", "vertBlur.vs", "blur.fs", "lightCut.vs", "lightCut.fs", "mixBloom.fs"]);
+  shadersBank = new Bank("shaders", ["color.vs", "color.fs", "horBlur.vs", "vertBlur.vs", "blur.fs", "lightCut.vs", "lightCut.fs", "mixBloom.fs",              "./../../kgl_playground/shaders/fxaa.vs", "./../../kgl_playground/shaders/fxaa.fs"]);
 
   const prog = (v) => {
     console.log(" -> "+ v +"%");

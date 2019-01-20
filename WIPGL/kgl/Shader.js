@@ -129,6 +129,10 @@ class Shader {
     Display.ctx.uniform1i(this.getUniformLocation(nom), value);
   }
 
+  sendVec2(nom, value){
+    Display.ctx.uniform2fv(this.getUniformLocation(nom), value);
+  }
+
   sendVec3(nom, value){
     Display.ctx.uniform3fv(this.getUniformLocation(nom), value);
   }
