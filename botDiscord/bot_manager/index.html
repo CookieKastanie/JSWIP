@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  </head>
+  <body>
+
+    <div class="modal fade" id="authModal" role="dialog" data-backdrop="static">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Authentification</h4>
+          </div>
+          <form class="tagForm" id="authForm">
+            <div class="modal-body">
+              <input id="auth" class="form-control" type="password" required/>
+            </div>
+            <div class="modal-footer">
+              <input id="authModalBtn" type="submit" class="btn btn-primary" value="Entrer">
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="failAuthModal" role="dialog" data-backdrop="static">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Non autorisé</h4>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-primary" id="failAuthBtn">Ok</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<!----------------------------------------------------------------------------------------------------------------------------------->
+
+    <!-- Modal -->
+    <div class="modal fade" id="sayModal" role="dialog">
+      <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Bot message</h4>
+          </div>
+          <form class="tagForm" id="sayOnForm">
+            <div class="modal-body">
+              <label for="channel">Canal: </label>
+              <!--<input id="channel" class="form-control" type="text" required/>-->
+              <select class="form-control canauxSelector" id="channel" required></select>
+              <label for="msg">Message: </label>
+              <input id="msg" class="form-control" type="text" required/>
+              <label for="delay">Temps (s): </label>
+              <input id="delay" class="form-control" type="number" min="1"/>
+            </div>
+            <div class="modal-footer">
+              <input id="sayModalBtn" type="submit" class="btn btn-primary" value="Envoyer">
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+<!----------------------------------------------------------------------------------------------------------------------------------->
+
+    <div class="container" style="margin-top: 2em">
+      <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#sayModal">Message</button>
+    </div>
+  </body>
+  <script src="js/main.js"></script>
+</html>

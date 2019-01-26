@@ -4,6 +4,8 @@ class Camera {
     //this.projMatrix = Matrix4.perspective(Matrix4.identity(new Float32Array(16)), 1.0472, width / height, 0.001, 100.0);
     this.projMatrix = Matrix4.perspective(Matrix4.identity(new Float32Array(16)), 1.0472, width / height, 0.001, 0.1);
 
+    //this.projMatrix = Matrix4.ortho(Matrix4.identity(new Float32Array(16)), -5.0, 5.0, -5.0, 5.0, 0.001, 100);
+
     this.finalMat = Matrix4.identity(new Float32Array(16));
 
     /*this.eye = [0, 0, 5];
