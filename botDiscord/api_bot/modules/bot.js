@@ -51,19 +51,27 @@ exports.start = () => {
 
 const sayOn = (canal, message, secs = 0) => {
   if(typeof canal == "string") canal = canaux[canal];
-
   if(!canal) return false;
 
   secs = Math.min(180, secs);
 
-  canal.send(message + (secs ? "```fix\nCe message s'auto détruira dans "+ secs +" seconds```" : "")).then(mess => {
-    if(secs) {
-      setTimeout(() => {
-        mess.delete().catch(() => {});
-      }, secs * 1000);
-    }
-  }).catch(() => {});
+  if(typeof message == "string"){
+    canal.send(message + (secs ? "```fix\nCe message s'auto détruira dans "+ secs +" secondes```" : "")).then(mess => {
+      if(secs) {
+        setTimeout(() => {
+          mess.delete().catch(() => {});
+        }, secs * 1000);
+      }
+    }).catch(() => {});
+  } else {
+    canal.send(message).catch(() => {});
+  }
 
   return true;
 }
 exports.sayOn = sayOn;
+
+
+exports.richEmbed = () => {
+  return new Discord.RichEmbed();
+}

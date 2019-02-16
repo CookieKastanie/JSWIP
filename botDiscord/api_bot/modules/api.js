@@ -1,14 +1,16 @@
 const express = require("express");
 const app = express();
+const fs = require('fs');
+
 let server = null;
-const secreteAuth = require("../secrete.json").pswManager;
+let secreteAuth = null;
 
 const config = require("../config.json");
 
-const bodyParser = require('body-parser');
-
 exports.start = cb => {
-  app.use(bodyParser.json());
+  refreshAuth();
+
+  app.use(require('body-parser').json());
 
   app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
@@ -28,6 +30,12 @@ exports.start = cb => {
     if(typeof cb == "function") cb(config.port_HTPP);
   });
 }
+
+const refreshAuth = () => {
+  const data = fs.readFileSync('./secrete.json', 'utf8');
+  secreteAuth = JSON.parse(data).pswManager;
+}
+exports.refreshAuth = refreshAuth;
 
 exports.stop = () => {
   if (server) {

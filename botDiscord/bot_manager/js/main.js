@@ -1,21 +1,40 @@
 $(window).on("load", () => {
   $('#authModal').modal('show');
+
+  //document.getElementById("auth").value = "ljdmdv";
+  //authForm.onsubmit();
 });
+
+
+$(function () {
+  $('#datetimepicker1').datetimepicker();
+});
+
 
 const handleStatus = res => {
   if(res.status == 401) $('#failAuthModal').modal('show');
 }
 
 const apiUrl = `${window.location.protocol}//${window.location.hostname}:4000`;
+const refreshAuthBtn = document.getElementById("refreshAuthBtn");
 const authForm = document.getElementById("authForm");
 const failAuthBtn = document.getElementById("failAuthBtn");
 const sayOnForm = document.getElementById("sayOnForm");
+const rdvModal = document.getElementById("rdvModal");
 
 let getAuth = () => {
   return "";
 }
 
-
+refreshAuthBtn.onclick = () => {
+  fetch(`${apiUrl}/refreshAuth`, {
+    method: 'GET',
+    headers: {'Authorization': getAuth()}
+  }).then(res => {
+    handleStatus(res);
+    location.reload();
+  });
+}
 
 
 const getCanaux = () => {
@@ -82,6 +101,35 @@ sayOnForm.onsubmit = () => {
   });
 
   $('#sayModal').modal('hide');
+
+  return false;
+}
+
+
+rdvModal.onsubmit = () => {
+  const canal = document.getElementById("rdvChannel").value;
+  const rdvSujet = document.getElementById("rdvSujet").value;
+  const rdvDesc = document.getElementById("rdvDesc").value;
+  const rvdDate = document.getElementById("rvdDate").value;
+
+  let d = $("#datetimepicker1").data("DateTimePicker").date().toDate();
+
+  let data = {
+    canal: canal,
+    sujet: rdvSujet,
+    description: rdvDesc,
+    date: d.getTime()
+  }
+
+  fetch(`${apiUrl}/reunion`, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json', 'Authorization': getAuth()},
+    body: JSON.stringify(data)
+  }).then(res => {
+    handleStatus(res);
+  });
+
+  $('#rdvModal').modal('hide');
 
   return false;
 }
