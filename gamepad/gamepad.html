@@ -6,11 +6,19 @@
   </head>
   <body>
     <p></p>
-    <script type="text/javascript" src="Manettes.logs.js"></script>
+    <script type="text/javascript" src="Manettes.js"></script>
     <script type="text/javascript">
       const p = document.getElementsByTagName("p")[0];
 
-      Manettes[0].bind((m) => {
+      Manettes.onConnect(m => {
+        console.log("Connexion de "+ m.gamepad.id +" (manette "+ m.gamepad.index +")");
+      });
+
+      Manettes.onDisconnect(m => {
+        console.log("Deconnexion de "+ m.gamepad.id +" (manette "+ m.gamepad.index +")");
+      });
+
+      Manettes[0].bind((m, id) => {
         p.innerHTML = "x1 = " + (m.axes[0]).toFixed(2) + " | y1 = "+ (m.axes[1]).toFixed(2) + "<br>x2 = " + (m.axes[2]).toFixed(2) + " | y2 = " + (m.axes[3]).toFixed(2) + "<br>";
         for (let b of m.buttons) {
           p.innerHTML += (b.pressed ? "X" : "O") + " | " + b.value + "<br>";

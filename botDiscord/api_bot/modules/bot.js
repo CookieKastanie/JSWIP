@@ -26,7 +26,7 @@ bot.on('message', (mess) => {
       params.shift();
       let cmd = cmds[cmdName];
       if(cmd) cmd(params, mess);
-      else sayOn(mess.channel, "```fix\nCommande invalide -> "+ cmdChar +"help pour afficher les commandes disponibles ```", 15);
+      else sayOn(mess.channel, "```fix\nCommande invalide ("+ cmdName +") -> "+ cmdChar +"help pour afficher les commandes disponibles ```", 15);
    }
 });
 

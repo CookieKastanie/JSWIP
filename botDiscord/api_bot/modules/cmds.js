@@ -1,13 +1,16 @@
 const bot = require("./bot");
 const PFC = require("./PFC");
 const reunion = require("./reunion");
+const utils = require("./utils");
 
 const listeCommande = `Liste des commandes :
   - help                     => Affiche cette liste
   - ping                     => Pong?
   - pierre/feuille/ciseaux   => Un jeu
   - private [message]        => T'envoi un mp
-  - pd                       => Insulte de manière aléatoire`
+  - pd                       => Insulte de manière aléatoire
+  - generate [number/coin/
+            string/cat/pi]   => Créé des choses`
 
 exports.test = (params, mess) => {
   //console.log("Les params", params);
@@ -55,6 +58,60 @@ exports.private = (params, mess) => {
 
 exports.pd = (params, mess) => {
   bot.sayOn(mess.channel, "Cyril c'est un gros pd");
+}
+
+exports.generate = (params, mess) => {
+  if(params[0]) params[0] = params[0].toLowerCase();
+
+  switch (params[0]) {
+    case "number":
+      let b1 = parseFloat(params[1]);
+      let b2 = parseFloat(params[2]);
+
+      if(!b1) b1 = 0;
+      if(!b2) b2 = 100;
+
+      if(b1 > b2){
+        let save = b1;
+        b1 = b2;
+        b2 = save;
+      }
+
+      bot.sayOn(mess.channel, `Mmmm ${Math.floor(Math.random() * b2 + b1)} ;)`);
+    break;
+
+    case "cat":
+      utils.httpGetJSON("http://aws.random.cat/meow").then(data => {
+        if(data.file){
+          bot.sayOn(mess.channel, data.file);
+        }
+      });
+    break;
+
+    case "string":
+      let text = "";
+      let possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+      let b = parseFloat(params[1]);
+      if (!b) b = 10;
+
+      for (let i = 0; i < Math.abs(b); ++i)
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+      bot.sayOn(mess.channel, `Bip bop... ${text}`);
+
+    break;
+
+    case "pi":
+      bot.sayOn(mess.channel, Math.PI);
+    break;
+
+    default:
+      if(Math.random() > 0.5) bot.sayOn(mess.channel, "Flip^ ... Pile !");
+      else bot.sayOn(mess.channel, "Flip^ ... Face !");
+  }
+
+
 }
 
 ///////////////////////////////////////////////////////////////////////////////
