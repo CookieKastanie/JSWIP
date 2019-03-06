@@ -71,6 +71,10 @@ const sayOn = (canal, message, secs = 0) => {
 }
 exports.sayOn = sayOn;
 
+exports.getUserById = id => {
+  return bot.fetchUser(id);
+}
+
 
 exports.richEmbed = () => {
   return new Discord.RichEmbed();

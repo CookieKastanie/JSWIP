@@ -9,24 +9,26 @@ const listeCommande = `Liste des commandes :
   - pierre/feuille/ciseaux   => Un jeu
   - private [message]        => T'envoi un mp
   - pd                       => Insulte de manière aléatoire
-  - generate [number/coin/
-            string/cat/pi]   => Créé des choses`
+  - random  [number/coin/
+               string/cat]   => Trucs aléatoires`
 
-exports.test = (params, mess) => {
+/*exports.test = (params, mess) => {
   //console.log("Les params", params);
-  reunion.affiche();
-  /*const embed = bot.richEmbed()
-  .setTitle("Nouvelle réunion !")
-  .setColor("#9b59b6")
-  .addField("Sujet", "description")
-  .setDescription("la date ?")
 
-  bot.sayOn("tests", {embed});*/
+  reunion.affiche();
+
+
+  //console.log(mess.channel.members);
+
   //console.log(mess.author.username);
-}
+}*/
 
 exports.help = (params, mess) => {
   bot.sayOn(mess.channel, "```"+ listeCommande +"```", 40);
+}
+
+exports.aled = (params, mess) => {
+  exports.help(params, mess);
 }
 
 exports.ping = (params, mess) => {
@@ -60,7 +62,11 @@ exports.pd = (params, mess) => {
   bot.sayOn(mess.channel, "Cyril c'est un gros pd");
 }
 
-exports.generate = (params, mess) => {
+exports.pi = (params, mess) => {
+  bot.sayOn(mess.channel, Math.PI);
+}
+
+exports.random = (params, mess) => {
   if(params[0]) params[0] = params[0].toLowerCase();
 
   switch (params[0]) {
@@ -102,9 +108,9 @@ exports.generate = (params, mess) => {
 
     break;
 
-    case "pi":
-      bot.sayOn(mess.channel, Math.PI);
-    break;
+    /*case "person":
+
+    break;*/
 
     default:
       if(Math.random() > 0.5) bot.sayOn(mess.channel, "Flip^ ... Pile !");

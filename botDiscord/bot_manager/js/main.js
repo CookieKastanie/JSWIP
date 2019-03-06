@@ -1,7 +1,7 @@
 $(window).on("load", () => {
   $('#authModal').modal('show');
 
-  //document.getElementById("auth").value = "ljdmdv";
+  //document.getElementById("auth").value = "...";
   //authForm.onsubmit();
 });
 
