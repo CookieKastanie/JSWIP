@@ -1,4 +1,4 @@
-class Blob {
+/*class Blob {
   constructor(x, y) {
     this.x = x;
     this.y = y;
@@ -41,13 +41,15 @@ class Blob {
     if(this.x > width || this.x < 0) this.v[0] *= -1;
     if(this.y > height || this.y < 0) this.v[1] *= -1;
   }
-}
+}*/
 
 
 
 
 
-let width = window.innerWidth, height = window.innerHeight;
+//let width = window.innerWidth, height = window.innerHeight;
+
+let width = 500, height = 400;
 
 let canvas = document.getElementById('canvas');
 let ctx = canvas.getContext('2d');
@@ -55,8 +57,8 @@ let ctx = canvas.getContext('2d');
 canvas.width = width;
 canvas.height = height;
 
-/*let imageData = ctx.createImageData(width, height);
-
+let imageData = ctx.createImageData(width, height);
+/*
 let tab = Noise.createField(width, height, 100);
 
 for (let i = 0; i < imageData.data.length; i += 4) {
@@ -67,11 +69,52 @@ for (let i = 0; i < imageData.data.length; i += 4) {
   imageData.data[i + 2] = val;
   imageData.data[i + 3] = 255;
 }
+*/
 
-ctx.putImageData(imageData, 0, 0);*/
+let noise = new OpenSimplexNoise(Date.now());
+let z = 0;
 
-let blobs = [/*new Blob(width/2, height/2), new Blob(600, 300)*/];
 
+
+const draw = () => {
+  let x = 0;
+  let y = 0;
+  z += 0.1;
+
+  for (let i = 0; i < imageData.data.length; i += 4) {
+    let val = (noise.noise3D(x/100, y/100, z)*0.5+0.5)*255;
+
+    x += 1;
+
+    if(x == width){
+      x = 0;
+      y += 1;
+    }
+
+    imageData.data[i + 0] = val;
+    imageData.data[i + 1] = val;
+    imageData.data[i + 2] = val;
+    imageData.data[i + 3] = 255;
+  }
+
+
+  ctx.putImageData(imageData, 0, 0);
+
+  requestAnimationFrame(draw);
+}
+
+draw();
+
+
+
+
+
+
+
+
+
+//let blobs = [/*new Blob(width/2, height/2), new Blob(600, 300)*/];
+/*
 for (let i = 0; i < 10; ++i) {
   blobs.push(new Blob(Math.random() * width, Math.random() * height));
 }
@@ -89,3 +132,4 @@ const draw = () => {
 }
 
 draw();
+*/
