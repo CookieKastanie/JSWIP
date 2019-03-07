@@ -110,7 +110,8 @@ exports.removeUserOn = (canal, userId) => {
 
 exports.dateToString = (val) => {
   let d = new Date(val);
-  return `${d.toLocaleDateString("fr-FR")} à ${d.toLocaleTimeString("fr-FR")}`;
+  //return `${d.toLocaleDateString("fr-FR")} à ${d.toLocaleTimeString("fr-FR")}`;
+  return d.toLocaleString("fr-FR", {timeZone: "Europe/Paris"});
 }
 
 
