@@ -18,7 +18,9 @@ const loadFromJson = () => {
       }
 
       isLoad = true;
-    } catch (e) {}
+    } catch (e) {
+      console.log(e);
+    }
   }
 }
 
@@ -67,7 +69,9 @@ exports.fire = canal => {
   for (let id of r.participants) {
     bot.getUserById(id).then(user => {
       user.send(`C'est l'heure ! RDV sur le canal ${canal}`);
-    }).catch(() => {});
+    }).catch(e => {
+      console.log(e);
+    });
   }
 
   exports.delete(canal);

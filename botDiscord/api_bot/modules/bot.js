@@ -62,9 +62,13 @@ const sayOn = (canal, message, secs = 0) => {
           mess.delete().catch(() => {});
         }, secs * 1000);
       }
-    }).catch(() => {});
+    }).catch(e => {
+      console.log(e);
+    });
   } else {
-    canal.send(message).catch(() => {});
+    canal.send(message).catch(e => {
+      console.log(e);
+    });
   }
 
   return true;
