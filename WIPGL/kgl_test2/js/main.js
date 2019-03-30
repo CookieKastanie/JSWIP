@@ -47,8 +47,8 @@ const main = async () => {
       0, 2, 1,
       0, 3, 2
     ], "3,2", [mainShader.getAttribLocation("position"), mainShader.getAttribLocation("texCoord")]),
-    diffuse: new Texture(texFiles.get("wall_01_Diffuse")),
-    normal: new Texture(texFiles.get("wall_01_Normal"))
+    diffuse: new Texture(texFiles.get("wall_01_Diffuse"), 0),
+    normal: new Texture(texFiles.get("wall_01_Normal"), 1)
   }
 
   let camera = new Float32Array(16);
@@ -69,8 +69,8 @@ const main = async () => {
   mainShader.sendVec3("lightColour", new Float32Array([1.0, 1.0, 1.0]));
   mainShader.sendVec3("lightPosition", new Float32Array([0.0, 100.0, 500.0]));
 
-  wall_01.diffuse.use(0);
-  wall_01.normal.use(1);
+  wall_01.diffuse.use();
+  wall_01.normal.use();
 
 
   let a = 0;

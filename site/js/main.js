@@ -188,7 +188,7 @@ const main = () => {
     //y += 0.75;
     y += 1-(arr[5]/2);
   }
-
+console.log(list);
   const vao = new VAO(arr, "2", shader.getAttribLocation("position"), VAO.TRIANGLE_FAN);
 
   shader.use();
@@ -213,9 +213,9 @@ const main = () => {
 
       if(currentColor[2] < targetColor[2]) currentColor[2] += 0.001;
       else if(currentColor[2] > targetColor[2]) currentColor[2] -= 0.001;
-
-      display.setClearColor(currentColor[0], currentColor[1], currentColor[2], currentColor[3]);
     }
+
+    display.setClearColor(currentColor[0], currentColor[1], currentColor[2], currentColor[3]);
     //}
 
 

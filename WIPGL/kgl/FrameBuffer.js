@@ -1,19 +1,19 @@
 class FrameBuffer {
-  constructor(width = 256, height = 256, options = {texColor: true, texDepth: false, texStencil: false, depthTest: true, stencilTest: false}) {
+  constructor(width = 256, height = 256, options = {texColor: true, depthTest: true}) {
     this.width = width;
     this.height = height;
     options = {
-      texColor: options.texColor || false,
-      texDepth: options.texDepth || false,
-      texStencil: options.texStencil || false,
+      texColor: options.texColor || false, texColorUnit: options.texColorUnit || 0,
+      texDepth: options.texDepth || false, texDepthUnit: options.texDepthUnit || 0,
+      texStencil: options.texStencil || false, texStencilUnit: options.texStencilUnit || 0,
       depthTest: (options.depthTest || options.texDepth) || false,
       stencilTest: options.stencilTest || false
     };
 
     this.textures = {
-      color: options.texColor ? new Texture(width, height) : null,
-      depth: options.texDepth ? new Texture(width, height) : null,
-      stencil: options.texStencil ? new Texture(width, height) : null
+      color: options.texColor ? new Texture(width, height, options.texColorUnit) : null,
+      depth: options.texDepth ? new Texture(width, height, options.texDepthUnit) : null,
+      stencil: options.texStencil ? new Texture(width, height, options.texStencilUnit) : null
     };
 
 

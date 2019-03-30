@@ -1,15 +1,17 @@
 class Texture {
-  constructor(_img, _height = null) {
-    let img, img_data;
+  constructor(_img, _height = null, _unit = 0) {
+    let img, img_data, unit;
 
     let isBuffer = false;
 
     if(_height != null && typeof _img == "number"){
       img = {width: _img, height: _height};
       isBuffer = true;
+      unit = _unit;
     } else {
       img = _img
       img_data = _img;
+      unit = _height == null ? 0 : _height;
     }
 
     this.id = Texture.idMax++;
@@ -18,16 +20,11 @@ class Texture {
     this.height = img.height;
 
     this.texture = Display.ctx.createTexture();
-    Display.ctx.bindTexture(Display.ctx.TEXTURE_2D, this.texture);
+    this.setUnit(unit);
+    this.use();
 
     if(!isBuffer){
-      Display.ctx.texImage2D(Display.ctx.TEXTURE_2D,
-        0, // niveau du bitmap
-        Display.ctx.RGBA, //internalFormat
-        Display.ctx.RGBA, //srcFormat
-        Display.ctx.UNSIGNED_BYTE, //srcType
-        img_data
-      );
+      this.setTextureData(img_data);
     } else {
       Display.ctx.texImage2D(Display.ctx.TEXTURE_2D,
         0,
@@ -76,6 +73,17 @@ class Texture {
     }
   }
 
+  setTextureData(data){
+    this.use();
+    Display.ctx.texImage2D(Display.ctx.TEXTURE_2D,
+      0, // niveau du bitmap
+      Display.ctx.RGBA, //internalFormat
+      Display.ctx.RGBA, //srcFormat
+      Display.ctx.UNSIGNED_BYTE, //srcType
+      data
+    );
+  }
+
   getLocation(){
     return this.texture;
   }
@@ -84,17 +92,19 @@ class Texture {
     return (val & (val - 1)) == 0;
   }
 
-  use(unit = 0){
-    if(Texture.currentIds[unit] == this.id) return;
+  setUnit(unit){
+    this.unit = unit;
+  }
 
-    Texture.currentIds[unit] = this.id;
+  getUnit(){
+    return this.unit;
+  }
 
-    /*if (unit < 0 || unit > 31 ) {
-      console.error("Numero de texture invalide");
-      return;
-    }*/
+  use(){
+    if(Texture.currentIds[this.unit] == this.id) return;
+    Texture.currentIds[this.unit] = this.id;
 
-    Display.ctx.activeTexture(Display.ctx.TEXTURE0 + unit);
+    Display.ctx.activeTexture(Display.ctx.TEXTURE0 + this.unit);
     Display.ctx.bindTexture(Display.ctx.TEXTURE_2D, this.texture);
   }
 }

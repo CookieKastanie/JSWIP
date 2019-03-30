@@ -23,8 +23,8 @@ const init = () => {
     0, 2, 3
   ], 3, colorShader.getAttribLocation("position"));
 
-  texture1 = new Texture(texturesBank.get("leeroyb"));
-  texture2 = new Texture(texturesBank.get("gg"));
+  texture1 = new Texture(texturesBank.get("leeroyb"), 0);
+  texture2 = new Texture(texturesBank.get("gg"), 1);
 
   mesh2 = new IndexedVAO([
     0.5, 0.5, 0.0,  2.0, 0.0,
@@ -88,8 +88,8 @@ const draw = (m) => {
   if (lol < 90) texShader.sendInt("diffuse", 0);
   else texShader.sendInt("diffuse", 1);
 
-  texture1.use(0);
-  texture2.use(1);
+  texture1.use();
+  texture2.use();
 
   texShader.sendMat4("pos", pos1);
   mesh2.draw();

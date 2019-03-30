@@ -132,7 +132,8 @@ const draw = () => {
   frameBuffers.screen0.use();
   //display.useDefaultFrameBuffer();
   display.clear();
-  frameBuffers.screen1.getTexture().use(0);
+  frameBuffers.screen1.getTexture().setUnit(0);
+  frameBuffers.screen1.getTexture().use();
   meshs.rect.draw();
 
   /////////////////////////////////////////////////
@@ -141,7 +142,8 @@ const draw = () => {
   frameBuffers.screen1.use();
   //display.useDefaultFrameBuffer();
   display.clear();
-  frameBuffers.screen0.getTexture().use(0);
+  frameBuffers.screen0.getTexture().setUnit(0);
+  frameBuffers.screen0.getTexture().use();
 
   meshs.rect.draw();
 
@@ -152,14 +154,16 @@ const draw = () => {
   shaders.horBlur.sendFloat("width", display.getWidth()/32);
   frameBuffers.screen2.use();
   display.clear();
-  frameBuffers.screen1.getTexture().use(0);
+  frameBuffers.screen1.getTexture().setUnit(0);
+  frameBuffers.screen1.getTexture().use();
   meshs.rect.draw();
 
   shaders.vertBlur.use();
   shaders.vertBlur.sendFloat("height", display.getWidth()/32);
   frameBuffers.screen1.use();
   display.clear();
-  frameBuffers.screen2.getTexture().use(0);
+  frameBuffers.screen2.getTexture().setUnit(0);
+  frameBuffers.screen2.getTexture().use();
   meshs.rect.draw();
 
   //////////////////////////////////////////////////////
@@ -168,7 +172,8 @@ const draw = () => {
   shaders.horBlur.sendFloat("width", display.getWidth()/4);
   frameBuffers.screen2.use();
   display.clear();
-  frameBuffers.screen1.getTexture().use(0);
+  frameBuffers.screen1.getTexture().setUnit(0);
+  frameBuffers.screen1.getTexture().use();
   meshs.rect.draw();
 
   shaders.vertBlur.use();
@@ -176,7 +181,8 @@ const draw = () => {
   frameBuffers.screen1.use();
   //display.useDefaultFrameBuffer();
   display.clear();
-  frameBuffers.screen2.getTexture().use(0);
+  frameBuffers.screen2.getTexture().setUnit(0);
+  frameBuffers.screen2.getTexture().use();
   meshs.rect.draw();
 
 
@@ -189,7 +195,9 @@ const draw = () => {
   //shaders.mixBloom.sendInt("cutTex", 1);
   display.useDefaultFrameBuffer();
   display.clear();
-  frameBuffers.screen0.getTexture().use(0);
+  frameBuffers.screen0.getTexture().setUnit(0);
+  frameBuffers.screen0.getTexture().use();
+  frameBuffers.screen1.getTexture().setUnit(1);
   frameBuffers.screen1.getTexture().use(1);
   meshs.rect.draw();
 

@@ -1,0 +1,4 @@
+https://www.poliigon.com
+https://www.cgbookcase.com/textures
+
+https://csantosbh.wordpress.com/2014/01/25/manual-texture-filtering-for-pixelated-games-in-webgl/
