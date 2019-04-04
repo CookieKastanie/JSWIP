@@ -7,7 +7,7 @@ let loadKastanieGL = async () => {
   }
 
   return new Promise(resolve => {
-    const liste = ["Display.js", "Shader.js", "BufferObject.js", "FrameBuffer.js", "Texture.js", "VAO.js", "Matrix4.js", "Parser.js", "Bank.js"];
+    const liste = ["Display.js", "Shader.js", "BufferObject.js", "FrameBuffer.js", "Texture.js", "VAO.js", "Matrix4.js", "Parser.js"];
 
     let nb = 0;
 
