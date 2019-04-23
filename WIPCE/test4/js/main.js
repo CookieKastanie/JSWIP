@@ -28,20 +28,21 @@ function matrixToObjects(tab){
   [-100, 100]
 ]));*/
 
-/*const b1 = new Box2D(0, 0,  matrixToObjects([
+const b1 = new Box2D(0, 0,  matrixToObjects([
   [-100, -100],
   [+50, -50],
   [+50, +100],
   [-50, +50]
-]));*/
+]));
 
+/*
 const b1 = new Box2D(canvas.width/2, 0,  matrixToObjects([
   [-10, 10],
   [-10, -10],
   [10, -10],
   [10, 10]
 ]));
-
+*/
 
 /*const b2 = new Box2D(300, 300,  matrixToObjects([
   [100, 100],

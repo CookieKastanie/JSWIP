@@ -1,27 +1,28 @@
 const actx = new (window.AudioContext || window.webkitAudioContext)();
-let sounds = new Bank("./sounds", ["sample1"], {extension: "mp3", mediaType: "arrayBuffer", treatment: buffer => {
-  return actx.decodeAudioData(buffer);
+let sounds = new Bank("./sounds", ["sample1"], {extension: "mp3", mediaType: "audio", treatment: audio => {
+  const source = actx.createMediaElementSource(audio);
+  audio.source = source;
+  return audio;
 }});
 
-let source, gain;
+let audio, gain;
 
 sounds.load().then(() => {
-  console.log("oui");
+  console.log("ready");
   btn.onclick = main;
 });
 
 const main = async () => {
   btn.onclick = () => {}
   actx.resume();
-  source = actx.createBufferSource();
 
-  source.buffer = sounds.get("sample1");
+  audio = sounds.get("sample1");
 
   gain = actx.createGain();
   gain.gain.value = 0.1;
 
-  source.connect(gain);
+  audio.source.connect(gain);
   gain.connect(actx.destination);
 
-  source.start(0);
+  audio.play()
 }
