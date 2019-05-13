@@ -1,4 +1,7 @@
+import { Bank } from 'Akila/utils';
+
 const actx = new (window.AudioContext || window.webkitAudioContext)();
+
 let sounds = new Bank("./sounds", ["sample1"], {extension: "mp3", mediaType: "audio", treatment: audio => {
   const source = actx.createMediaElementSource(audio);
   audio.source = source;
@@ -13,7 +16,7 @@ sounds.load().then(() => {
 });
 
 const main = async () => {
-  btn.onclick = () => {}
+  btn.onclick = () => {};
   actx.resume();
 
   audio = sounds.get("sample1");
@@ -24,5 +27,5 @@ const main = async () => {
   audio.source.connect(gain);
   gain.connect(actx.destination);
 
-  audio.play()
+  audio.play();
 }

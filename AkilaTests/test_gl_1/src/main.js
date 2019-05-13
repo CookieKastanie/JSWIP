@@ -75,7 +75,7 @@ const draw = () => {
   //Matrix4.fromRotation(worldPosition, a, [0, 1, 1]);
   Matrix4.fromRotation(temp, -Math.PI/3, [0, 0, 1]);
   Matrix4.fromRotation(worldPosition, a + Math.PI/2, [0, 1, 0]);
-  Matrix4.mult(worldPosition, worldPosition, temp);
+  Matrix4.multiply(worldPosition, worldPosition, temp);
 
   mainShader2.use();
   /*worldPosition[12] = 5;
