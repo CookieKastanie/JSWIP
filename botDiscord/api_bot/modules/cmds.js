@@ -2,6 +2,7 @@ const bot = require("./bot");
 const PFC = require("./PFC");
 const reunion = require("./reunion");
 const utils = require("./utils");
+const sleep = require("./sleep");
 
 const listeCommande = `Liste des commandes :
   - help                     => Affiche cette liste
@@ -118,6 +119,32 @@ exports.random = (params, mess) => {
   }
 
 
+}
+
+const ddf = require("../datas/defaultDanceFrames");
+let lastTimeDancePlay = 0;
+exports.default = (params, mess) => {
+  if(lastTimeDancePlay + 30000 < Date.now()) {
+    lastTimeDancePlay = Date.now();
+
+    mess.channel.send("```"+ ddf[0] +"```")
+    .then(async (_mess) => {
+      for(let i = 1; i < ddf.length; ++i) {
+        await sleep(500);
+
+        try {
+          await _mess.edit("```"+ ddf[i] +"```");
+        } catch (error) { }
+      }
+
+      await sleep(800);
+
+      _mess.delete().catch(() => {});
+    })
+    .catch(() => {});
+  } else {
+    bot.sayOn(mess.channel, "Trop de danse pour moi :x", 5);
+  }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
