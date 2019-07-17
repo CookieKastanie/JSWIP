@@ -69,7 +69,7 @@ const genPackage = (data, opcode = 1) => {
 
 const unmask = (mask, len, payloadFirstByte, data) => {
   let decoded = new Uint8Array(len);
-  for (var i = 0; i < len; i++) {
+  for (let i = 0; i < len; i++) {
     decoded[i] = data[i + payloadFirstByte] ^ mask[i % 4];
   }
 
@@ -78,7 +78,7 @@ const unmask = (mask, len, payloadFirstByte, data) => {
 
 const unmaskToString = (mask, len, payloadFirstByte, data) => {
   let decoded = "";
-  for (var i = 0; i < len; i++) {
+  for (let i = 0; i < len; i++) {
     decoded += String.fromCharCode(data[i + payloadFirstByte] ^ mask[i % 4]);
   }
 
@@ -193,7 +193,7 @@ class Client {
 
 const clients = new Map();
 
-var net = require('net');
+const net = require('net');
 
 let server = net.createServer();
 
