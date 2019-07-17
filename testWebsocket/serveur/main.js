@@ -1,28 +1,94 @@
-console.log('==========================');
+/*
+
+ |Opcode  | Meaning                             | Reference |
+-+--------+-------------------------------------+-----------|
+ | 0      | Continuation Frame                  | RFC XXXX  |
+-+--------+-------------------------------------+-----------|
+ | 1      | Text Frame                          | RFC XXXX  |
+-+--------+-------------------------------------+-----------|
+ | 2      | Binary Frame                        | RFC XXXX  |
+-+--------+-------------------------------------+-----------|
+ | 8      | Connection Close Frame              | RFC XXXX  |
+-+--------+-------------------------------------+-----------|
+ | 9      | Ping Frame                          | RFC XXXX  |
+-+--------+-------------------------------------+-----------|
+ | 10     | Pong Frame                          | RFC XXXX  |
+-+--------+-------------------------------------+-----------|
+
+*/
 
 const crypto = require('crypto');
 const magicString = '258EAFA5-E914-47DA-95CA-C5AB0DC85B11';
 const port = 3000;
 
-const genPackage = (data) => {
-  let len = Math.min(data.length, 127);
+const genPackage = (data, opcode = 1) => {
+  let len = data.length;
 
-  let d = new Uint8Array(len + 2);
+  let d;
+  let decalage;
 
-  d[0] = 0b10000001;
-  d[1] = len;
-
-  for(let i = 0; i < len; ++i) {
-    d[i + 2] = data.charCodeAt(i);
+  if(len <= 125) {
+    decalage = 2;
+    d = new Uint8Array(len + decalage);
+    d[0] = 0b10000000 | opcode;
+    d[1] = len;
+  } else if(len <= 65535) {
+    decalage = 4;
+    d = new Uint8Array(len + decalage);
+    d[0] = 0b10000000 | opcode;
+    d[1] = 0b01111110;
+    d[2] = (0b1111111100000000 & len) >> 8;
+    d[3] = (0b0000000011111111 & len);
+  } else {
+    decalage = 10;
+    d = new Uint8Array(len + decalage);
+    d[0] = 0b10000000 | opcode;
+    d[1] = 0b01111111;
+    d[2] = (0b1111111100000000000000000000000000000000000000000000000000000000 & len) >> 56;
+    d[3] = (0b0000000011111111000000000000000000000000000000000000000000000000 & len) >> 48;
+    d[4] = (0b0000000000000000111111110000000000000000000000000000000000000000 & len) >> 40;
+    d[5] = (0b0000000000000000000000001111111100000000000000000000000000000000 & len) >> 32;
+    d[6] = (0b0000000000000000000000000000000011111111000000000000000000000000 & len) >> 24;
+    d[7] = (0b0000000000000000000000000000000000000000111111110000000000000000 & len) >> 16;
+    d[8] = (0b0000000000000000000000000000000000000000000000001111111100000000 & len) >> 8;
+    d[9] = (0b0000000000000000000000000000000000000000000000000000000011111111 & len);
+  }
+  
+  if(opcode == 1) {
+    for(let i = 0; i < len; ++i) {
+      d[i + decalage] = data.charCodeAt(i);
+    }
+  } else {
+    for(let i = 0; i < len; ++i) {
+      d[i + decalage] = data[i];
+    }
   }
 
   return d;
 }
 
+const unmask = (mask, len, payloadFirstByte, data) => {
+  let decoded = new Uint8Array(len);
+  for (var i = 0; i < len; i++) {
+    decoded[i] = data[i + payloadFirstByte] ^ mask[i % 4];
+  }
+
+  return decoded;
+}
+
+const unmaskToString = (mask, len, payloadFirstByte, data) => {
+  let decoded = "";
+  for (var i = 0; i < len; i++) {
+    decoded += String.fromCharCode(data[i + payloadFirstByte] ^ mask[i % 4]);
+  }
+
+  return decoded;
+}
+
 class Client {
   constructor(sock) {
     this.sock = sock;
-    this.buffer = null;
+    //this.buffer = null;
 
     this.dataEvent = this.onDataForInit;
 
@@ -30,25 +96,41 @@ class Client {
   }
 
   onData(data) {
-    console.log(data);
+    const fin = ((data[0] & 0b10000000) >> 7) == 1;
+    const haveMask = ((data[1] & 0b10000000) >> 7) == 1;
 
-    console.log('FIN:', (data[0] & 0b10000000) >> 7);
-    console.log('opcode:', data[0] & 0b00001111);
-    const mask = ((data[1] & 0b10000000) >> 7) == 1;
-    console.log('masked:', mask);
+    if (fin && haveMask) {
+      const opcode = data[0] & 0b00001111;
 
-    const len = data[1] & 0b01111111;
-    console.log('len:', len);
-    if (mask) {
-      const MASK = [data[2], data[3], data[4], data[5]];
-      console.log('mask:', MASK);
+      let len = data[1] & 0b01111111;
 
-      let DECODED = "";
-      for (var i = 0; i < len; i++) {
-        DECODED += String.fromCharCode(data[i + 6] ^ MASK[i % 4]);
+      let payloadFirstByte = 0;
+      let mask;
+
+      if(len <= 125) {
+        payloadFirstByte = 6
+        mask = [data[2], data[3], data[4], data[5]];
+      } else if(len === 126) {
+        payloadFirstByte = 8;
+
+        len = (data[2] << 8) | data[3];
+        mask = [data[4], data[5], data[6], data[7]];
+      } else {
+        // just reject larges payloads
+        return;
       }
 
-      console.log('decoded:', DECODED);
+      let decoded = null;
+
+      console.log('opcode:', opcode);
+      
+      switch(opcode) {
+        case 1: decoded = unmaskToString(mask, len, payloadFirstByte, data); break
+        case 2: decoded = unmask(mask, len, payloadFirstByte, data); break
+        case 8: console.log('Fermeture connexion'); break
+      }
+     
+      if(decoded) console.log('decoded:', decoded);
     }
 
     console.log('-------------------');
@@ -97,11 +179,13 @@ class Client {
 
     this.sock.write(resHeaders.join("\n"));
 
-    this.sock.write(genPackage('poke'));
-    this.sock.write(genPackage('pouet'));
-    this.sock.write(genPackage('lelelelelele'));
-
     this.dataEvent = this.onData;
+
+    console.log('Connexion ouverte');
+
+    this.sock.write(genPackage('poke'));
+    this.sock.write(genPackage(new Uint8Array([65, 66, 67]), 2));
+    this.sock.write(genPackage('lelelelelele'));
   }
 }
 
@@ -114,7 +198,6 @@ var net = require('net');
 let server = net.createServer();
 
 server.on('connection', sock => {
-
   console.log('CONNEXION: ' + sock.remoteAddress +':'+ sock.remotePort);
   const c = new Client(sock);
   clients.set(sock.remoteAddress +':'+ sock.remotePort, c);
