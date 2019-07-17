@@ -1,24 +1,11 @@
 console.log('==========================');
 
-
 const crypto = require('crypto');
 const magicString = '258EAFA5-E914-47DA-95CA-C5AB0DC85B11';
-const hostname = '127.0.0.1';
 const port = 3000;
-
-/*
-const txt = `HTTP/1.1 200 OK
-Access-Control-Allow-Origin: *
-Content-Type: text/html
-Server: Kastanie
-Content-Lenth: 3
-
-uuu`;
-*/
 
 const genPackage = (data) => {
   let len = Math.min(data.length, 127);
-
 
   let d = new Uint8Array(len + 2);
 
@@ -32,21 +19,44 @@ const genPackage = (data) => {
   return d;
 }
 
-
-
 class Client {
   constructor(sock) {
     this.sock = sock;
     this.buffer = null;
 
-    this.sock.on('data', data => this.onDataForInit(data));
+    this.dataEvent = this.onDataForInit;
+
+    this.sock.on('data', data => this.dataEvent(data));
   }
 
   onData(data) {
+    console.log(data);
 
+    console.log('FIN:', (data[0] & 0b10000000) >> 7);
+    console.log('opcode:', data[0] & 0b00001111);
+    const mask = ((data[1] & 0b10000000) >> 7) == 1;
+    console.log('masked:', mask);
+
+    const len = data[1] & 0b01111111;
+    console.log('len:', len);
+    if (mask) {
+      const MASK = [data[2], data[3], data[4], data[5]];
+      console.log('mask:', MASK);
+
+      let DECODED = "";
+      for (var i = 0; i < len; i++) {
+        DECODED += String.fromCharCode(data[i + 6] ^ MASK[i % 4]);
+      }
+
+      console.log('decoded:', DECODED);
+    }
+
+    console.log('-------------------');
   }
 
   onDataForInit(data) {
+    console.log('Demande de connexion');
+
     const d = data.toString();
 
     let headers = d.split("\n");
@@ -62,6 +72,7 @@ class Client {
       }
     });
 
+    // Access-Control-Allow-Origin: *   ???
     let resHeaders = ['HTTP/1.1 101 Switching Protocols', 'Upgrade: websocket', 'Connection: Upgrade'];
 
     let valid = false;
@@ -86,80 +97,34 @@ class Client {
 
     this.sock.write(resHeaders.join("\n"));
 
-    /*setInterval(() => {
-      let d = new Uint8Array(6);
-
-      d[0] = 0b10000001;
-      d[1] = 0b00000100;
-      d[2] = 'p'.charCodeAt(0);
-      d[3] = 'o'.charCodeAt(0);
-      d[4] = 'k'.charCodeAt(0);
-      d[5] = 'e'.charCodeAt(0);
-
-      this.sock.write(d);
-
-      console.log(d);
-    }, 1000);*/
-
     this.sock.write(genPackage('poke'));
     this.sock.write(genPackage('pouet'));
     this.sock.write(genPackage('lelelelelele'));
 
+    this.dataEvent = this.onData;
   }
 }
 
-
-
-
-
-/*
-
-const test = data => {
-  //console.log('DATA ' + sock.remoteAddress + ': ');
-  console.log(data);
-  // Write the data back to the socket, the client will receive it as data from the server
-  //sock.write(txt);
-  sock.end(txt);
-}
-
-const enableConection = data => {
-  let buffer = '';
-
-
-
-  buffer += data.toString();
-  console.log();
-
-}
-
-*/
+////////////////////////////////////////////////////////////////////////////////
 
 const clients = new Map();
 
 var net = require('net');
 
-// Create a server instance, and chain the listen function to it
-// The function passed to net.createServer() becomes the event handler for the 'connection' event
-// The sock object the callback function receives UNIQUE for each connection
 let server = net.createServer();
 
 server.on('connection', sock => {
-  // We have a connection - a socket object is assigned to the connection automatically
-  console.log('CONNECTED: ' + sock.remoteAddress +':'+ sock.remotePort);
+
+  console.log('CONNEXION: ' + sock.remoteAddress +':'+ sock.remotePort);
   const c = new Client(sock);
   clients.set(sock.remoteAddress +':'+ sock.remotePort, c);
-  // Add a 'data' event handler to this instance of socket
-  //sock.on('data', recFunc);
 
-  // Add a 'close' event handler to this instance of socket
   sock.on('close', data => {
-    console.log('CLOSED: ' + sock.remoteAddress +':'+ sock.remotePort);
+    console.log('FERMETURE: ' + sock.remoteAddress +':'+ sock.remotePort, data);
     clients.delete(sock.remoteAddress +':'+ sock.remotePort);
   });
-
 });
 
 server.listen(port);
 
-
-console.log('Server listening on :'+ port);
+console.log('Serveur ouvert sur le port '+ port);
