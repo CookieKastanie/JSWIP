@@ -56,7 +56,7 @@ const sayOn = (canal, message, secs = 0) => {
   secs = Math.min(180, secs);
 
   if(typeof message == "string"){
-    canal.send(message + (secs ? "```fix\nCe message s'auto détruira dans "+ secs +" secondes```" : "")).then(mess => {
+    canal.send(`${message} ${(secs ? " ```fix\nCe message s'auto détruira dans "+ secs +" secondes```" : "")}`).then(mess => {
       if(secs) {
         setTimeout(() => {
           mess.delete().catch(() => {});
@@ -78,7 +78,6 @@ exports.sayOn = sayOn;
 exports.getUserById = id => {
   return bot.fetchUser(id);
 }
-
 
 exports.richEmbed = () => {
   return new Discord.RichEmbed();

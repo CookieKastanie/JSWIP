@@ -11,7 +11,8 @@ const listeCommande = `Liste des commandes :
   - private [message]        => T'envoi un mp
   - pd                       => Insulte de manière aléatoire
   - random  [number/coin/
-               string/cat]   => Trucs aléatoires`
+               string/cat]   => Trucs aléatoires
+  - screen                   => Donne le lien du channel vocal`;
 
 /*exports.test = (params, mess) => {
   //console.log("Les params", params);
@@ -144,6 +145,17 @@ exports.default = (params, mess) => {
     .catch(() => {});
   } else {
     bot.sayOn(mess.channel, "Trop de danse pour moi :x", 5);
+  }
+}
+
+// envoi le lien pour ouvrir l'interface 
+exports.screen = (params, mess) => {
+  if(mess.member.voiceChannel) {
+    bot.sayOn(mess.channel, bot.richEmbed()
+    .addField('Lien du channel vocal:', `https://discordapp.com/channels/${mess.member.guild.id}/${mess.member.voiceChannel.id}`)
+    .setColor(0x9B59B6));
+  } else {
+    bot.sayOn(mess.channel, 'Gros pd, tu doit être connecté à un voice channel pour utiliser cette commande >:(', 15);
   }
 }
 

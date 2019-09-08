@@ -1,0 +1,47 @@
+{
+    "name": "Yahtzee",
+    "upperRules": [
+        {
+            "name": "",
+            "description": "",
+            "code": ""
+        },
+        {
+            "name": "",
+            "description": "",
+            "code": ""
+        },
+        {
+            "name": "",
+            "description": "",
+            "code": ""
+        },
+        {
+            "name": "",
+            "description": "",
+            "code": ""
+        },
+        {
+            "name": "",
+            "description": "",
+            "code": ""
+        },
+        {
+            "name": "",
+            "description": "",
+            "code": ""
+        },
+        {
+            "name": "",
+            "description": "",
+            "code": ""
+        }
+    ],
+    "lowerRules": [
+        {
+            "name": "",
+            "description": "",
+            "code": ""
+        }
+    ]
+}
