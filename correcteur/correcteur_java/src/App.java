@@ -2,9 +2,12 @@ import java.util.ArrayList;
 
 public class App {
   public static void main(String[] args) {
+    double tempGenerationDico = System.nanoTime();
     Dictionnaire dico = new Dictionnaire(Utils.loadFile("D:/GitHub/JSWIP/correcteur/correcteur_java/dico.txt"), 5);
+    double deltaGenerationDico = (System.nanoTime() - tempGenerationDico) / 1_000_000_000;
+    System.out.println("Creation dico "+ deltaGenerationDico +" secondes");
 
-    ArrayList<String> fautes = Utils.loadFile("D:/GitHub/JSWIP/correcteur/correcteur_java/fautes2.txt");
+    ArrayList<String> fautes = Utils.loadFile("D:/GitHub/JSWIP/correcteur/correcteur_java/fautes.txt");
 
     double tt = System.nanoTime();
 
