@@ -1,14 +1,14 @@
 class Grid {
-    constructor(width, heigth, initValue = 0) {
+    constructor(width, height, initValue = 0) {
         this.width = width;
-        this.heigth = heigth;
-        this.grid = new Array(width * heigth);
+        this.height = height;
+        this.grid = new Array(width * height);
 
         this.clear(initValue);
     }
 
     clear(initValue = 0) {
-        const length = this.width * this.heigth;
+        const length = this.width * this.height;
 
         for(let i = 0; i < length; ++i) {
             this.grid[i] = initValue;
@@ -36,8 +36,8 @@ class Grid {
     }
 
     constrainY(y) {
-        if(y < 0) return y + this.heigth;
-        if(y >= this.heigth) return y - this.heigth;
+        if(y < 0) return y + this.height;
+        if(y >= this.height) return y - this.height;
         return y;
     }
 }
