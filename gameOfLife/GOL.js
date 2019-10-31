@@ -54,7 +54,6 @@ class GOL {
     set(x, y, value) {
         this.grids[0].set(x, y, value);
         this.nextStepGrid.set(x, y, value);
-        this.update(false);
     }
 
     draw(ctx, drawNext = true) {

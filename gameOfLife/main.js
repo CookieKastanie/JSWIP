@@ -18,19 +18,14 @@ let mouseX = -1, mouseY = -1;
 let mouse1IsDown = false;
 let mouse2IsDown = false;
 let next = false;
-let haveSetted = false;
 let seePredict = true;
 
 const frame = () => {
     if(update) g.update();
+    else g.update(false);
     if(next) {
         next = false;
         g.update();
-        if(haveSetted) {
-            g.update();
-            haveSetted = false;
-        }
-        
     }
     g.draw(ctx, (!update && seePredict));
 
@@ -39,12 +34,10 @@ const frame = () => {
 
     if(mouse1IsDown && !mouse2IsDown) {
         g.set(mouseX, mouseY,  1);
-        haveSetted = true;
     }
 
     if(mouse2IsDown) {
         g.set(mouseX, mouseY,  0);
-        haveSetted = true;
         mouse2IsDown = false;
     }
 
@@ -80,7 +73,6 @@ canvas.oncontextmenu = () => {
 
 button.onclick = () => {
     update = !update;
-    haveSetted = false;
 
     if(update) button.innerHTML = "Stop";
     else button.innerHTML = "Play";
