@@ -17,7 +17,7 @@ class GOL {
         const g1 = this.grids[1];
 
         for(let y = 0; y < g0.height; ++y) {
-            for(let x = 0; x < g0.height; ++x) {
+            for(let x = 0; x < g0.width; ++x) {
                 const etat = g0.get(x, y);
                 let count = 0;
                 
@@ -63,7 +63,7 @@ class GOL {
         ctx.fillRect(0, 0, g.width, g.height);
 
         for(let y = 0; y < g.height; ++y) {
-            for(let x = 0; x < g.height; ++x) {
+            for(let x = 0; x < g.width; ++x) {
 
                 const etat = g.get(x, y);
                 if(drawNext) {

@@ -1,4 +1,4 @@
-import { HitShape2d, StaticField2d } from './Akila/kcl/2d.js';
+import { HitShape2d, StaticField2d } from './Akila/collision/2d.js';
 
 
 const W = 600, H = 600;

@@ -1,4 +1,4 @@
-console.log('UWU');
+/*console.log('UWU');
 
 const dgram = require('dgram');
 const server = dgram.createSocket('udp4');
@@ -18,3 +18,22 @@ server.on('listening', () => {
 });
 
 server.bind(41234);
+*/
+
+console.log('E');
+
+const server = require('net').createServer();
+
+server.on('connection', sock => {
+  sock.setNoDelay(true);
+
+
+  console.log('connexion de', sock.remoteAddress +':'+ sock.remotePort);
+
+
+  sock.on('close', () => {
+    console.log('deco de', sock.remoteAddress +':'+ sock.remotePort);
+  });
+});
+
+server.listen(41234);

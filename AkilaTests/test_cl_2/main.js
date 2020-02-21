@@ -1,4 +1,4 @@
-import { ResponseHitShape2d, HitShape2d, StaticField2d } from './Akila/kcl/2d.js';
+import { ResponseHitShape2d, HitShape2d, StaticField2d } from './Akila/collision/2d.js';
 import { Matrix3 } from './Akila/utils.js';
 
 

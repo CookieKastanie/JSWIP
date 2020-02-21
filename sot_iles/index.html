@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>Iles SOT</title>
+
+    <style>
+        .dropdown{
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+
+        #iles{
+            margin-top: 100px;
+        }
+
+        .dropdown>.dropdown-menu {
+            top: 200%;
+            transition: 0.3s all ease-in-out;
+        }
+
+        .dropdown:hover>.dropdown-menu {
+            display: block;
+            top: 90%;
+        }
+
+        .dropdown>.dropdown-toggle:active {
+            pointer-events: none;
+        }
+
+        .dropdown-toggle::after {
+            content: none;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="dropdown">
+        <div class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <input class="form-control" id="in" type="text" placeholder="Search" aria-label="Search">
+        </div>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="out">
+        </div>
+    </div>
+
+    <div id="iles"></div>
+    
+    <script src="./islands.js"></script>
+    <script src="./Autocomp.js"></script>
+    <script src="./main.js"></script>
+</body>
+</html>

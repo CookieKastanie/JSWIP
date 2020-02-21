@@ -64,8 +64,17 @@ exports.pd = (params, mess) => {
   bot.sayOn(mess.channel, "Cyril c'est un gros pd");
 }
 
+const pcPhrases = ["Alors il est bien ton pc Nathan ?", "Alors Nathan ce pc ?", "Il arrive quand ton pc ?"];
+exports.pc = (params, mess) => {
+  bot.sayOn(mess.channel, pcPhrases[Math.floor(Math.random() * pcPhrases.length)]);
+}
+
 exports.pi = (params, mess) => {
   bot.sayOn(mess.channel, Math.PI);
+}
+
+exports.game = (params, mess) => {
+  if(params[0]) bot.setGame(params.join(" "));
 }
 
 exports.random = (params, mess) => {
@@ -157,6 +166,16 @@ exports.screen = (params, mess) => {
   } else {
     bot.sayOn(mess.channel, 'Gros pd, tu doit être connecté à un voice channel pour utiliser cette commande >:(', 15);
   }
+}
+
+exports.hide = (params, mess) => {
+  if(!mess.guild) return;
+  const mem = mess.guild.member(mess.author);
+  if(!mem) return;
+  const chan = bot.getVocalChannels()["Vocal secret"];
+  mem.setVoiceChannel(chan)
+  .then(() => {})
+  .catch(() => {});
 }
 
 ///////////////////////////////////////////////////////////////////////////////

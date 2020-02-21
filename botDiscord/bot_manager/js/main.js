@@ -48,7 +48,7 @@ const getCanaux = () => {
     const canauxSelectors = document.getElementsByClassName("canauxSelector");
 
     for (let canauxSelector of canauxSelectors) {
-      for (let c of canaux) {
+      for (let c of canaux.text) {
         const option = document.createElement("option");
 
         option.value = c;

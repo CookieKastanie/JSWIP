@@ -1,6 +1,7 @@
 const Discord = require("discord.js");
 const bot = new Discord.Client();
 const canaux = new Object();
+const canauxVocaux = new Object();
 const cmds = require("./cmds");
 
 const cmdChar = '$';
@@ -8,9 +9,14 @@ const cmdChar = '$';
 const findCanaux = () => {
   let list = require("../datas/listeCanaux.json");
 
-  for (let l of list) {
+  for (let l of list.text) {
     let c = bot.channels.find(val => val.name === l);
     if(c) canaux[l] = c;
+  }
+
+  for (let l of list.vocal) {
+    let c = bot.channels.find(val => val.name === l);
+    if(c) canauxVocaux[l] = c;
   }
 }
 
@@ -38,7 +44,7 @@ exports.start = () => {
 
     bot.on('ready', () => {
       console.log("Bot prêt");
-      bot.user.setActivity("lécher son écran");
+      //bot.user.setActivity("lécher son écran");
 
       findCanaux();
 
@@ -47,6 +53,10 @@ exports.start = () => {
 
     bot.login(secrete.apiKey);
   });
+}
+
+exports.setGame = (str) => {
+  bot.user.setActivity(str);
 }
 
 const sayOn = (canal, message, secs = 0) => {
@@ -77,6 +87,14 @@ exports.sayOn = sayOn;
 
 exports.getUserById = id => {
   return bot.fetchUser(id);
+}
+
+exports.getTextChannels = () => {
+  return canaux;
+}
+
+exports.getVocalChannels = () => {
+  return canauxVocaux;
 }
 
 exports.richEmbed = () => {

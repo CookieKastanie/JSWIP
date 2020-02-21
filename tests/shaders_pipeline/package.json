@@ -1,0 +1,16 @@
+{
+  "name": "shaders_pipeline",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "watch": "webpack --watch"
+  },
+  "dependencies": {
+    "webpack": "^4.30.0"
+  },
+  "devDependencies": {
+    "webpack-cli": "^3.3.1"
+  },
+  "license": "ISC"
+}
