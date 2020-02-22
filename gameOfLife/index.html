@@ -3,14 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <title>GOL</title>
+    <style>
+        canvas, div{
+            display: inline-block;
+            vertical-align: top;
+        }
+    </style>
 </head>
 <body>
     <canvas style="border: 1px solid black;"></canvas>
-    <br>
-    <table>
-        <tr><td><button>Play</button></td><td><button>Next</button></td><td><button>Clear</button></td></tr>
-        <tr><td></td><td><button>Predict</button></td></tr>
-    </table>
+    <div>
+        <table>
+            <tr><td><button>Play</button></td><td><button>Next</button></td><td><button>Clear</button></td></tr>
+            <tr><td></td><td><button>Predict</button></td></tr>
+        </table>
+        <p id="wheelMessage"></p>
+        <p>(Changer avec click molette)</p>
+    </div>
+    
     
     
     

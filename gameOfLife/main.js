@@ -6,6 +6,8 @@ const nextButton = document.getElementsByTagName('button')[1];
 const clearButton = document.getElementsByTagName('button')[2];
 const predictButton = document.getElementsByTagName('button')[3];
 
+const wheelMessage = document.getElementById('wheelMessage');
+
 const canvas = document.getElementsByTagName('canvas')[0];
 canvas.width = W * S;
 canvas.height = H * S;
@@ -21,7 +23,7 @@ let next = false;
 let seePredict = true;
 
 let formeId = 0;
-let rotateMode = false;
+let rotateMode = true;
 
 const frame = () => {
     if(update) g.update();
@@ -36,13 +38,6 @@ const frame = () => {
     formes[formeId].foreach((x, y) => {
         ctx.fillRect(mouseX + x, mouseY + y, 1, 1);
     });
-
-    /*const m = formes[formeId].matrix;
-    const height = m.length;
-    const width = m[0].length;
-
-
-    console.log(width, height)*/
 
     if(mouse1IsDown && !mouse2IsDown) {
         formes[formeId].foreach((x, y) => {
@@ -70,9 +65,13 @@ canvas.onmousemove = e => {
 
 canvas.onmousedown = e => {
     if(e.button == 2) mouse2IsDown = true;
-    else if(e.button == 1) rotateMode = !rotateMode;
+    else if(e.button == 1) {
+        rotateMode = !rotateMode;
+        wheelMessage.innerHTML = rotateMode ? "Molette souris : Rotation" : "Molette souris : Sélection";
+    }
     else mouse1IsDown = true;
 }
+canvas.onmousedown({button: 1});
 
 window.onmouseup = () => {
     mouse1IsDown = false;
