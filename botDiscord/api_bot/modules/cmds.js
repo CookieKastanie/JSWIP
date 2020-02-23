@@ -216,9 +216,13 @@ exports.bruh =  (params, mess) => {
       await lastMessage.react('🇺');
       await lastMessage.react('🇭');
     }
-    catch(e){};
+    catch(e){
+      console.log("a", e)
+    };
   
-  }).catch((e) => {});
+  }).catch((e) => {
+    console.log("b", e)
+  });
 
 }
 
