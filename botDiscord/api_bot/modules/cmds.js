@@ -207,8 +207,10 @@ exports.notpresent = (params, mess) => {
 
 exports.bruh =  (params, mess) => {
   
-  mess.channel.fetchMessage().then(async lastMessage => {
+  mess.channel.fetchMessages({ limit: 1 }).then(async messages => {
     try{
+      let lastMessage = messages.first();
+
       await lastMessage.react('🅱️');
       await lastMessage.react('🇷');
       await lastMessage.react('🇺');
