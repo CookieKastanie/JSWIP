@@ -219,4 +219,10 @@ exports.bruh = (params, mess) => {
   }).catch();
 }
 
+exports.e = () => {
+  bot.sayOn(mess.channel, Math.E);
+}
 
+exports.φ = () =>{
+  bot.sayOn(mess.channel, (Math.sqrt(5)+1)/2);
+}
