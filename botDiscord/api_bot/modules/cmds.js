@@ -202,3 +202,17 @@ exports.notpresent = (params, mess) => {
     bot.sayOn(mess.channel, `${mess.author.username} ne sera plus présent à la réunion !`);
   }
 }
+
+///////////////////
+
+exports.bruh = (params, mess) => {
+ mess.channel.fetchMessages({ limit: 1 }).then(messages => {
+  let lastMessage = messages.first();
+
+// const emoji = mess.guild.emojis.find(emoji => emoji.name === 'b');
+ lastMessage.react('🍑');
+}).catch(() => {});
+
+}
+
+
