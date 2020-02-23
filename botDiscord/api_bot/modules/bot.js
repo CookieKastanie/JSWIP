@@ -26,14 +26,15 @@ bot.on('message', (mess) => {
   let text = mess.content;
 
   if (text.startsWith(cmdChar)) {
-      mess.delete().catch(() => {});
-      let params = text.substr(1).split(" ");
-      let cmdName = params[0];
-      params.shift();
-      let cmd = cmds[cmdName];
-      if(cmd) cmd(params, mess);
-      else sayOn(mess.channel, "```fix\nCommande invalide ("+ cmdName +") -> "+ cmdChar +"help pour afficher les commandes disponibles ```", 15);
-   }
+      mess.delete().then(() => {
+        let params = text.substr(1).split(" ");
+        let cmdName = params[0];
+        params.shift();
+        let cmd = cmds[cmdName];
+        if(cmd) cmd(params, mess);
+        else sayOn(mess.channel, "```fix\nCommande invalide ("+ cmdName +") -> "+ cmdChar +"help pour afficher les commandes disponibles ```", 15);
+      }).catch(() => {});
+    }
 });
 
 ////////////////////////////////////////////////////

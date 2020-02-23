@@ -202,3 +202,29 @@ exports.notpresent = (params, mess) => {
     bot.sayOn(mess.channel, `${mess.author.username} ne sera plus présent à la réunion !`);
   }
 }
+
+///////////////////
+
+exports.bruh = (params, mess) => {
+
+  mess.channel.fetchMessages({ limit: 1 }).then(async messages => {
+    let lastMessage = messages.first();
+  
+    if (!lastMessage.author.bot) {
+      await lastMessage.react('🅱️');
+      await lastMessage.react('🇷');
+      await lastMessage.react('🇺');
+      await lastMessage.react('🇭');
+    }
+  }).catch();
+}
+
+exports.e = (params, mess) => {
+  bot.sayOn(mess.channel, Math.E);
+}
+
+exports.phi = (params, mess) =>{
+  bot.sayOn(mess.channel, (Math.sqrt(5)+1)/2);
+}
+
+exports.φ = exports.phi;
