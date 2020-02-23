@@ -205,13 +205,20 @@ exports.notpresent = (params, mess) => {
 
 ///////////////////
 
-exports.bruh = (params, mess) => {
- mess.channel.fetchMessages({ limit: 1 }).then(messages => {
-  let lastMessage = messages.first();
+exports.bruh =  (params, mess) => {
+  
+  mess.channel.fetchMessages({ limit: 1 }).then(async messages => {
+    try{
+      let lastMessage = messages.first();
 
-// const emoji = mess.guild.emojis.find(emoji => emoji.name === 'b');
- lastMessage.react('🍑');
-}).catch(() => {});
+      await lastMessage.react('🅱️');
+      await lastMessage.react('🇷');
+      await lastMessage.react('🇺');
+      await lastMessage.react('🇭');
+    }
+    catch(e){};
+  
+  }).catch((e) => {});
 
 }
 
