@@ -223,6 +223,6 @@ exports.e = () => {
   bot.sayOn(mess.channel, Math.E);
 }
 
-exports.φ = () =>{
+exports.phi = () =>{
   bot.sayOn(mess.channel, (Math.sqrt(5)+1)/2);
 }
