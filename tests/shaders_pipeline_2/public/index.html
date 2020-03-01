@@ -2,8 +2,7 @@
 <html lang="fr" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <link rel="manifest" href="./manifest.json">
-    <title>shaders_pipeline</title>
+    <title>shaders_pipeline_2</title>
     <style media="screen">
       body {
         margin: 0;
@@ -11,7 +10,7 @@
         overflow: hidden;
       }
 
-      #webgl-screen {
+      #screen {
         position: absolute;
         top: 0; left: 0;
         text-align: center;
@@ -19,14 +18,15 @@
         transform: translateY(50%);
       }
 
-      #webgl-canvas {
+      #canvas {
         transform: translateY(-50%);
       }
   </style>
   </head>
   <body>
-    <button id="uwu" style="position: fixed; top: 0; left: 0;">bruh</button>
-    <div id="webgl-screen"></div>
+    <div id="screen">
+      <canvas id="canvas"></canvas>
+    </div>
     <script src="bundle.js"></script>
   </body>
 </html>
