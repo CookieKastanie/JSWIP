@@ -4,6 +4,11 @@ const api = require('./lib/api');
 
 const main = async () => {
     try {
+        if(!await api.isValid()) {
+            console.log(`Authentification invalide...`);
+            return;
+        }
+
         const address = await api.getAddress();
 
         console.log(`Adresse public: ${address}`);
