@@ -1,0 +1,15 @@
+{
+    "api": {
+        "hostname": "localhost",
+        "port": 5000
+    },
+
+    "server": {
+        "name": "terraria_server",
+        "folder": "./terraria_server",
+        "shared_folder": "./terraria_server/saves",
+        "program": "./terraria_server/TerrariaServer.exe",
+        "args": ["-config", "./terraria_server/serverconfig.txt", "-savedirectory", "./terraria_server/saves"],
+        "startmessage": "Demmarrage du serveur Terraria, 'exit' pour sauvegarder et fermer"
+    }
+}

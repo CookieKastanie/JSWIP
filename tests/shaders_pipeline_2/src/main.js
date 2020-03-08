@@ -14,10 +14,15 @@ mouse.setDOMElementReference(canvas);
 const field = new BroadField2d();
 
 
+const buffer = new Set();
+
 const currentPoint = {
     x: W / 2,
     y: H / 2
 }
+
+time.onTick(() => {
+});
 
 time.onDraw(() => {
     ctx.fillStyle = '#000';
@@ -29,12 +34,24 @@ time.onDraw(() => {
         currentPoint.y = mouse.posY();
     }
 
-    RayRaster2d.addToField(currentPoint.x / S, currentPoint.y / S, mouse.posX() / S, mouse.posY() / S, field, true);
+
+    let a = {};
+    RayRaster2d.addToField(0 / S, 0 / S, (W + 2) / S, H / S, field, a);
+
+    let b = {};
+    RayRaster2d.addToField(currentPoint.x / S, currentPoint.y / S, mouse.posX() / S, mouse.posY() / S, field, b);
+
+    let c = {};
+    RayRaster2d.addToField(W / S, 0,  W / 2 / S, H / S  , field, c);
 
     for(let x = 0; x < W / S; ++x) {
         for(let y = 0; y < H / S; ++y) {
-            const c = field.query(x, y);
-            if(c.size != 0) ctx.fillStyle = '#fff';
+            //const buffer = new Set();
+            buffer.clear();
+            field.query(x, y, buffer);
+            if(buffer.size == 1) ctx.fillStyle = '#0f0';
+            else if(buffer.size == 2) ctx.fillStyle = '#00f';
+            else if(buffer.size == 3) ctx.fillStyle = '#f0f';
             else ctx.fillStyle = '#000';
 
             ctx.fillRect(x * S, y * S, S, S);

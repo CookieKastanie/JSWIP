@@ -6,11 +6,9 @@
   "scripts": {
     "watch": "webpack --watch"
   },
-  "dependencies": {
-    "webpack": "^4.30.0"
-  },
+  "license": "ISC",
   "devDependencies": {
-    "webpack-cli": "^3.3.1"
-  },
-  "license": "ISC"
+    "webpack": "^4.42.0",
+    "webpack-cli": "^3.3.11"
+  }
 }

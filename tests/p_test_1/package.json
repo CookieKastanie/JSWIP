@@ -1,14 +1,16 @@
 {
-  "name": "shaders_pipeline_2",
+  "name": "p_test_1",
   "version": "1.0.0",
   "description": "",
   "main": "main.js",
   "scripts": {
     "watch": "webpack --watch"
   },
-  "license": "ISC",
+  "dependencies": {
+    "webpack": "^4.30.0"
+  },
   "devDependencies": {
-    "webpack": "^4.42.0",
-    "webpack-cli": "^3.3.11"
-  }
+    "webpack-cli": "^3.3.1"
+  },
+  "license": "ISC"
 }
