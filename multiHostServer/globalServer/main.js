@@ -3,17 +3,24 @@ const { secret } = require('./secret.json');
 const http = require('http');
 const actions = require('./lib/actions');
 
-const parseBody = req => {
+const parseBody = (req, isJSON) => {
     return new Promise((resolve, reject) => {
-        let body = '';
+        const body = new Array();
         
         req.on('data', chunck => {
-            body += chunck;
+            body.push(chunck);
         });
     
         req.on('end', () => {
-            if(body.trim() != '') resolve(JSON.parse(body));
-            else resolve({});
+            const buffer = Buffer.concat(body);
+
+            if(isJSON) {
+                const str = buffer.toString();
+                if(str && str.trim() != '') resolve(JSON.parse(str));
+                else resolve({});
+            } else {
+                resolve(buffer);
+            }
         });
 
         req.on('error', reject);
@@ -25,18 +32,24 @@ http.createServer(async (req, res) => {
         if(req.headers['authorization'] === secret) {
             const actionName = req.url.substring(1);
             if(actions[actionName]) {
-                const body = await parseBody(req);
+                const body = await parseBody(req, req.headers['content-type'] == 'application/json');
                 const reponseData = await actions[actionName](req, body);
-                res.writeHead(200, {'Content-Type': 'text/json'});
-                res.write(JSON.stringify(reponseData));
+
+                if(actionName == 'download') {
+                    res.writeHead(200, {'Content-Type': 'application/json'});
+                    res.write(reponseData);
+                } else {
+                    res.writeHead(200, {'Content-Type': 'bin/zip'});
+                    res.write(JSON.stringify(reponseData));
+                }
             } else {
-                res.writeHead(404, {'Content-Type': 'text/json'});
+                res.writeHead(404, {'Content-Type': 'application/json'});
             }
         } else {
-            res.writeHead(401, {'Content-Type': 'text/json'});
+            res.writeHead(401, {'Content-Type': 'application/json'});
         }
     } catch(e) {
-        res.writeHead(500, {'Content-Type': 'text/json'});
+        res.writeHead(500, {'Content-Type': 'application/json'});
     }
     
     res.end();

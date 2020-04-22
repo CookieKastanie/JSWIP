@@ -5,8 +5,13 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node main.js"
+    "start": "node main.js",
+    "compile": "pkg main.js -t host --output multiHost.exe"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "archiver": "^3.1.1",
+    "extract-zip": "^1.6.7"
+  }
 }

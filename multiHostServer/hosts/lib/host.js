@@ -1,4 +1,4 @@
-const { server } = require('../config.json');
+const { server } = require('./config');
 
 module.exports = () => {
     return new Promise(resolve => {

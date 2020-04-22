@@ -1,6 +1,6 @@
 import { Shader, VAO, VBO } from 'Akila/webgl';
 import { Time } from 'Akila/time';
-import { Keyboard } from 'Akila/inputs';
+import { Keyboard, Gesture } from 'Akila/inputs';
 import { Matrix4 } from 'Akila/utils'
 
 export class PlayerRenderer {
@@ -48,6 +48,7 @@ export class Player {
         this.speed = 45;
 
         this.keyboard = new Keyboard();
+        this.gesture = new Gesture();
 
         this.hitBox = {
             x0: -14 / 2,
@@ -71,27 +72,33 @@ export class Player {
     }
 
     update() {
+
+        const screenHalf = 350;
+        const screenQuarter = 175;
+
+
+
         const dSpeed = this.speed * Time.delta;
 
         let m = false;
 
 
-        if(this.keyboard.isPressed(Keyboard.KEY_Q)) {
+        if(this.keyboard.isPressed(Keyboard.KEY_Q) || (this.gesture.isTouch() && this.gesture.touchX() < (screenHalf - screenQuarter))) {
             this.x -= dSpeed;
             this.currentSprite = 2;
             m = true;
         }
-        if(this.keyboard.isPressed(Keyboard.KEY_D)) {
+        if(this.keyboard.isPressed(Keyboard.KEY_D) || (this.gesture.isTouch() && this.gesture.touchX() > (screenHalf + screenQuarter))) {
             this.x += dSpeed;
             this.currentSprite = 3;
             m = true;
         }
-        if(this.keyboard.isPressed(Keyboard.KEY_Z)) {
+        if(this.keyboard.isPressed(Keyboard.KEY_Z) || (this.gesture.isTouch() && this.gesture.touchY() < (screenHalf - screenQuarter))) {
             this.y += dSpeed;
             this.currentSprite = 0;
             m = true;
         }
-        if(this.keyboard.isPressed(Keyboard.KEY_S)) {
+        if(this.keyboard.isPressed(Keyboard.KEY_S) || (this.gesture.isTouch() && this.gesture.touchY() > (screenHalf + screenQuarter))) {
             this.y -= dSpeed;
             this.currentSprite = 1;
             m = true;
