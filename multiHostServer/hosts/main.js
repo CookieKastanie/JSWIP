@@ -19,10 +19,12 @@ const main = async () => {
         const zipName = `${server.name}#${server.shared_folder}`;
 
         if(await api.exist(zipName)) {
-            console.log('Récuperation des fichiers de sauvegarde');
-            await api.pull(zipName);
-
-            console.log('Préparations des fichiers');
+            console.log('Récuperation des fichiers de sauvegarde...');
+            await api.pull(zipName, p => {
+                process.stdout.write("\x1b[K--> " + (p * 100).toString().substring(0, 5) + " %\r");
+            });
+        
+            console.log('\nPréparations des fichiers');
             await archive.unzip(server.folder, zipName);
         } else {
             console.log('le fichier n existe pas');
@@ -36,9 +38,12 @@ const main = async () => {
         await archive.zip(server.folder, server.shared_folder, zipName);
 
         console.log('Envoi des fichiers de sauvegarde');
-        api.send(zipName);
+        await api.send(zipName, p => {
+            //process.stdout.write("\x1b[K--> " + (p * 100).toString().substring(0, 5) + " %\r");
+            process.stdout.write('.');
+        });
 
-        console.log('Terminé !');
+        console.log('\nTerminé !');
     } catch(e) {
         console.log(e);
     }

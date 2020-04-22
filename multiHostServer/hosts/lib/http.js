@@ -72,7 +72,7 @@ module.exports = {
         });
     },
 
-    sendFile(path, name) {
+    sendFile(path, name, progress) {
         return new Promise((resolve, reject) => {
             fs.readFile(path, (err, data) => {
                 if(err) {
@@ -92,7 +92,7 @@ module.exports = {
                         'Resource-name': name
                     }
                 }
-    
+
                 const req = http.request(options, res => { 
                     let data = '';
                     
@@ -101,20 +101,25 @@ module.exports = {
                     });
         
                     res.on('end', () => {
+                        clearInterval(tmrID);
                         if(data.trim() != '') resolve(JSON.parse(data));
                         else resolve({});
                     });
                 });
-    
+
                 req.on("error", reject);
     
                 req.write(data);
                 req.end();
+
+                const tmrID = setInterval(() => {
+                    progress();
+                }, 1000);
             });
         });
     },
 
-    recieveFile(name) {
+    recieveFile(name, progress) {
         return new Promise((resolve, reject) => {
             data = JSON.stringify({name});
 
@@ -132,9 +137,14 @@ module.exports = {
 
             const req = http.request(options, res => { 
                 const data = new Array();
+
+                const dlLength = res.headers['content-length'];
+                let dlProgress = 0;
                 
                 res.on('data', chunck => {
                     data.push(chunck);
+                    dlProgress += chunck.length;
+                    progress(dlProgress / dlLength);
                 });
     
                 res.on('end', () => {

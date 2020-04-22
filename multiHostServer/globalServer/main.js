@@ -36,10 +36,10 @@ http.createServer(async (req, res) => {
                 const reponseData = await actions[actionName](req, body);
 
                 if(actionName == 'download') {
-                    res.writeHead(200, {'Content-Type': 'application/json'});
+                    res.writeHead(200, {'Content-Type': 'application/zip', 'Content-Length': reponseData.length});
                     res.write(reponseData);
                 } else {
-                    res.writeHead(200, {'Content-Type': 'bin/zip'});
+                    res.writeHead(200, {'Content-Type': 'application/json'});
                     res.write(JSON.stringify(reponseData));
                 }
             } else {
