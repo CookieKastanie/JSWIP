@@ -13,11 +13,11 @@ module.exports = {
         return http.post('exist', {name}).then(data => data.exist == true);
     },
 
-    send(name, progress) {
-        return http.sendFile(`./${name}.zip`, name, progress);
+    send(name, localName, progress) {
+        return http.sendFile(`./${localName}.zip`, name, progress);
     },
 
-    pull(name, progress) {
-        return http.recieveFile(name, progress);
+    pull(name, localName, progress) {
+        return http.recieveFile(name, localName, progress);
     }
 }

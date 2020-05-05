@@ -119,7 +119,7 @@ module.exports = {
         });
     },
 
-    recieveFile(name, progress) {
+    recieveFile(name, localName, progress) {
         return new Promise((resolve, reject) => {
             data = JSON.stringify({name});
 
@@ -148,8 +148,8 @@ module.exports = {
                 });
     
                 res.on('end', () => {
-                    const buffer  = Buffer.concat(data);
-                    fs.writeFile(`./${name}.zip`, buffer, err => {
+                    const buffer = Buffer.concat(data);
+                    fs.writeFile(`./${localName}.zip`, buffer, err => {
                         if(err) {
                             reject(err);
                         } else {
