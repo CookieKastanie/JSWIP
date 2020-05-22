@@ -31,7 +31,9 @@ const main = async () => {
         }
 
         const address = await api.getAddress();
+        console.log(`////////////////////////////////////////////////\n`);
         console.log(`Adresse public: ${address}`);
+        console.log(`////////////////////////////////////////////////\n`);
 
         const zipName = `${server.name}#${server.shared_folder}`;
         const zipName_recieved = `${zipName}#recieved`;
