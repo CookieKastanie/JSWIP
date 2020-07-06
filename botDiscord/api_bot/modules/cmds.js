@@ -157,7 +157,7 @@ exports.default = (params, mess) => {
   }
 }
 
-// envoi le lien pour ouvrir l'interface 
+// envoi le lien pour ouvrir l'interface
 exports.screen = (params, mess) => {
   if(mess.member.voiceChannel) {
     bot.sayOn(mess.channel, bot.richEmbed()
@@ -209,7 +209,7 @@ exports.bruh = (params, mess) => {
 
   mess.channel.fetchMessages({ limit: 1 }).then(async messages => {
     let lastMessage = messages.first();
-  
+
     if (!lastMessage.author.bot) {
       await lastMessage.react('🅱️');
       await lastMessage.react('🇷');
@@ -228,3 +228,13 @@ exports.phi = (params, mess) =>{
 }
 
 exports.φ = exports.phi;
+
+exports.vote = (params, mess) => {
+  mess.channel.fetchMessages({ limit: 1 }).then(async messages => {
+    let lastMessage = messages.first();
+    if (!lastMessage.author.bot) {
+      await lastMessage.react('👍');
+      await lastMessage.react('👎');
+    }
+  }).catch();
+}
