@@ -233,8 +233,8 @@ exports.vote = (params, mess) => {
   mess.channel.fetchMessages({ limit: 1 }).then(async messages => {
     let lastMessage = messages.first();
     if (!lastMessage.author.bot) {
-      await lastMessage.react('👍');
-      await lastMessage.react('👎');
+      await lastMessage.react('✅');
+      await lastMessage.react('❌');
     }
   }).catch();
 }
