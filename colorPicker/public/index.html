@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <title>Color Picker</title>
+        <style media="screen">
+            body {
+                margin: 0;
+                background: #222;
+                overflow: hidden;
+            }
+
+            #pickerContainer {
+                width: 100%;
+                text-align: center;
+            }
+
+            input[type=range][orient=vertical] {
+                writing-mode: bt-lr; /* IE */
+                -webkit-appearance: slider-vertical; /* WebKit */
+                width: 1em;
+            }
+
+            #hue {
+                background: linear-gradient(
+                    to right,
+                    hsl(0,100%,50%),
+                    hsl(60,100%,50%),
+                    hsl(120,100%,50%),
+                    hsl(180,100%,50%),
+                    hsl(240,100%,50%),
+                    hsl(300,100%,50%),
+                    hsl(360,100%,50%)
+                );
+            }
+
+            #gradContainer {
+                margin: auto;
+            }
+
+            #pointer {
+                width: 15px;
+                height: 15px;
+                transform: translate(-50%, -50%);
+            }
+        </style>
+    </head>
+    <body>
+        <div id="pickerContainer">
+            XXXXXXXXXXXXXX
+            <div id="gradContainer"><div id="pointer">X</div>
+                <canvas id="grad"></canvas>
+            </div>
+            
+            <input type="range" id="value" orient="vertical"/>
+            <br>
+            <input type="range" id="saturation"/>
+            <br>
+            <input type="range" id="hue"/>
+        </div>
+        <div id="webgl-screen"></div>
+        <script src="bundle.js"></script>
+    </body>
+</html>

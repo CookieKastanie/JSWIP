@@ -1,18 +1,19 @@
 import { Collider2d, SAT2d } from 'Akila/collision';
 import { Time } from 'Akila/time';
 import { Mouse } from 'Akila/inputs';
-import { Matrix3 } from 'Akila/utils';
+import { mat3, vec3, } from 'Akila/math';
 
 
-
+/*
 const multMat3 = (out, a, m, z = 1) => {
     const x = a[0], y = a[1];
     out[0] = x * m[0] + y * m[3] + z * m[6];
     out[1] = x * m[1] + y * m[4] + z * m[7];
 
     return out;
-}
+}*/
 
+const multMat3 = vec3.transformMat3;
 
 
 let vel = [0, 0];
@@ -38,7 +39,7 @@ class CMap {
             this.faces.push(new Collider2d([x1, y1, x2, y2]));
         }
 
-        this.b = Matrix3.create();
+        this.b = mat3.create();
         this.satBuffer = SAT2d.createResultBuffer();
     }
 
@@ -82,18 +83,18 @@ class CMap {
 class CObject {
     constructor(v) {
         this.collider = new Collider2d(v);
-        this.position = Matrix3.create();
-        Matrix3.identity(this.position);
+        this.position = mat3.create();
+        mat3.identity(this.position);
 
         this.x = 0;
         this.y = 0;
     }
 
     move(x, y, r = 0) {
-        const b = Matrix3.create();
-        Matrix3.fromTranslation(this.position, [x, y]);
-        Matrix3.fromRotation(b, r);
-        Matrix3.multiply(this.position, this.position, b);
+        const b = mat3.create();
+        mat3.fromTranslation(this.position, [x, y]);
+        mat3.fromRotation(b, r);
+        mat3.multiply(this.position, this.position, b);
         this.x = x;
         this.y = y;
     }
@@ -230,7 +231,7 @@ export const main2 = () => {
 
 
         
-        vel[1] += 9.81 * Time.delta;
+        vel[1] += 9.81 * Time.limitedDelta;
         cube.move(cube.x + vel[0], cube.y + vel[1], Math.PI / 4);
         cmap.test(cube);
 
