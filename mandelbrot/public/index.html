@@ -1,30 +1,32 @@
 <!DOCTYPE html>
 <html lang="fr" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title>mandelbrot</title>
-    <style media="screen">
-      body {
-        margin: 0;
-        background: #222;
-        overflow: hidden;
-      }
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Découvrez le projet mandelbrot.">
+        <title>mandelbrot</title>
+        <style media="screen">
+            body {
+                margin: 0;
+                background: #222;
+                overflow: hidden;
+            }
 
-      #webgl-screen {
-        position: absolute;
-        top: 0; left: 0;
-        text-align: center;
-         width: 100%; height: 100%;
-        transform: translateY(50%);
-      }
+            #webgl-screen {
+                position: absolute;
+                top: 0; left: 0;
+                text-align: center;
+                width: 100%; height: 100%;
+                transform: translateY(50%);
+            }
 
-      #webgl-canvas {
-        transform: translateY(-50%);
-      }
-  </style>
-  </head>
-  <body>
-    <div id="webgl-screen"></div>
-    <script src="bundle.js"></script>
-  </body>
+            #webgl-canvas {
+                transform: translateY(-50%);
+            }
+        </style>
+    </head>
+    <body>
+        <div id="webgl-screen"></div>
+        <script src="bundle.js"></script>
+    </body>
 </html>
