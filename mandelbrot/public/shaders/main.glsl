@@ -20,7 +20,7 @@ varying vec2 uv;
 float mandelbrot(float a, float b) {
     float x = 0.0;
     float y = 0.0;
-    for(int t = 0; t < 40000; ++t) {
+    for(int t = 0; t < 80000; ++t) {
         if(x*x + y*y > 4.0) return 0.0;
         float nx = x*x - y*y + a;
         float ny = 2.0*x*y + b;

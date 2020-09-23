@@ -1,0 +1,17 @@
+{
+    "name": "lfdmdm",
+    "version": "1.0.0",
+    "description": "",
+    "main": "main.js",
+    "scripts": {
+        "watch": "webpack --watch",
+        "build": "webpack --config webpack.prod.js"
+    },
+    "license": "ISC",
+    "dependencies": {
+        "webpack": "^4.44.1"
+    },
+    "devDependencies": {
+        "webpack-cli": "^3.3.12"
+    }
+}
