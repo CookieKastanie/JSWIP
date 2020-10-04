@@ -24,7 +24,7 @@ export class ShaderBuilder {
         const source = `
         ${GLSLParser.VERT_START}
 
-        attribute vec2 ${ShaderBuilder.A_POSITION};
+        attribute vec3 ${ShaderBuilder.A_POSITION};
         ${p.enableUV ? `attribute vec2 ${ShaderBuilder.A_UV}; varying vec2 ${ShaderBuilder.V_UV};` : ''}
         ${p.enableColor ? `attribute vec3 ${ShaderBuilder.A_COLOR}; varying vec3 ${ShaderBuilder.V_COLOR};` : ''}
 
@@ -41,7 +41,7 @@ export class ShaderBuilder {
             vec4 ${ShaderBuilder.POSITION} = vec4(0.0, 0.0, 0.0, 1.0);
 
             ${p.enableWorldPosition ? `
-            vec4 ${ShaderBuilder.WORLD_POSITION} = ${ShaderBuilder.U_VP} * ${ShaderBuilder.U_MODEL} * vec4(${ShaderBuilder.A_POSITION}, 0.0, 1.0);
+            vec4 ${ShaderBuilder.WORLD_POSITION} = ${ShaderBuilder.U_VP} * ${ShaderBuilder.U_MODEL} * vec4(${ShaderBuilder.A_POSITION}, 1.0);
             ${ShaderBuilder.POSITION} = ${ShaderBuilder.WORLD_POSITION};
             ` : ''}
 
@@ -70,7 +70,7 @@ export class ShaderBuilder {
         `;
 
         const {vertex, fragment} = this.glslParser.getPrograms(source);
-        console.log(`Shaders générés (${name}):`, vertex, fragment);
+        console.log(name, vertex, fragment)
         return new Shader(vertex, fragment, name);
     }
 }

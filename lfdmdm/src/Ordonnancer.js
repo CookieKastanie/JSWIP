@@ -1,18 +1,17 @@
-import { Loader } from "./Loader";
+import { HitboxesManager } from "./collision/HitboxesManager";
 import { MaterialsManager } from "./rendering/materials/MaterialsManager";
 import { MeshsManager } from "./rendering/meshs/MeshsManager";
 import { RE } from "./rendering/RE";
 import { TexturesManager } from "./rendering/textures/TexturesManager";
 
 export class Ordonnancer {
-    static async init() {
+    static init() {
         RE.init();
 
         MeshsManager.init();
+        HitboxesManager.init();
         MaterialsManager.init();
         TexturesManager.init();
-
-        await Loader.loadAll();
     }
 
     static setGameState(gameState) {
@@ -24,10 +23,10 @@ export class Ordonnancer {
     static tick() {
         Ordonnancer.currentGameSate.updateLogic();
         Ordonnancer.currentGameSate.updateCollisions();
-        Ordonnancer.currentGameSate.updateAnimations();
     }
 
     static draw() {
+        Ordonnancer.currentGameSate.updateAnimations();
         Ordonnancer.currentGameSate.render();
     }
 }

@@ -1,0 +1,11 @@
+# Blender v2.81 (sub 16) OBJ File: 'sources.blend'
+# www.blender.org
+o player_hitbox_Plane
+v -0.477772 -0.992406 0.197892
+v 0.432207 -0.992406 0.197892
+v -0.477772 -0.237845 0.197892
+v 0.432207 -0.237845 0.197892
+l 3 1
+l 1 2
+l 2 4
+l 4 3

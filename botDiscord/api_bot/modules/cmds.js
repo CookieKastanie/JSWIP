@@ -78,9 +78,10 @@ exports.game = (params, mess) => {
 }
 
 exports.random = (params, mess) => {
-  if(params[0]) params[0] = params[0].toLowerCase();
+  let p = undefined;
+  if(params[0]) p = params[0].toLowerCase();
 
-  switch (params[0]) {
+  switch (p) {
     case "number":
       let b1 = parseFloat(params[1]);
       let b2 = parseFloat(params[2]);
@@ -119,16 +120,14 @@ exports.random = (params, mess) => {
 
     break;
 
-    /*case "person":
-
-    break;*/
-
-    default:
+    case undefined:
       if(Math.random() > 0.5) bot.sayOn(mess.channel, "Flip^ ... Pile !");
       else bot.sayOn(mess.channel, "Flip^ ... Face !");
+    break;
+
+    default:
+      bot.sayOn(mess.channel, `Mmm... ${params[Math.floor(Math.random() * params.length)]}`);
   }
-
-
 }
 
 const ddf = require("../datas/defaultDanceFrames");

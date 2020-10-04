@@ -7,6 +7,10 @@ export class Transform {
         this.matrix = mat4.create();
     }
 
+    getPosition() {
+       return this.position;
+    }
+
     setPosition(v) {
         vec3.copy(this.position, v);
     }

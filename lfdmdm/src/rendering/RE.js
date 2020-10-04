@@ -6,19 +6,22 @@ import { ShaderBuilder } from "./materials/ShaderBuilder";
 
 export class RE {
     static init() {
-        if(Infos.getSimpleOrientation() == Infos.LANDSCAPE) RE.display = new Display(Infos.getFullScreenWidth(), Infos.getFullScreenHeight());
-        else RE.display = new Display(Infos.getFullScreenHeight(), Infos.getFullScreenWidth());
+        if(Infos.getSimpleOrientation() == Infos.LANDSCAPE) RE.display = new Display(Infos.getFullScreenWidth() * RE.SCALE, Infos.getFullScreenHeight() * RE.SCALE);
+        else RE.display = new Display(Infos.getFullScreenHeight() * RE.SCALE, Infos.getFullScreenWidth() * RE.SCALE);
         RE.display.disable(Display.CULL_FACE);
+        RE.display.setClearColor(1.0, 1.0, 1.0, 1.0);
 
         RE.mat4Identity = mat4.create();
 
         RE.currentCamera;
     }
 
-    static prepare(camera) {
-        RE.currentCamera = camera;
-
+    static prepare() {
         RE.display.clear();
+    }
+
+    static setCamera(camera) {
+        RE.currentCamera = camera;
     }
 
     static renderModel(vao, material, transform) {
@@ -46,3 +49,5 @@ export class RE {
         MaterialsManager.resetCurrentMaterialId();
     }
 }
+
+RE.SCALE = 0.6;

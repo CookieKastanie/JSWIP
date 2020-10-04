@@ -21,7 +21,7 @@ export class Material {
     }
 
     getShaderParameters() {
-        return null;
+        return undefined;
     }
 
     use() {}
