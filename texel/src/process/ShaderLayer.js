@@ -58,6 +58,10 @@ uniform float ${SB.TIME};
 
 varying vec2 uv;
 
+vec4 texture2D(SampleInfo buffer, vec2 uv) {
+    return texture2D(buffer.tex, uv);
+}
+
 `.replace(/\r?\n|\r/g, ' ');
 
 const fragEnd = `
@@ -70,6 +74,10 @@ void main() {
 export class ShaderLayer extends Shader {
     constructor(fs) {
         super(SB.buidVertexShader(), SB.buidFragmentShader(fs));
+
+        this.uniformFlags = {
+            buffers: new Array(4)
+        };
 
         this.currentError = '';
     }
@@ -93,8 +101,42 @@ export class ShaderLayer extends Shader {
         Display.ctx.attachShader(this.program, this.fragmantShader);
         Display.ctx.linkProgram(this.program);
         this.fetchUniforms();
+
+        this.use();
+        if(this.getUniformLocation(SB.BUFFERA +'.tex')) {
+            this.sendInt(SB.BUFFERA +'.tex', 0);
+            this.uniformFlags.buffers[0] = true;
+        } else {
+            this.uniformFlags.buffers[0] = false;
+        }
+
+        if(this.getUniformLocation(SB.BUFFERB +'.tex')) {
+            this.sendInt(SB.BUFFERB +'.tex', 1);
+            this.uniformFlags.buffers[1] = true;
+        } else {
+            this.uniformFlags.buffers[1] = false;
+        }
+
+        if(this.getUniformLocation(SB.BUFFERC +'.tex')) {
+            this.sendInt(SB.BUFFERC +'.tex', 2);
+            this.uniformFlags.buffers[2] = true;
+        } else {
+            this.uniformFlags.buffers[2] = false;
+        }
+
+        if(this.getUniformLocation(SB.BUFFERD +'.tex')) {
+            this.sendInt(SB.BUFFERD +'.tex', 3);
+            this.uniformFlags.buffers[3] = true;
+        } else {
+            this.uniformFlags.buffers[3] = false;
+        }
+
         this.currentError = '';
         return true;
+    }
+
+    getUniformFlags() {
+        return this.uniformFlags;
     }
 
     // @override

@@ -1,30 +1,29 @@
-import { Display } from "akila/webgl";
-import { Editor } from "../editor/Editor";
-import split from '../libs/split/split';
-import { Text } from "../lang/Text";
+import { Display, Texture } from "akila/webgl";
 import { Layer } from "./Layer";
 import { Mesh } from "./Mesh";
+import { UI } from "../editor/UI";
 
 export class Process {
     static init() {
-        Text.init();
-        Editor.init(document.getElementById('code-inject'));
-        split(['#result-panel', '#code-panel'], {sizes: [67, 33]});
+        UI.init();
 
         Process.display = new Display(600, 600, {webGLVersion: 2, antialias: false});
         Process.display.disable(Display.DEPTH_TEST);
         Process.display.setClearColor(0.0, 0.0, 0.0, 1.0);
         Process.display.clear();
 
+        Process.debbugTexture = new Texture(null, 1, 1);
+
         Mesh.init();
 
         Process.layers = new Array();
 
         for(let i = 0; i < Process.layerNumber; ++i) {
-            Process.layers.push(new Layer());
+            Process.layers.push(new Layer(i));
         }
 
         Process.selectLayer(0);
+        UI.createMenus();
     }
 
     static selectLayer(n) {

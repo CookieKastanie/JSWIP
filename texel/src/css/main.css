@@ -52,11 +52,23 @@ body {
 
 
 #header-panel {
-    width: 100%;
     height: 50px;
     background: #555;
     align-items: center;
+    padding: 0 10px;
 }
+#buffer-selector {
+    color: #EEE;
+    background: #555;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    margin-left: 1px;
+    margin-bottom: -0.4em;
+}
+
+
+
 
 #main-panel {
     height: calc(100% - 50px);

@@ -12,10 +12,6 @@ time.onTick(Process.update);
 time.onDraw(Process.draw);
 time.start();
 
-window.o = {
-    process: Process
-}
-
 document.addEventListener('visibilitychange', () => {
     if(document.visibilityState != 'visible') time.pause();
     else time.play();
