@@ -20,6 +20,11 @@ export class Layer {
         this.needUpdate = false;
         this.updateAt = 0;
         this.realTime = false;
+        this.needRender = true;
+
+        this.unit = unit;
+
+        this.vec2Buffer = new Float32Array([0, 0]);
     }
 
     bind() {
@@ -31,19 +36,44 @@ export class Layer {
         this.needRender = true;
     }
 
+    forceRender() {
+        this.needRender = true;
+    }
+
     getFrameBuffer() {
         return this.framebuffer;
+    }
+
+    getSavedFragment() {
+        return this.savedFragment;
+    }
+
+    setSavedFragment(frag) {
+        this.savedFragment = frag;
     }
 
     isRealTime() {
         return this.realTime;
     }
 
+    getWidth() {
+        return this.getFrameBuffer().getTexture().getWidth();
+    }
+
+    getHeight() {
+        return this.getFrameBuffer().getTexture().getHeight();
+    }
+
+    setSize(width, height) {
+        this.getFrameBuffer().setSize(width, height);
+        this.forceRender();
+    }
+
     updateFragment() {
         this.savedFragment = Editor.getValue();
         this.shaderIsValid = this.shader.updateFragment(this.savedFragment);
         if(this.shaderIsValid) {
-            this.realTime = this.shader.getUniformLocation('time') != undefined;
+            this.realTime = this.shader.getUniformFlags().time;
 
             if(!this.realTime) {
                 const flags = this.shader.getUniformFlags().buffers;
@@ -73,14 +103,33 @@ export class Layer {
             this.needRender = false;
             this.shader.use();
             this.framebuffer.use();
+            this.framebuffer.clear();
             this.shader.sendFloat('time', Time.now);
 
-            const i = this.framebuffer.getTexture().getUnit();
-            for(let j = 0; j < Process.layerNumber; ++j) {
-                const b = this.shader.getUniformFlags().buffers[j];
+            for(let i = 0; i < Process.layerNumber; ++i) {
+                const b = this.shader.getUniformFlags().buffers[i];
                 if(b) {
-                    if(i == j) Process.debbugTexture.use(j);
-                    else Process.layers[j].getFrameBuffer().getTexture().use(j);
+                    let texture;
+                    if(this.unit != i) texture = Process.layers[i].getFrameBuffer().getTexture();
+                    else texture = Process.debbugTexture;
+
+                    texture.use();
+                    this.vec2Buffer[0] = texture.getWidth();
+                    this.vec2Buffer[1] = texture.getHeight();
+                    this.shader.sendVec2(`buffer${Layer.ALPHABET[i]}.size`, this.vec2Buffer);
+                    this.shader.sendFloat(`buffer${Layer.ALPHABET[i]}.ratio`, texture.getWidth() / texture.getHeight());
+                }
+            }
+
+            for(let i = 0; i < Process.textureNumber; ++i) {
+                const b = this.shader.getUniformFlags().textures[i];
+                if(b) {
+                    const texture = Process.textures[i];
+                    texture.use();
+                    this.vec2Buffer[0] = texture.getWidth();
+                    this.vec2Buffer[1] = texture.getHeight();
+                    this.shader.sendVec2(`tex${Layer.ALPHABET[i]}.size`, this.vec2Buffer);
+                    this.shader.sendFloat(`tex${Layer.ALPHABET[i]}.ratio`, texture.getWidth() / texture.getHeight());
                 }
             }
 
@@ -92,3 +141,4 @@ export class Layer {
 }
 
 Layer.changeDelta = 0.5;
+Layer.ALPHABET = ['A', 'B', 'C', 'D', 'E', 'F'];
