@@ -109,11 +109,13 @@ export class Layer {
             for(let i = 0; i < Process.layerNumber; ++i) {
                 const b = this.shader.getUniformFlags().buffers[i];
                 if(b) {
-                    let texture;
-                    if(this.unit != i) texture = Process.layers[i].getFrameBuffer().getTexture();
-                    else texture = Process.debbugTexture;
+                    const texture = Process.layers[i].getFrameBuffer().getTexture();
+                    if(this.unit != i) texture.use();
+                    else {
+                        Process.debbugTexture.setUnit(i);
+                        Process.debbugTexture.use();
+                    }
 
-                    texture.use();
                     this.vec2Buffer[0] = texture.getWidth();
                     this.vec2Buffer[1] = texture.getHeight();
                     this.shader.sendVec2(`buffer${Layer.ALPHABET[i]}.size`, this.vec2Buffer);

@@ -1,106 +1,5 @@
 import { Display, Shader } from "akila/webgl";
-
-class SB {
-    static buidVertexShader() {
-        return `
-        precision mediump float;
-        
-        attribute vec2 position;
-        
-        varying vec2 uv;
-        
-        void main(){
-            gl_Position = vec4(position, 0.0, 1.0);
-            uv = vec2(position.x * 0.5 + 0.5, position.y * 0.5 + 0.5);
-        }
-        `;
-    }
-
-    static buidFragmentShader(s) {
-        return `${fragBegin}${s}${fragEnd}`;
-    }
-}
-
-SB.TEX = 'tex';
-SB.BUFFER = 'buffer';
-SB.TIME = 'time';
-SB.PI = 'PI';
-
-SB.TEXTUREFUNC = 'texture';
-SB.RGB2HSV = 'rgb2hsv';
-SB.HSV2RGB = 'hsv2rgb';
-
-SB.ALPHABET = ['A', 'B', 'C', 'D', 'E', 'F'];
-
-SB.BUFFERCOUNT = 4;
-SB.TEXCOUNT = 6;
-
-const fragBegin =
-`precision mediump float;
-
-struct TextureInfo {
-    sampler2D sampler;
-    vec2 size;
-    float ratio;
-    int yInv;
-};
-
-${(() => {
-    let str = '';
-    for(let i = 0; i < SB.BUFFERCOUNT; ++i) {
-        str += `uniform TextureInfo ${SB.BUFFER}${SB.ALPHABET[i]};\n`;
-    }
-
-    return str;
-})()}
-
-${(() => {
-    let str = '';
-    for(let i = 0; i < SB.TEXCOUNT; ++i) {
-        str += `uniform TextureInfo ${SB.TEX}${SB.ALPHABET[i]};\n`;
-    }
-
-    return str;
-})()}
-
-uniform float ${SB.TIME};
-
-varying vec2 uv;
-
-const float ${SB.PI} = 3.141592653589793;
-
-vec4 ${SB.TEXTUREFUNC}(TextureInfo buffer, vec2 uv) {
-    uv.y = buffer.yInv == 0 ? uv.y : 1.0 - uv.y;
-    return texture2D(buffer.sampler, uv);
-}
-
-
-/* All components are in the range [0..1], including hue. */
-vec3 ${SB.RGB2HSV}(vec3 c) {
-    vec4 K = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);
-    vec4 p = mix(vec4(c.bg, K.wz), vec4(c.gb, K.xy), step(c.b, c.g));
-    vec4 q = mix(vec4(p.xyw, c.r), vec4(c.r, p.yzx), step(p.x, c.r));
-
-    float d = q.x - min(q.w, q.y);
-    float e = 1.0e-10;
-    return vec3(abs(q.z + (q.w - q.y) / (6.0 * d + e)), d / (q.x + e), q.x);
-}
-
-/* All components are in the range [0..1], including hue. */
-vec3 ${SB.HSV2RGB}(vec3 c) {
-    vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
-    vec3 p = abs(fract(c.xxx + K.xyz) * 6.0 - K.www);
-    return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
-}
-
-`.replace(/\r?\n|\r/g, ' ').replace(/\s+/g, ' ');
-
-const fragEnd = `
-void main() {
-    gl_FragColor = color(uv);
-}
-`.replace(/\r?\n|\r/g, ' ');
-
+import { SB } from './SB';
 
 export class ShaderLayer extends Shader {
     constructor(fs) {
@@ -197,9 +96,9 @@ ${(() => {
     }
 
     return str;
-})()} ${SB.TIME} ${SB.PI}`;
+})()} ${SB.TIME} ${SB.PI} ${SB.HALF_PI}`;
 
-ShaderLayer.customFuncs = `${SB.TEXTUREFUNC} ${SB.RGB2HSV} ${SB.HSV2RGB}`;
+ShaderLayer.customFuncs = `${SB.FUNCNAMES}`;
 
 
 /*

@@ -77,6 +77,7 @@ export class UI {
 
             const img = document.createElement('img');
             img.setAttribute('src', './img/placeholder.png');
+            img.setAttribute('alt', 'placeholder');
 
 
             // Bouton pour applique la taille de l'image au buffer
@@ -113,5 +114,10 @@ export class UI {
             imageHolder.appendChild(label);
             texturePanel.appendChild(imageHolder);
         }
+
+        /////////////////////////////////////////////////////////////////////////
+
+        document.querySelector('#help-button').textContent = Text.get('help');
+        document.querySelector('#help-text').textContent = Text.get('helpText');
     }
 }
