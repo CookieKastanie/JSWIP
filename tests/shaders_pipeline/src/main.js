@@ -1,5 +1,7 @@
 import { Display, Shader, FrameBuffer, VAO, IndexedVAO, VBO, IBO} from 'Akila/webgl';
-import { Bank, Parser, LinkedList, LinkedStructure, FirstPersonCamera, Matrix4, Vector3, TrackBallCamera } from 'Akila/utils';
+import { Bank, Parser, LinkedList, LinkedStructure, FirstPersonCamera, Matrix4, Vector3, TrackBallCamera, Color } from 'Akila/utils';
+
+import { BroadField2d, RayRaster2d } from 'Akila/collision';
 
 import { Keyboard, Mouse, Gamepad } from 'Akila/inputs';
 import { Time, Timeline, Key, StateTimeline} from 'Akila/time';
@@ -9,6 +11,30 @@ import { MainMixer, Sample } from 'Akila/audio';
 import { boxVertices, boxIndices, boxColors, boxNormals } from './box';
 
 import { Repere } from './Repere';
+
+
+
+
+
+document.getElementById('uwu').onclick = () => {
+    const elem = document.getElementsByTagName("canvas")[0];
+
+    if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+    } else if (elem.mozRequestFullScreen) { /* Firefox */
+        elem.mozRequestFullScreen();
+    } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
+        elem.webkitRequestFullscreen();
+    } else if (elem.msRequestFullscreen) { /* IE/Edge */
+        elem.msRequestFullscreen();
+    }
+}
+
+
+
+
+
+
 
 
 const mm = new MainMixer();
@@ -35,11 +61,11 @@ const frameBuffers = {};
 const matrices = {};
 
 
-//const cam = new FirstPersonCamera(display.getWidth(), display.getHeight());
-//cam.setPosition([0, 0, 5]).setAngle([0, -Math.PI / 2, 0]).setMouseSensibility(0.008);
+const cam = new FirstPersonCamera(display.getWidth(), display.getHeight());
+cam.setPosition([0, 0, 5]).setAngle([0, -Math.PI / 2, 0]).setMouseSensibility(0.008);
 
-const cam = new TrackBallCamera(display.getWidth(), display.getHeight());
-cam.setAngle([Math.PI / 6, Math.PI / 2, 0]).setCenter([3, 0, 0]).setDistance(2).setMouseSensibility(0.008);
+//const cam = new TrackBallCamera(display.getWidth(), display.getHeight());
+//cam.setAngle([Math.PI / 6, Math.PI / 2, 0]).setCenter([3, 1, 0]).setDistance(2).setMouseSensibility(0.008);
 
 const repere = new Repere();
 
@@ -87,7 +113,12 @@ const timelines = {
     .setLoop(true)
     .addKey(new Key(new Float32Array([-1, -1, 0]), 0))
     .addKey(new Key([-5, -1, 0], 2))
-    .addKey(new Key([-1, -1, 0], 4))
+    .addKey(new Key([-1, -1, 0], 4)),
+
+    color: new Timeline()
+    .setLoop(true)
+    .addKey(new Key(new Float32Array([0, 1, 0.5]), 0))
+    .addKey(new Key(new Float32Array([359, 1, 0.5]), 5))
 };
 
 const stateTimelines = {
@@ -112,7 +143,11 @@ window.observers = {
     cam,
     timelines,
     stateTimelines,
-    time
+    time,
+    Color,
+
+    field: new BroadField2d(),
+    RayRaster2d
 }
 
 
@@ -139,12 +174,10 @@ time.onInit(async () => {
     banks.textures = new Bank("./textures", [], {extension: "png", mediaType: "image"});
     await banks.textures.load(prog => { /*console.log(`Chargement : ${prog}%`);*/ });
 
-    banks.sons = new Bank("./sons", ['sample'], {extension: "mp3", mediaType: "blob", treatment: async (file, name) => {
-        return file.arrayBuffer().then(buffer => {
-            const s = new Sample();
-            mTest = s;
-            return s.loadData(buffer); 
-        });
+    banks.sons = new Bank("./sons", ['sample'], {extension: "mp3", mediaType: "arrayBuffer", treatment: async (file, name) => {
+        const s = new Sample();
+        mTest = s;
+        return s.loadData(file); 
     }});
     await banks.sons.load(prog => { /*console.log(`Chargement : ${prog}%`);*/ });
 
@@ -257,21 +290,34 @@ time.onInit(async () => {
 });
 
 time.onTick(() => {
+    let v = -m.scrollVelY() * 0.1;
+
+    if(v != 0) {
+        v = Time.scale + v;
+        v = Math.min(2, Math.max(0.1, v));
+        time.setScale(v);
+        mTest.test(v);
+    }
+
+    
+
+
     timelines.cube.next();
     timelines.light.next();
     timelines.test.next();
+
+    timelines.color.next();
 });
 
 
-
+let cubeAngle = 0;
 time.onDraw(() => {
 
-    cam.setCenter(timelines.light.getData());
+    //cam.setCenter(timelines.light.getData());
     cam.update();
 
     const pvMatrix = cam.getVPMatrix();
 
-    //mm.setPosition(cam.x, cam.y, cam.z);
     mm.setPosition(cam.getPosition(), cam.getForward(), cam.getUp());
 
     display.clear();
@@ -304,11 +350,14 @@ time.onDraw(() => {
     shaders.render.sendVec3('viewPos', [cam.x, cam.y, cam.z]);
 
     //shaders.render.sendVec3('lightColor', [timelines.light.getData()[3], timelines.light.getData()[4], timelines.light.getData()[5]]);
-    shaders.render.sendVec3('lightColor', stateTimelines.color.getData());
+    //shaders.render.sendVec3('lightColor', stateTimelines.color.getData());
+
+    shaders.render.sendVec3('lightColor', Color.HSL2RGB(timelines.color.getData()));
 
 
     const mat = Matrix4.identity();
-    Matrix4.fromRotation(mat, Time.tick, [1, 1, 0])
+    cubeAngle += Time.delta;
+    Matrix4.fromRotation(mat, cubeAngle, [1, 1, 0])
 
     
     const pos = timelines.cube.getData();

@@ -1,7 +1,6 @@
 class PrintMatrix {
     constructor(m) {
         this.matrix = m;
-        this.ori = 0;
     }
 
     rotate() { 

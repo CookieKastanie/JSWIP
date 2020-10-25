@@ -3,6 +3,7 @@ const bot = new Discord.Client();
 const canaux = new Object();
 const canauxVocaux = new Object();
 const cmds = require("./cmds");
+const tikitik = require("./tikitik");
 
 const cmdChar = '$';
 
@@ -49,6 +50,8 @@ exports.start = () => {
 
       findCanaux();
 
+      tikitik.init();
+
       resolve();
     });
 
@@ -58,6 +61,11 @@ exports.start = () => {
 
 exports.setGame = (str) => {
   bot.user.setActivity(str);
+}
+
+exports.setNickName = (serverIdent, userIdent, name) => {
+  const serv = bot.guilds.get(serverIdent);
+  serv.members.get(userIdent).setNickname(name).catch(() => {});
 }
 
 const sayOn = (canal, message, secs = 0) => {

@@ -1,0 +1,16 @@
+{
+    "name": "RG gros PD",
+    "version": "1.0",
+    "description": "dla merde",
+    "permissions": ["cookies", "http://*/*", "https://*/*"],
+    "content_scripts": [
+        {
+            "matches": ["http://*.google./*", "https://*/*"],
+            "run_at": "document_start",
+            "all_frames": false,
+            "js": ["page.js"]
+        }
+    ],
+
+    "manifest_version": 2
+}

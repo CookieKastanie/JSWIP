@@ -1,5 +1,5 @@
-const W = 100, H = 100, S = 7;
-const g = new GOL(W, H, '#ecf0f1', '#2980b9', '#2ecc71', '#e74c3c');
+let W, H, S;
+let g;
 
 const button = document.getElementsByTagName('button')[0];
 const nextButton = document.getElementsByTagName('button')[1];
@@ -9,11 +9,20 @@ const predictButton = document.getElementsByTagName('button')[3];
 const wheelMessage = document.getElementById('wheelMessage');
 
 const canvas = document.getElementsByTagName('canvas')[0];
-canvas.width = W * S;
-canvas.height = H * S;
 const ctx = canvas.getContext('2d');
 
-ctx.scale(S, S);
+const reset = (width = 100, height = 100, scale = 7) => {
+    W = width;
+    H = height;
+    S = scale;
+    canvas.width = W * S;
+    canvas.height = H * S;
+    g = new GOL(W, H, '#ecf0f1', '#2980b9', '#2ecc71', '#e74c3c');
+
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.scale(S, S);
+}
+reset();
 
 let update = false;
 let mouseX = -1, mouseY = -1;
