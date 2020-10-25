@@ -25,7 +25,11 @@ function lireDossier($chemin, $exept = array()){
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="Le merdier de CookieKastanie.">
         <title>CookieKastanie</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://bootswatch.com/4/darkly/bootstrap.min.css">
+        <style media="screen">
+          a{color: white;}
+          a:hover{color: white;}
+        </style>
     </head>
     <body>
         <div class="container">
@@ -33,7 +37,8 @@ function lireDossier($chemin, $exept = array()){
             <div class="list-group">
                 <?php
 
-                $liste = lireDossier("./", array("index.php", "favicon.ico",  "CV", "Tests"));
+                $liste = lireDossier("./", array("index.php", "favicon.ico", "CV", "Tests", "WIPGL", "Site16mb"));
+                sort($liste);
 
                 foreach ($liste as $e) {
                     echo "<a class=\"list-group-item\" href=\"$e\">$e</a>";
