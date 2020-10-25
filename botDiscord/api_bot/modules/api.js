@@ -25,10 +25,23 @@ exports.start = cb => {
     }
   });
 
-  server = app.listen(config.port_HTPP, () => {
+  const listenCB = () => {
     require("./setRoutes")(app);
     if(typeof cb == "function") cb(config.port_HTPP);
-  });
+  }
+
+  const secrete = require('../secrete.json');
+  if(secrete.ssl) {
+    const options = {
+      cert: fs.readFileSync(secrete.ssl.certificate_path, 'utf8'),
+      key: fs.readFileSync(secrete.ssl.certificate_key_path, 'utf8')
+    };
+
+    serveur = require('https').createServer(options, app);
+    serveur.listen(config.port_HTPP, listenCB);
+  } else {
+    server = app.listen(config.port_HTPP, listenCB);
+  }
 }
 
 const refreshAuth = () => {

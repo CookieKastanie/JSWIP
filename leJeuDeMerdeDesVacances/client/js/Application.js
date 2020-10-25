@@ -275,7 +275,7 @@ class Application {
       ip = "xx.xx.xx.xx";
     }*/
 
-    this.socket = io.connect("http://"+ ip +":3000");
+    this.socket = io.connect(ip +":3000");
 
     this.socket.on('connect', () => {
       this.setSocketEvents();
