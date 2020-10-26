@@ -103,6 +103,7 @@ export class Machine {
         this.resetPointer();
 
         this.currentState = this.states.get(this.startState);
+        if(!this.currentState) throw `start -> l'état '${this.startState}' n'existe pas`;
         this.done = false;
 
         this.traceState = {
