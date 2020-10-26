@@ -204,18 +204,24 @@ exports.notpresent = (params, mess) => {
 
 ///////////////////
 
+let lastBruh;
 exports.bruh = (params, mess) => {
 
   mess.channel.fetchMessages({ limit: 1 }).then(async messages => {
     let lastMessage = messages.first();
-
+    lastBruh = lastMessage;
     if (!lastMessage.author.bot) {
-      await lastMessage.react('🅱️');
-      await lastMessage.react('🇷');
-      await lastMessage.react('🇺');
-      await lastMessage.react('🇭');
+      lastMessage.react('🅱️').then(() => lastMessage.react('🇷')).then(() => lastMessage.react('🇺')).then(() => lastMessage.react('🇭'));
     }
   }).catch();
+}
+
+exports.unbruh = (params, mess) =>{
+  if (lastBruh){
+     lastBruh.reactions.forEach(reaction => {
+      if (reaction.me) reaction.remove();
+     });
+  }
 }
 
 exports.e = (params, mess) => {
@@ -228,12 +234,22 @@ exports.phi = (params, mess) =>{
 
 exports.φ = exports.phi;
 
+let lastVote;
 exports.vote = (params, mess) => {
   mess.channel.fetchMessages({ limit: 1 }).then(async messages => {
     let lastMessage = messages.first();
+    lastVote = lastMessage;
     if (!lastMessage.author.bot) {
       await lastMessage.react('👍');
       await lastMessage.react('👎');
     }
   }).catch();
+}
+
+exports.unvote = (params, mess) =>{
+  if (lastVote){
+     lastVote.reactions.forEach(reaction => {
+      if (reaction.me) reaction.remove();
+     });
+  }
 }
