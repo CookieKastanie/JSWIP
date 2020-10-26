@@ -31,9 +31,9 @@ module.exports = class Fibonacci {
     static iterative(n) {
         if(n === 0 || n === 1) return n;
         else {
-            let a = 1;
-            let b = 1;
-            let c = 1;
+            let a = 1n;
+            let b = 1n;
+            let c = 1n;
 
             for(let i = 2; i < n; ++i) {
                 c = a + b;
@@ -48,8 +48,8 @@ module.exports = class Fibonacci {
     static exponentiation(n) {
         if(n === 0 || n === 1) return n;
 
-        const base = [1, 1, 1, 0];
-        const m = [1, 1, 1, 0];
+        const base = [1n, 1n, 1n, 0n];
+        const m = [1n, 1n, 1n, 0n];
 
         // sans les conditions
         //for(let p = 0; p < n - 1; ++p) mult4x4(m, base);

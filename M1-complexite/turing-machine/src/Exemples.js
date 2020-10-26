@@ -2,7 +2,7 @@ import { Editor } from "./Editor";
 
 export class Exemples {
     static loadInvBin() {
-        Editor.setValue(`# Inverse les 0 et les 1
+        Editor.setValue(`-- Inverse les 0 et les 1
 def q0
     0 => [q0, 1, >]
     1 => [q0, 0, >]
@@ -15,7 +15,7 @@ start q0
     }
 
     static loadAddBin() {
-        Editor.setValue(`# Incrémentation binaire (+1)
+        Editor.setValue(`-- Incrémentation binaire (+1)
 def q0  
     0 => [q0, 0, >]
     1 => [q0, 1, >]
@@ -33,7 +33,7 @@ start q0
     }
 
     static loadSubBin() {
-        Editor.setValue(`# Décrémentation binaire (-1)
+        Editor.setValue(`-- Décrémentation binaire (-1)
 def q0  
     0 => [q0, 0, >]
     1 => [q0, 1, >]

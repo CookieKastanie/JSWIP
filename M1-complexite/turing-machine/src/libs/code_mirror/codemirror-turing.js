@@ -11,7 +11,7 @@ module.exports = CodeMirror => {
             },
 
             {
-                regex: /#.*/, token: 'comment'
+                regex: /--.*/, token: 'comment'
             },
         ]
     });

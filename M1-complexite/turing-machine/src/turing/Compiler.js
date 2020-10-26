@@ -23,7 +23,7 @@ export class Compiler {
             for(const l of lines) {
                 ligneCount++;
                 const trimed = l.trim();
-                if(trimed == '' || trimed.charAt(0) == '#') continue;
+                if(trimed == '' || (trimed.length >= 2 && trimed.charAt(0) == '-' && trimed.charAt(1) == '-')) continue;
 
                 const s = splitCustom(trimed.replace(/ +(?= )/g, ''), ' ', 1);
 
@@ -68,7 +68,7 @@ export class Compiler {
                         if(s.length < 2) throw `'input' -> Aucune entrée`;
 
                         let input = s[1].replace(/(\s+)/g, '');
-                        input = input.substring(input.lastIndexOf('[') + 1, input.lastIndexOf(']')).split(',');
+                        input = input.substring(input.lastIndexOf('[') + 1, input.lastIndexOf(']')).split(',').filter(e => !!e);
                         m.setInput(input);
                         break;
                     
