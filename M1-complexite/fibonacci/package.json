@@ -4,7 +4,8 @@
     "description": "",
     "main": "main.js",
     "scripts": {
-        "start": "node ./src/main.js"
+        "start": "node ./src/main.js",
+        "verif": "node ./src/verification.js"
     },
     "license": "ISC"
 }
