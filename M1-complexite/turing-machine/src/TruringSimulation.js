@@ -34,7 +34,7 @@ export class TuringSimulation {
     update() {
         if(!this.running) return;
 
-        if(this.tick++ >= this.next) {
+        if(++this.tick >= this.next) {
             this.prevStep = this.machine.getTrace();
 
             if(!this.machine.isDone()) this.machine.executeStep();

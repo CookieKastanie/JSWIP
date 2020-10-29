@@ -5,7 +5,8 @@
     "main": "main.js",
     "scripts": {
         "start": "node ./src/main.js",
-        "verif": "node ./src/verification.js"
+        "verif": "node ./src/verification.js",
+        "calc": "node ./src/calc.js"
     },
     "license": "ISC"
 }
