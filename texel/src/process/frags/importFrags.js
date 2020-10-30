@@ -12,3 +12,5 @@ frags.push(...simplex);
 import voronoise from './frag_voronoise';
 frags.push(...voronoise);
 
+import rotations from './frag_rotations';
+frags.push(...rotations);

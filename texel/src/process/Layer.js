@@ -106,6 +106,14 @@ export class Layer {
             this.framebuffer.clear();
             this.shader.sendFloat('time', Time.now);
 
+            if(this.shader.getUniformFlags().currentBuffer) {
+                const texture = this.getFrameBuffer().getTexture();
+                this.vec2Buffer[0] = texture.getWidth();
+                this.vec2Buffer[1] = texture.getHeight();
+                this.shader.sendVec2(`currentBuffer.size`, this.vec2Buffer);
+                this.shader.sendFloat(`currentBuffer.ratio`, texture.getWidth() / texture.getHeight());
+            }
+
             for(let i = 0; i < Process.layerNumber; ++i) {
                 const b = this.shader.getUniformFlags().buffers[i];
                 if(b) {

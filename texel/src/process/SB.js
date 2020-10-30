@@ -22,6 +22,7 @@ export class SB {
 }
 
 SB.TEX = 'tex';
+SB.CURRENT_BUFFER = 'currentBuffer';
 SB.BUFFER = 'buffer';
 SB.TIME = 'time';
 SB.PI = 'PI';
@@ -47,6 +48,8 @@ struct TextureInfo {
     float ratio;
     int yInv;
 };
+
+uniform TextureInfo ${SB.CURRENT_BUFFER};
 
 ${(() => {
     let str = '';
