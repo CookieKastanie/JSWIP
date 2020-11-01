@@ -173,8 +173,8 @@ class Application {
       case "CookieKastanie": nomSkin = "vaisseauCookie.png"; break;
       case "Kalvin": nomSkin = "vaisseauKalvinDelire.png"; break;
       case "Djeson PV": nomSkin = "vaisseauDjesonPV.png"; break;
-      case "Naalduin": nomSkin = "vaisseauNaalduin.png"; this.ctx.translate(1920/2, 1080/2); this.ctx.rotate(Math.PI); this.ctx.translate(-1920/2, -1080/2);break;
-      case "Cyril": nomSkin = "terre.png"; break;
+      case "Naalduin": nomSkin = "vaisseauNaalduin.png"; break; // this.ctx.translate(1920/2, 1080/2); this.ctx.rotate(Math.PI); this.ctx.translate(-1920/2, -1080/2);break;
+      // case "Cyril":  nomSkin = "terre.png"; break;
       case "Fromage": nomSkin = "vaisseauFromage.png"; break;
       case "LJDMDV": nomSkin = "vaisseauLogo.png"; break;
       case "LJDMDV.debug": nomSkin = "debug.png"; break;
