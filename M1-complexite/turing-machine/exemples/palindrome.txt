@@ -1,4 +1,4 @@
--- Accepte les palindromes
+-- Accepte les palindromes sur l’alphabet [a, b]
 def look  
     a => [goFindA, _, >]
     b => [goFindB, _, >]
