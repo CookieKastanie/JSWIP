@@ -1,7 +1,9 @@
 import { Text } from '../lang/Text';
 import * as CodeMirror from '../libs/code_mirror/codemirror';
+import * as addActiveLine from '../libs/code_mirror/addons/activeLine';
 import * as addGLSL from '../libs/code_mirror/codemirror-glsl';
 import { ShaderLayer } from '../process/ShaderLayer';
+addActiveLine(CodeMirror);
 addGLSL(CodeMirror, ShaderLayer.customFuncs, ShaderLayer.customAtoms);
 
 export class Editor {
@@ -31,6 +33,7 @@ export class Editor {
 
         const label = document.createElement('label');
         label.setAttribute('for', 'code-area');
+        label.setAttribute('style', 'position: absolute; top: -100px;');
         label.textContent = 'woula';
         const t = document.querySelector('.CodeMirror textarea');
         t.parentElement.appendChild(label);

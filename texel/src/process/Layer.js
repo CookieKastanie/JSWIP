@@ -7,8 +7,8 @@ import { ShaderLayer } from "./ShaderLayer";
 
 export class Layer {
     constructor(unit) {
-        if(unit == 0) this.savedFragment = `vec4 color(vec2 uv) {\n\treturn vec4(uv, 0.0, 1.0);\n}`;
-        else this.savedFragment = `vec4 color(vec2 uv) {\n\treturn vec4(0.0, 0.0, 0.0, 1.0);\n}`;
+        if(unit == 0) this.savedFragment = `vec4 color(vec2 uv) {\n\treturn vec4(uv, 0.0, 1.0);\n}\n`;
+        else this.savedFragment = `vec4 color(vec2 uv) {\n\treturn vec4(0.0, 0.0, 0.0, 1.0);\n}\n`;
 
         this.shader = new ShaderLayer(this.savedFragment);
         this.framebuffer = new FrameBuffer(600, 600, {
