@@ -1,9 +1,11 @@
 import { Text } from '../lang/Text';
 import * as CodeMirror from '../libs/code_mirror/codemirror';
 import * as addActiveLine from '../libs/code_mirror/addons/activeLine';
+import * as addCloseBrackets from '../libs/code_mirror/addons/closebrackets';
 import * as addGLSL from '../libs/code_mirror/codemirror-glsl';
 import { ShaderLayer } from '../process/ShaderLayer';
 addActiveLine(CodeMirror);
+addCloseBrackets(CodeMirror);
 addGLSL(CodeMirror, ShaderLayer.customFuncs, ShaderLayer.customAtoms);
 
 export class Editor {
@@ -23,6 +25,7 @@ export class Editor {
             indentUnit: 4,
             theme: 'material',
             styleActiveLine: true,
+            autoCloseBrackets: true,
             showCursorWhenSelecting: true,
             viewportMargin: Infinity
         });
