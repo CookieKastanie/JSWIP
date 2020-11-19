@@ -205,20 +205,19 @@ exports.notpresent = (params, mess) => {
 
 let lastBruh;
 exports.bruh = (params, mess) => {
-
   mess.channel.messages.fetch({ limit: 1}).then(async messages => {
     let lastMessage = messages.first();
     lastBruh = lastMessage;
-    if (!lastMessage.author.bot) {
+    if(!lastMessage.author.bot) {
       lastMessage.react('🅱️').then(() => lastMessage.react('🇷')).then(() => lastMessage.react('🇺')).then(() => lastMessage.react('🇭'));
     }
   }).catch();
 }
 
 exports.unbruh = (params, mess) =>{
-  if (lastBruh){
-     lastBruh.reactions.forEach(reaction => {
-      if (reaction.me) reaction.remove();
+  if(lastBruh) {
+     lastBruh.reactions.cache.forEach(reaction => {
+      if(reaction.me) reaction.remove();
      });
   }
 }
@@ -235,10 +234,10 @@ exports.φ = exports.phi;
 
 let lastVote;
 exports.vote = (params, mess) => {
-  mess.channel.messages.fetch({ limit: 1}).then(async messages => {
+  mess.channel.messages.fetch({limit: 1}).then(async messages => {
     let lastMessage = messages.first();
     lastVote = lastMessage;
-    if (!lastMessage.author.bot) {
+    if(!lastMessage.author.bot) {
       await lastMessage.react('👍');
       await lastMessage.react('👎');
     }
@@ -246,9 +245,9 @@ exports.vote = (params, mess) => {
 }
 
 exports.unvote = (params, mess) =>{
-  if (lastVote){
-     lastVote.reactions.forEach(reaction => {
-      if (reaction.me) reaction.remove();
-     });
+  if(lastVote) {
+    lastVote.reactions.cache.forEach(reaction => {
+      if(reaction.me) reaction.remove();
+    });
   }
 }
