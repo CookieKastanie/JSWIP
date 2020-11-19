@@ -168,13 +168,12 @@ exports.screen = (params, mess) => {
 }
 
 exports.hide = (params, mess) => {
-  if(!mess.guild) return;
-  const mem = mess.guild.member(mess.author);
-  if(!mem) return;
-  const chan = bot.getVocalChannels()["Vocal secret"];
-  mem.setVoiceChannel(chan)
-  .then(() => {})
-  .catch(() => {});
+  mess.member.fetch(mess.author).then(mem => {
+    const chan = bot.getVocalChannels().get("Vocal secret");
+    mem.voice.setChannel(chan)
+    .then(() => {})
+    .catch(() => {});
+  }).catch(() => {});
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -206,20 +205,19 @@ exports.notpresent = (params, mess) => {
 
 let lastBruh;
 exports.bruh = (params, mess) => {
-
   mess.channel.messages.fetch({ limit: 1}).then(async messages => {
     let lastMessage = messages.first();
     lastBruh = lastMessage;
-    if (!lastMessage.author.bot) {
+    if(!lastMessage.author.bot) {
       lastMessage.react('🅱️').then(() => lastMessage.react('🇷')).then(() => lastMessage.react('🇺')).then(() => lastMessage.react('🇭'));
     }
   }).catch();
 }
 
 exports.unbruh = (params, mess) =>{
-  if (lastBruh){
+  if(lastBruh) {
      lastBruh.reactions.cache.forEach(reaction => {
-      if (reaction.me && (reaction.emoji.name === '🅱️' || reaction.emoji.name === '🇷' ||reaction.emoji.name === '🇺' ||reaction.emoji.name === '🇭' )) reaction.remove();
+      if(reaction.me) reaction.remove();
      });
   }
 }
@@ -236,10 +234,10 @@ exports.φ = exports.phi;
 
 let lastVote;
 exports.vote = (params, mess) => {
-  mess.channel.messages.fetch({ limit: 1}).then(async messages => {
+  mess.channel.messages.fetch({limit: 1}).then(async messages => {
     let lastMessage = messages.first();
     lastVote = lastMessage;
-    if (!lastMessage.author.bot) {
+    if(!lastMessage.author.bot) {
       await lastMessage.react('👍');
       await lastMessage.react('👎');
     }
@@ -247,9 +245,9 @@ exports.vote = (params, mess) => {
 }
 
 exports.unvote = (params, mess) =>{
-  if (lastVote){
-     lastVote.reactions.cache.forEach(reaction => {
-      if (reaction.me && (reaction.emoji.name === '👍' || reaction.emoji.name === '👎')) reaction.remove();
-     });
+  if(lastVote) {
+    lastVote.reactions.cache.forEach(reaction => {
+      if(reaction.me) reaction.remove();
+    });
   }
 }
