@@ -7,5 +7,33 @@ export default {
     apply: 'Appliquer',
     noError: 'Aucune erreur.',
     help: 'Aide',
-    helpText: `Liste des variables/constantes :\n\tfloat time\n\tfloat PI\n\tfloat HALF_PI\n\nListe des fonctions supplémentaires :\n\tvec4 texture(TextureInfo, vec2)\n\tvec3 rgb2hsv(vec3)\n\tvec3 hsv2rgb(vec3)\n\tfloat snoise(vec[2,3,4])\n\tfloat voronoi(vec2, float, float)\n\tvec3 voronoiDist(vec2, float)\n`
+    helpText:
+`Liste des variables/constantes :
+
+    TextureInfo currentBuffer
+    TextureInfo buffer[A..D]
+    TextureInfo tex[A..F]
+
+    float time
+
+    float PI
+    float HALF_PI
+
+
+Liste des fonctions additionnelles :
+
+    vec4 texture(TextureInfo, vec2)
+
+    vec3 rgb2hsv(vec3)
+    vec3 hsv2rgb(vec3)
+
+    mat2 rotate(float)
+    mat3 rotateX(float)
+    mat3 rotateY(float)
+    mat3 rotateZ(float)
+
+    float snoise(vec[2,3,4])
+    float voronoi(vec2, float, float)
+    vec3 voronoiDist(vec2, float)
+`
 }

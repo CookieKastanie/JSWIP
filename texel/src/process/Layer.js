@@ -7,8 +7,8 @@ import { ShaderLayer } from "./ShaderLayer";
 
 export class Layer {
     constructor(unit) {
-        if(unit == 0) this.savedFragment = `vec4 color(vec2 uv) {\n\treturn vec4(uv, 0.0, 1.0);\n}`;
-        else this.savedFragment = `vec4 color(vec2 uv) {\n\treturn vec4(0.0, 0.0, 0.0, 1.0);\n}`;
+        if(unit == 0) this.savedFragment = `vec4 color(vec2 uv) {\n\treturn vec4(uv, 0.0, 1.0);\n}\n`;
+        else this.savedFragment = `vec4 color(vec2 uv) {\n\treturn vec4(0.0, 0.0, 0.0, 1.0);\n}\n`;
 
         this.shader = new ShaderLayer(this.savedFragment);
         this.framebuffer = new FrameBuffer(600, 600, {
@@ -105,6 +105,14 @@ export class Layer {
             this.framebuffer.use();
             this.framebuffer.clear();
             this.shader.sendFloat('time', Time.now);
+
+            if(this.shader.getUniformFlags().currentBuffer) {
+                const texture = this.getFrameBuffer().getTexture();
+                this.vec2Buffer[0] = texture.getWidth();
+                this.vec2Buffer[1] = texture.getHeight();
+                this.shader.sendVec2(`currentBuffer.size`, this.vec2Buffer);
+                this.shader.sendFloat(`currentBuffer.ratio`, texture.getWidth() / texture.getHeight());
+            }
 
             for(let i = 0; i < Process.layerNumber; ++i) {
                 const b = this.shader.getUniformFlags().buffers[i];

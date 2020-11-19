@@ -1,0 +1,34 @@
+-- Accepte les palindromes sur l’alphabet [a, b]
+def look  
+    a => [goFindA, _, >]
+    b => [goFindB, _, >]
+    _ => [accept]
+
+def goFindA
+    a => [goFindA, a, >]
+    b => [goFindA, b, >]
+    _ => [findA,   _, <]
+
+def goFindB
+    a => [goFindB, a, >]
+    b => [goFindB, b, >]
+    _ => [findB,   _, <]
+    
+def findA
+    a => [goLook, _, <]
+    b => [reject]
+    _ => [accept]
+    
+def findB
+    a => [reject]
+    b => [goLook, _, <]
+    _ => [accept]
+    
+def goLook
+    a => [goLook, a, <]
+    b => [goLook, b, <]
+    _ => [look,   _, >]
+
+blank _
+input [b, a, b, b, a, b]
+start look

@@ -1,0 +1,25 @@
+-- Cherche abc
+def qa  
+    a => [qb, a, >]
+    b => [qa, b, >]
+    c => [qa, c, >]
+    d => [qa, d, >]
+    _ => [reject]
+
+def qb  
+    a => [qb, a, >]
+    b => [qc, b, >]
+    c => [qa, c, >]
+    d => [qa, d, >]
+    _ => [reject]
+    
+def qc  
+    a => [qb, a, >]
+    b => [qa, b, >]
+    c => [accept]
+    d => [qa, d, >]
+    _ => [reject]
+
+blank _
+input [a, b, d, b, a, a, b, c, b, d]
+start qa

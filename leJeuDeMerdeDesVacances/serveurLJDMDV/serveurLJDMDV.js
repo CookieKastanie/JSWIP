@@ -7,7 +7,22 @@ const ObjJeu = require("./js/ObjJeu");
 
 var express = require('express');
 var app = express();
-var serveur = app.listen(3000);
+
+var serveur;
+var config = require('./config.json');
+var fs = require('fs');
+if(config.certificate_path != "" && config.certificate_key_path != "") {
+  var options = {
+    cert: fs.readFileSync(config.certificate_path, 'utf8'),
+    key: fs.readFileSync(config.certificate_key_path, 'utf8')
+  };
+
+  serveur = require('https').createServer(options, app);
+  serveur.listen(config.port);
+} else {
+  serveur = app.listen(config.port);
+}
+
 app.use(express.static('public'));
 var socket = require('socket.io');
 var io = socket(serveur);

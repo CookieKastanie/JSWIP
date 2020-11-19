@@ -46,17 +46,8 @@
   }
   
   .cm-s-material .CodeMirror-activeline-background {
-    background: rgba(0, 0, 0, 0);
-    border-top: solid 1px rgba(255, 255, 255, 0.1);
-    border-bottom: solid 1px rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.5);
   }
-
-
-  .cm-s-material .CodeMirror-activeline-gutter {
-    border-top: solid 1px rgba(255, 255, 255, 0.1);
-    border-bottom: solid 1px rgba(255, 255, 255, 0.1);
-  }
-
   
   .cm-s-material .cm-keyword {
     color: #C792EA;

@@ -1,5 +1,3 @@
-import { Texture } from "akila/webgl";
-
 export default [
     {
         name: 'texture',

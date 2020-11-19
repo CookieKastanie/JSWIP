@@ -1,12 +1,8 @@
-import { Text } from '../lang/Text';
-import * as CodeMirror from '../libs/code_mirror/codemirror';
-import * as addActiveLine from '../libs/code_mirror/addons/activeLine';
-import * as addCloseBrackets from '../libs/code_mirror/addons/closebrackets';
-import * as addGLSL from '../libs/code_mirror/codemirror-glsl';
-import { ShaderLayer } from '../process/ShaderLayer';
-addActiveLine(CodeMirror);
-addCloseBrackets(CodeMirror);
-addGLSL(CodeMirror, ShaderLayer.customFuncs, ShaderLayer.customAtoms);
+import * as CodeMirror from './libs/code_mirror/codemirror';
+import * as addSimpleMode from './libs/code_mirror/simpleMode';
+import * as addTuring from './libs/code_mirror/codemirror-turing';
+addSimpleMode(CodeMirror);
+addTuring(CodeMirror);
 
 export class Editor {
     static init(element) {
@@ -17,15 +13,15 @@ export class Editor {
         element.style = 'display: none;';
 
         this.editor = CodeMirror.fromTextArea(area, {
-            mode: 'glsl',
+            mode: 'turing',
             lineNumbers: true,
             matchBrackets: true,
             indentWithTabs: false,
             tabSize: 4,
             indentUnit: 4,
+            smartIndent: false,
             theme: 'material',
             styleActiveLine: true,
-            autoCloseBrackets: true,
             showCursorWhenSelecting: true,
             viewportMargin: Infinity
         });
@@ -66,7 +62,7 @@ export class Editor {
     }
 
     static displayNoError() {
-        this.errorZone.textContent = Text.get('noError');
+        this.errorZone.textContent = 'Aucune erreur.';
         this.errorZone.classList.add('no-error');
         this.errorZone.classList.remove('error');
     }

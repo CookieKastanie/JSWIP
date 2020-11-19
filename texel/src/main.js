@@ -14,9 +14,25 @@ time.onTick(Process.update);
 time.onDraw(Process.draw);
 time.start();
 
-window.o = {
-    mandelbrot: () => {
+window.cmd = {
+    loadCircle: () => {
+        Editor.setValue(Exemples.circle());
+    },
+    loadMandelbrot: () => {
         Editor.setValue(Exemples.mandelbrot());
+    },
+    loadConvolution: () => {
+        Editor.setValue(Exemples.convolution());
+    },
+    loadRayMarching: () => {
+        Editor.setValue(Exemples.rayMarching());
+    },
+    hardReset: () => {
+        window.addEventListener('beforeunload', e => {
+            e.stopPropagation();
+            localStorage.clear();
+        }, true);
+        location.reload();
     }
 }
 
