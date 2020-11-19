@@ -28,7 +28,7 @@ bot.on('message', (mess) => {
 
   if (text.startsWith(cmdChar)) {
       mess.delete().then(() => {
-        let params = text.substr(1).split(" ");
+        let params = text.substr(1).split(/\s+/g);
         let cmdName = params[0];
         params.shift();
         let cmd = cmds[cmdName];
