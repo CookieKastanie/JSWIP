@@ -206,7 +206,7 @@ exports.notpresent = (params, mess) => {
 let lastBruh;
 exports.bruh = (params, mess) => {
 
-  mess.channel.fetchMessages({ limit: 1 }).then(async messages => {
+  mess.channel.messages.fetch({ limit: 1}).then(async messages => {
     let lastMessage = messages.first();
     lastBruh = lastMessage;
     if (!lastMessage.author.bot) {
@@ -235,7 +235,7 @@ exports.φ = exports.phi;
 
 let lastVote;
 exports.vote = (params, mess) => {
-  mess.channel.fetchMessages({ limit: 1 }).then(async messages => {
+  mess.channel.messages.fetch({ limit: 1}).then(async messages => {
     let lastMessage = messages.first();
     lastVote = lastMessage;
     if (!lastMessage.author.bot) {
