@@ -168,13 +168,12 @@ exports.screen = (params, mess) => {
 }
 
 exports.hide = (params, mess) => {
-  if(!mess.guild) return;
-  const mem = mess.guild.member(mess.author);
-  if(!mem) return;
-  const chan = bot.getVocalChannels()["Vocal secret"];
-  mem.setVoiceChannel(chan)
-  .then(() => {})
-  .catch(() => {});
+  mess.member.fetch(mess.author).then(mem => {
+    const chan = bot.getVocalChannels().get("Vocal secret");
+    mem.voice.setChannel(chan)
+    .then(() => {})
+    .catch(() => {});
+  }).catch(() => {});
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -236,9 +235,9 @@ exports.unbruh = (params, mess) =>{
     try{
       if (lastBruh){
         lastBruh.reactions.cache.forEach(reaction => {
-          if (reaction.me && (reaction.emoji.name === '🅱️' 
-                           || reaction.emoji.name === '🇷' 
-                           || reaction.emoji.name === '🇺' 
+          if (reaction.me && (reaction.emoji.name === '🅱️'
+                           || reaction.emoji.name === '🇷'
+                           || reaction.emoji.name === '🇺'
                            || reaction.emoji.name === '🇭' )) reaction.remove();
         });
       }
@@ -267,18 +266,18 @@ exports.stepbruh = (params, mess) => {
   else{
     /*bot.guilds.fetch(servId).channels.fetch(chanId).fetch(messId).then(async message => {
       message.reactions.cache.forEach(reaction => {
-        if (reaction.me && (reaction.emoji.name === '🅱️' 
-                         || reaction.emoji.name === '🇷' 
-                         || reaction.emoji.name === '🇺' 
+        if (reaction.me && (reaction.emoji.name === '🅱️'
+                         || reaction.emoji.name === '🇷'
+                         || reaction.emoji.name === '🇺'
                          || reaction.emoji.name === '🇭' )) reaction.remove();
       });
     }).catch();*/
     Promise.resolve(async () => {
       (await (await bot.guilds.fetch(servId)).channels.fetch(chanId)).cache.fetch(messId).then(async message => {
         message.reactions.cache.forEach(reaction => {
-          if (reaction.me && (reaction.emoji.name === '🅱️' 
-                           || reaction.emoji.name === '🇷' 
-                           || reaction.emoji.name === '🇺' 
+          if (reaction.me && (reaction.emoji.name === '🅱️'
+                           || reaction.emoji.name === '🇷'
+                           || reaction.emoji.name === '🇺'
                            || reaction.emoji.name === '🇭' )) reaction.remove();
         });
       }).catch();
@@ -298,7 +297,7 @@ exports.φ = exports.phi;
 
 let lastVote;
 exports.vote = (params, mess) => {
-  mess.channel.messages.fetch({ limit: 1}).then(async messages => {
+  mess.channel.messages.fetch({limit: 1}).then(async messages => {
     let lastMessage = messages.first();
     lastVote = lastMessage;
     await lastMessage.react('👍');
@@ -310,7 +309,7 @@ exports.unvote = (params, mess) =>{
   try{
     if (lastVote){
       lastVote.reactions.cache.forEach(reaction => {
-        if (reaction.me && (reaction.emoji.name === '👍' 
+        if (reaction.me && (reaction.emoji.name === '👍'
                          || reaction.emoji.name === '👎')) reaction.remove();
       });
     }
