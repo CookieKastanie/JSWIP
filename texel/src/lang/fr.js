@@ -1,4 +1,7 @@
 export default {
+    fileOptions: 'Fichier',
+    import: 'Importer',
+    export: 'Exporter',
     textureLabel: 'Textures',
     bufferSelectorLabel: 'Buffer actuel :',
     size: 'Taille :',

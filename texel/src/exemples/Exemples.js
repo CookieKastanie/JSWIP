@@ -6,7 +6,7 @@ export class Exemples {
     else return smoothstep(0.5, 0.495, v);
 }
 
-vec4 color(vec2 uv) {
+vec4 mainColor(vec2 uv) {
     vec3 f = vec3(0.1, 0.1, 0.1);
     
     f = mix(f, vec3(1.0, 0.2, 0.1), circle(1.0, uv, vec2(0.5, 0.5)));
@@ -24,7 +24,7 @@ vec4 color(vec2 uv) {
 const float scale = 2.0;
 const int iter = 200;
 
-vec4 color(vec2 uv) {
+vec4 mainColor(vec2 uv) {
     vec2 z, c;
 
     c.x = 1.3333 * (uv.x - 0.5) * scale - center.x;
@@ -79,7 +79,7 @@ vec3 convolution(TextureInfo buffer, mat3 m, vec2 uv) {
     return b;
 }
 
-vec4 color(vec2 uv) {
+vec4 mainColor(vec2 uv) {
     vec3 resx = convolution(texA, mx, uv);
     vec3 resy = convolution(texA, my, uv);
     
@@ -342,7 +342,7 @@ mat3 viewMatrix(vec3 eye, vec3 center, vec3 up) {
     return mat3(s, u, -f);
 }
 
-vec4 color(vec2 uv) {
+vec4 mainColor(vec2 uv) {
     vec3 viewDir = rayDirection(45.0, currentBuffer.size, uv * currentBuffer.size);
     vec3 eye = vec3(8.0, 5.0 * sin(0.2 * time), 7.0);
     

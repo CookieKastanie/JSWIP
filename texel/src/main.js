@@ -5,6 +5,8 @@ import { Time } from 'Akila/time';
 import { Process } from './process/Process';
 import { Exemples } from './exemples/Exemples';
 import { Editor } from './editor/Editor';
+import { UI } from './editor/UI';
+import { Text } from './lang/Text';
 
 console.log(Eagle.getString());
 
@@ -26,6 +28,10 @@ window.cmd = {
     },
     loadRayMarching: () => {
         Editor.setValue(Exemples.rayMarching());
+    },
+    setLang: lang => {
+        Text.setLanguage(lang);
+        UI.createMenus();
     },
     hardReset: () => {
         window.addEventListener('beforeunload', e => {

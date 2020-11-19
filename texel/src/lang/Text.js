@@ -1,9 +1,11 @@
 import fr from './fr';
+import en from './en';
 
 const langs = new Object();
 
 export class Text {
     static init() {
+        langs[Text.ENGLISH] = en;
         langs[Text.FRENCH] = fr;
 
         Text.setLanguage(Text.DEFAULT);
@@ -19,6 +21,6 @@ export class Text {
     }
 }
 
-
-Text.FRENCH = 'french';
+Text.ENGLISH = 'en';
+Text.FRENCH = 'fr';
 Text.DEFAULT = Text.FRENCH;

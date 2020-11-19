@@ -86,6 +86,6 @@ ${(() => {
 
 const fragEnd = `
 void main() {
-    gl_FragColor = color(uv);
+    gl_FragColor = mainColor(uv);
 }
 `.replace(/\r?\n|\r/g, ' ').replace(/\s+/g, ' ');

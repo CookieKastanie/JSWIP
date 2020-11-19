@@ -3,6 +3,7 @@ import { Layer } from "./Layer";
 import { Mesh } from "./Mesh";
 import { UI } from "../editor/UI";
 import { Editor } from "../editor/Editor";
+import { Downloader } from './Downloader';
 
 export class Process {
     static init() {
@@ -54,6 +55,9 @@ export class Process {
     }
 
     static setSelectedLayerSize(width, height) {
+        width = Math.max(width, 1);
+        height = Math.max(height, 1);
+        
         Process.selectedLayer.setSize(width, height);
         Process.display.setSize(width, height);
     }
@@ -110,6 +114,14 @@ export class Process {
         if(typeof textFile == 'string') {
             Process.unserializePrograms(textFile);
         }
+    }
+
+    static downloadPrograms() {
+        Downloader.text('program.texel', Process.serializePrograms());
+    }
+
+    static uploadPrograms(file) {
+        Process.unserializePrograms(file);
     }
 }
 
