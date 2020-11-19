@@ -235,10 +235,10 @@ exports.unbruh = (params, mess) =>{
     try{
       if (lastBruh){
         lastBruh.reactions.cache.forEach(reaction => {
-          if (reaction.me && (reaction.emoji.name === '🅱️'
-                           || reaction.emoji.name === '🇷'
-                           || reaction.emoji.name === '🇺'
-                           || reaction.emoji.name === '🇭' )) reaction.remove();
+          if (reaction.emoji.name === '🅱️' 
+          ||reaction.emoji.name === '🇷' 
+          ||reaction.emoji.name === '🇺' 
+          ||reaction.emoji.name === '🇭' ) reaction.users.remove(bot.user);
         });
       }
     } catch(e){}
@@ -261,27 +261,18 @@ exports.bigbruh = (params, mess) => {
 exports.stepbruh = (params, mess) => {
   const messId = params[0].split('/')[6];
   const chanId = params[0].split('/')[5];
-  const servId = params[0].split('/')[4];
   if (messId === undefined){}
   else{
-    /*bot.guilds.fetch(servId).channels.fetch(chanId).fetch(messId).then(async message => {
+    const chanal = Array.from(bot.getTextChannels().values()).find(c => c.id === chanId);
+
+    chanal.messages.fetch(messId).then(async message => {
       message.reactions.cache.forEach(reaction => {
-        if (reaction.me && (reaction.emoji.name === '🅱️'
-                         || reaction.emoji.name === '🇷'
-                         || reaction.emoji.name === '🇺'
-                         || reaction.emoji.name === '🇭' )) reaction.remove();
+        if (reaction.emoji.name === '🅱️' 
+          ||reaction.emoji.name === '🇷' 
+          ||reaction.emoji.name === '🇺' 
+          ||reaction.emoji.name === '🇭' ) reaction.users.remove(bot.user);
       });
-    }).catch();*/
-    Promise.resolve(async () => {
-      (await (await bot.guilds.fetch(servId)).channels.fetch(chanId)).cache.fetch(messId).then(async message => {
-        message.reactions.cache.forEach(reaction => {
-          if (reaction.me && (reaction.emoji.name === '🅱️'
-                           || reaction.emoji.name === '🇷'
-                           || reaction.emoji.name === '🇺'
-                           || reaction.emoji.name === '🇭' )) reaction.remove();
-        });
-      }).catch();
-    });
+    }).catch();
   }
 }
 
@@ -309,9 +300,25 @@ exports.unvote = (params, mess) =>{
   try{
     if (lastVote){
       lastVote.reactions.cache.forEach(reaction => {
-        if (reaction.me && (reaction.emoji.name === '👍'
-                         || reaction.emoji.name === '👎')) reaction.remove();
+        if (reaction.me && (reaction.emoji.name === '👍' 
+                         || reaction.emoji.name === '👎')) reaction.users.remove(bot.user);
       });
     }
   } catch(e) {}
+}
+
+exports.stopthecount = (params, mess) => {
+  const messId = params[0].split('/')[6];
+  const chanId = params[0].split('/')[5];
+  if (messId === undefined){}
+  else{
+    const chanal = Array.from(bot.getTextChannels().values()).find(c => c.id === chanId);
+
+    chanal.messages.fetch(messId).then(async message => {
+      message.reactions.cache.forEach(reaction => {
+        if (reaction.emoji.name === '👍' 
+          ||reaction.emoji.name === '👎') reaction.users.remove(bot.user);
+      });
+    }).catch();
+  }
 }
