@@ -1,24 +1,20 @@
 const Discord = require("discord.js");
 const bot = new Discord.Client();
-const canaux = new Object();
-const canauxVocaux = new Object();
+const canaux = new Map();
+const canauxVocaux = new Map();
 const cmds = require("./cmds");
 const tikitik = require("./tikitik");
 
 const cmdChar = '$';
 
 const findCanaux = () => {
-  let list = require("../datas/listeCanaux.json");
-
-  for (let l of list.text) {
-    let c = bot.channels.find(val => val.name === l);
-    if(c) canaux[l] = c;
-  }
-
-  for (let l of list.vocal) {
-    let c = bot.channels.find(val => val.name === l);
-    if(c) canauxVocaux[l] = c;
-  }
+  bot.channels.cache.forEach(c => {
+    if(c.type == 'text') {
+      canaux.set(c.name, c);
+    } else if(c.type == 'voice') {
+      canauxVocaux.set(c.name, c);
+    }
+  });
 }
 
 ////////////////////////////////////////////////////
@@ -39,6 +35,13 @@ bot.on('message', (mess) => {
 });
 
 ////////////////////////////////////////////////////
+
+exports.getCannaux = () => {
+  return {
+    text: Array.from(canaux.keys()),
+    vocal: Array.from(canauxVocaux.keys())
+  }
+}
 
 exports.start = () => {
   return new Promise((resolve) => {
@@ -64,12 +67,15 @@ exports.setGame = (str) => {
 }
 
 exports.setNickName = (serverIdent, userIdent, name) => {
-  const serv = bot.guilds.get(serverIdent);
-  serv.members.get(userIdent).setNickname(name).catch(() => {});
+  bot.guilds.fetch(serverIdent).then(serv => {
+    return serv.members.fetch(userIdent);
+  }).then(member => {
+    member.setNickname(name).catch(() => {});
+  });
 }
 
 const sayOn = (canal, message, secs = 0) => {
-  if(typeof canal == "string") canal = canaux[canal];
+  if(typeof canal == "string") canal = canaux.get(canal);
   if(!canal) return false;
 
   secs = Math.min(180, secs);

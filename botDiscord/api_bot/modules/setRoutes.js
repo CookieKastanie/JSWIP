@@ -1,5 +1,4 @@
 const bot = require("./bot");
-const canaux = require("../datas/listeCanaux.json");
 const reunion = require("./reunion");
 
 module.exports = app => {
@@ -9,7 +8,7 @@ module.exports = app => {
   });
 
   app.route("/canaux").get((req, res) => {
-    res.json(canaux);
+    res.json(bot.getCannaux());
   });
 
   app.route("/sayOn").post((req, res) => {

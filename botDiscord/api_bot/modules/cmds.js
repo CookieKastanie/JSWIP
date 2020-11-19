@@ -168,13 +168,12 @@ exports.screen = (params, mess) => {
 }
 
 exports.hide = (params, mess) => {
-  if(!mess.guild) return;
-  const mem = mess.guild.member(mess.author);
-  if(!mem) return;
-  const chan = bot.getVocalChannels()["Vocal secret"];
-  mem.setVoiceChannel(chan)
-  .then(() => {})
-  .catch(() => {});
+  mess.member.fetch(mess.author).then(mem => {
+    const chan = bot.getVocalChannels().get("Vocal secret");
+    mem.voice.setChannel(chan)
+    .then(() => {})
+    .catch(() => {});
+  }).catch(() => {});
 }
 
 ///////////////////////////////////////////////////////////////////////////////
