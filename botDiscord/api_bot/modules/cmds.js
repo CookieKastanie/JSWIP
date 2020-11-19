@@ -217,11 +217,13 @@ exports.bruh = (params, mess) => {
 }
 
 exports.unbruh = (params, mess) =>{
-  if (lastBruh){
-     lastBruh.reactions.cache.forEach(reaction => {
-      if (reaction.me && (reaction.emoji.name === '🅱️' || reaction.emoji.name === '🇷' ||reaction.emoji.name === '🇺' ||reaction.emoji.name === '🇭' )) reaction.remove();
-     });
-  }
+  try{
+    if (lastBruh){
+      lastBruh.reactions.cache.forEach(reaction => {
+        if (reaction.me && (reaction.emoji.name === '🅱️' || reaction.emoji.name === '🇷' ||reaction.emoji.name === '🇺' ||reaction.emoji.name === '🇭' )) reaction.remove();
+      });
+    }
+  } catch(e){}
 }
 
 exports.e = (params, mess) => {
@@ -247,9 +249,11 @@ exports.vote = (params, mess) => {
 }
 
 exports.unvote = (params, mess) =>{
-  if (lastVote){
-     lastVote.reactions.cache.forEach(reaction => {
-      if (reaction.me && (reaction.emoji.name === '👍' || reaction.emoji.name === '👎')) reaction.remove();
-     });
-  }
+  try{
+    if (lastVote){
+      lastVote.reactions.cache.forEach(reaction => {
+        if (reaction.me && (reaction.emoji.name === '👍' || reaction.emoji.name === '👎')) reaction.remove();
+      });
+    }
+  } catch(e) {}
 }
