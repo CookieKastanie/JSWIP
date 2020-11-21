@@ -132,14 +132,22 @@ exports.random = (params, mess) => {
 
 const ddf = require("../datas/defaultDanceFrames");
 let lastTimeDancePlay = 0;
-exports.default = (params, mess) => {
+exports.default = async (params, mess) => {
   if(lastTimeDancePlay + 30000 < Date.now()) {
     lastTimeDancePlay = Date.now();
+
+    if(mess.member.voice.channel) {
+      const connection = await mess.member.voice.channel.join();
+      const dispatcher = connection.play('./datas/fortnite-default-dance-sound.mp3',{volume : 1.0});
+      
+      dispatcher.on("finish", () => {connection.disconnect();});
+    
+    }
 
     mess.channel.send("```"+ ddf[0] +"```")
     .then(async (_mess) => {
       for(let i = 1; i < ddf.length; ++i) {
-        await sleep(500);
+        await sleep(700);
 
         try {
           await _mess.edit("```"+ ddf[i] +"```");
@@ -322,3 +330,60 @@ exports.stopthecount = (params, mess) => {
     }).catch();
   }
 }
+
+exports.somaj = async (params, mess) => {
+ if(mess.member.voice.channel) {
+  const connection = await mess.member.voice.channel.join();
+  const dispatcher = connection.play('./datas/somaj.mp3',{volume : 2.0});
+  
+  dispatcher.on("finish", () => {connection.disconnect();});
+
+}
+  else {
+    bot.sayOn(mess.channel, 'Gros pd, tu doit être connecté à un voice channel pour utiliser cette commande >:(', 15);
+  }
+
+}
+
+exports.bong = async (params, mess) => {
+  if(mess.member.voice.channel) {
+   const connection = await mess.member.voice.channel.join();
+   const dispatcher = connection.play('./datas/bong.mp3',{volume : 0.5});
+   
+   dispatcher.on("finish", () => {connection.disconnect();});
+ 
+ }
+   else {
+     bot.sayOn(mess.channel, 'Gros pd, tu doit être connecté à un voice channel pour utiliser cette commande >:(', 15);
+   }
+ 
+ }
+
+
+ exports.bruh_sound_effect_2 = async (params, mess) => {
+  if(mess.member.voice.channel) {
+   const connection = await mess.member.voice.channel.join();
+   const dispatcher = connection.play('./datas/bruh-sound-effect-2.mp3',{volume : 1.0});
+   
+   dispatcher.on("finish", () => {connection.disconnect();});
+ 
+ }
+   else {
+     bot.sayOn(mess.channel, 'Gros pd, tu doit être connecté à un voice channel pour utiliser cette commande >:(', 15);
+   }
+ 
+ }
+
+ exports.yooooooooooo = async (params, mess) => {
+  if(mess.member.voice.channel) {
+   const connection = await mess.member.voice.channel.join();
+   const dispatcher = connection.play('./datas/yooooooooooo.mp3',{volume : 0.7});
+   
+   dispatcher.on("finish", () => {connection.disconnect();});
+ 
+ }
+   else {
+     bot.sayOn(mess.channel, 'Gros pd, tu doit être connecté à un voice channel pour utiliser cette commande >:(', 15);
+   }
+ 
+ }
