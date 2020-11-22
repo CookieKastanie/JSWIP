@@ -69,15 +69,21 @@ exports.ciseaux = (params, mess) => {
 }
 
 /**** Gestion du bot */
+/* Change le jeu de l'activité de GLaDOS*/
 exports.game = (params, mess) => {
   if(params[0]) bot.setGame(params.join(" "));
 }
 
+/* Pour que GlaDOS t'envoies un petit message*/
 exports.private = (params, mess) => {
   let msg = params.join(" ");
   if(msg) mess.author.send(msg);
   else mess.author.send("Hey !");
 }
+
+/* Affiche l'avatar de la personne choisie (en @ ou avec l'ID, sinon la tienne)*/
+exports.avatar = (params, mess) => bot.sayOn(mess.channel,(mess.guild.member(params[0])!=null?mess.guild.member(params[0]).user:false || mess.mentions.users.first() || mess.author).avatarURL({size : 4096, format : 'png'}),15);
+
 
 /***============= **/
 /*** L'IRRESPECT  **/
