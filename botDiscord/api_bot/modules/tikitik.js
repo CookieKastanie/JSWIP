@@ -15,7 +15,7 @@ exports.init = () => {
         }
     }
 
-    schedule.scheduleJob('00 00 * * *', () => {
+    schedule.scheduleJob('0 0 * * *', function(){
         changeName();
     });
 
