@@ -433,11 +433,16 @@ exports.stopthecount = (params, mess) => {
 /*** GESTION DES SONS EN VOCAL  **/
 /***=========================== **/
 
+let tokenSound = true;
+
 async function playSound(params,mess,file,soundVolume){
   if(mess.member.voice.channel) {
-    const connection = await mess.member.voice.channel.join();
-    const dispatcher = connection.play(file,{volume : soundVolume});
-    dispatcher.on("finish", () => {connection.disconnect();});
+    if (tokenSound){
+      tokenSound = false;
+      const connection = await mess.member.voice.channel.join();
+      const dispatcher = connection.play(file,{volume : soundVolume});
+      dispatcher.on("finish", () => {connection.disconnect(); tokenSound = true;});
+    }
   }
     else {
       bot.sayOn(mess.channel, 'Gros pd, tu doit être connecté à un voice channel pour utiliser cette commande >:(', 15);

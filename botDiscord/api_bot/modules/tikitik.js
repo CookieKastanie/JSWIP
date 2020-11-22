@@ -15,9 +15,12 @@ exports.init = () => {
         }
     }
 
-    schedule.scheduleJob('0 0 * * *', function(){
-        changeName();
-    });
+    let rule = new schedule.RecurrenceRule();
+    rule.dayOfWeek = [new schedule.Range(0,6)];
+    rule.hour = 0;
+    rule.minute = 1;
 
-    changeName();
+    schedule.scheduleJob(rule, changeName);
+
+    //changeName();
 }
