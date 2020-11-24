@@ -25,6 +25,13 @@ const listeCommande = `Liste des commandes :
   //console.log(mess.author.username);
 }*/
 
+/***====================== **/
+/*** FONCTIONS STANDARDES  **/
+/***====================== **/
+
+/** HELP ALED OSCOUR
+ * Affiche une liste non-exaustive des commandes disponibles
+ */
 exports.help = (params, mess) => {
   bot.sayOn(mess.channel, "```"+ listeCommande +"```", 40);
 }
@@ -33,10 +40,17 @@ exports.aled = (params, mess) => {
   exports.help(params, mess);
 }
 
+exports.oscour = exports.help;
+
+/** PING
+ * Pong
+ */
 exports.ping = (params, mess) => {
   //bot.sayOn(mess.channel, "***pong***", 5);
   mess.author.send("***pong***");
 }
+
+/**** PIERRE FEUILLE CISEAUX  */
 
 exports.pierre = (params, mess) => {
   let res = PFC.jouer("pierre");
@@ -54,28 +68,72 @@ exports.ciseaux = (params, mess) => {
   if(res) mess.reply(":v: | "+ res);
 }
 
+/**** Gestion du bot */
+/* Change le jeu de l'activité de GLaDOS*/
+exports.game = (params, mess) => {
+  if(params[0]) bot.setGame(params.join(" "));
+}
+
+/* Pour que GlaDOS t'envoies un petit message*/
 exports.private = (params, mess) => {
   let msg = params.join(" ");
   if(msg) mess.author.send(msg);
   else mess.author.send("Hey !");
 }
 
+/* Affiche l'avatar de la personne choisie (en @ ou avec l'ID, sinon la tienne)*/
+exports.avatar = (params, mess) => bot.sayOn(mess.channel,(mess.guild.member(params[0])!=null?mess.guild.member(params[0]).user:false || mess.mentions.users.first() || mess.author).avatarURL({size : 4096, format : 'png'}),15);
+
+
+/***============= **/
+/*** L'IRRESPECT  **/
+/***============= **/
+
+/* Private joke sur Cyril*/
 exports.pd = (params, mess) => {
   bot.sayOn(mess.channel, "Cyril c'est un gros pd");
 }
 
+/* Private joke sur Nathan*/
 const pcPhrases = ["Alors il est bien ton pc Nathan ?", "Alors Nathan ce pc ?", "Il arrive quand ton pc ?"];
 exports.pc = (params, mess) => {
   bot.sayOn(mess.channel, pcPhrases[Math.floor(Math.random() * pcPhrases.length)]);
 }
 
+/* Private joke sur la meuf de la gare */
+exports.pk = (params, mess) => {
+  bot.sayOn(mess.channel, "Quel est le chemin le plus court pour aller vers ton coeur ?");
+}
+
+/***=========== **/
+/*** DES MATHS  **/
+/***=========== **/
+
+/*Affiche la constante reliant le perimètre au diamiètre d'un cercle*/
 exports.pi = (params, mess) => {
   bot.sayOn(mess.channel, Math.PI);
 }
 
-exports.game = (params, mess) => {
-  if(params[0]) bot.setGame(params.join(" "));
+/*Affiche la constante de Euler*/
+exports.e = (params, mess) => {
+  bot.sayOn(mess.channel, Math.E);
 }
+
+/*Affiche la constante du golden ratio */
+exports.phi = (params, mess) =>{
+  bot.sayOn(mess.channel, (Math.sqrt(5)+1)/2);
+}
+exports.φ = exports.phi;
+
+
+/***=================== **/
+/*** GROSSES FONCTIONS  **/
+/***=================== **/
+
+/****--------------- */
+/**** RANDOM         */
+/****--------------- */
+/* Permet à GLaDOS de montrer ses connaissances infinies */
 
 exports.random = (params, mess) => {
   let p = undefined;
@@ -130,16 +188,23 @@ exports.random = (params, mess) => {
   }
 }
 
+/****--------------- */
+/**** DEFAULT DANCE  */
+/****--------------- */
+/* Permet à GLaDOS de flex sur tout le monde en 4Dx */
+
 const ddf = require("../datas/defaultDanceFrames");
 let lastTimeDancePlay = 0;
-exports.default = (params, mess) => {
+exports.default = async (params, mess) => {
   if(lastTimeDancePlay + 30000 < Date.now()) {
     lastTimeDancePlay = Date.now();
+
+    playSound(params,mess,'./datas/mp3/fortnite-default-dance-sound.mp3',1.0);
 
     mess.channel.send("```"+ ddf[0] +"```")
     .then(async (_mess) => {
       for(let i = 1; i < ddf.length; ++i) {
-        await sleep(500);
+        await sleep(700);
 
         try {
           await _mess.edit("```"+ ddf[i] +"```");
@@ -156,7 +221,14 @@ exports.default = (params, mess) => {
   }
 }
 
-// envoi le lien pour ouvrir l'interface
+/***=================== **/
+/*** INTERFACE DISCORD  **/
+/***=================== **/
+
+/** SCREEN
+ * Envoi le lien pour ouvrir l'interface vidéo
+ * N'est plus utile car Discord le gère maintenant
+ */
 exports.screen = (params, mess) => {
   if(mess.member.voiceChannel) {
     bot.sayOn(mess.channel, bot.richEmbed()
@@ -167,6 +239,9 @@ exports.screen = (params, mess) => {
   }
 }
 
+/** HIDE
+ * Permet de se cacher dans le vocal secret
+ */
 exports.hide = (params, mess) => {
   mess.member.fetch(mess.author).then(mem => {
     const chan = bot.getVocalChannels().get("Vocal secret");
@@ -176,8 +251,13 @@ exports.hide = (params, mess) => {
   }).catch(() => {});
 }
 
-///////////////////////////////////////////////////////////////////////////////
+/***===================== **/
+/*** GESTION DE REUNIONS  **/
+/***===================== **/
 
+/** PRESENT
+ * Permet d'indiquer qu'on est présent à la réunion prévue
+ */
 exports.present = (params, mess) => {
   if(!reunion.existe(mess.channel.name)) {
     bot.sayOn(mess.channel, `Aucune réunion de prévu sur le canal ***${mess.channel.name}***`, 15);
@@ -191,6 +271,9 @@ exports.present = (params, mess) => {
   }
 }
 
+/** NOT PRESENT
+ * Permet d'indiquer qu'on ne fait plus parti de la réunion prévue
+ */
 exports.notpresent = (params, mess) => {
   let success = reunion.removeUserOn(mess.channel.name, mess.member.user.id);
   if(success) {
@@ -201,18 +284,28 @@ exports.notpresent = (params, mess) => {
   }
 }
 
-///////////////////
+/***====================== **/
+/*** GESTION DE REACTIONS  **/
+/***====================== **/
 
-let lastBruh;
+/****---------- */
+/**** 🅱 R U H */
+/****---------- */
+
+let lastBruh; // Sauvegarde la référence du dernier message ayant reçu la demande "BRUH"
+
+/** BRUH
+ * Ajoute les réactions "B" "R" "U" "H" au dernier message, ou à celui choisi
+ */
 exports.bruh = (params, mess) => {
+ 
   let messId;
-
-  if (params[0]) messId = params[0].split('/')[6];
-
+  if (params[0]) messId = params[0].split('/')[6];  //Si on choisi un message en envoyant son lien
   if(messId){
     exports.bigbruh(params, mess);
   }
-  else
+  else                                              //Sinon on le fait sur le dernier message
+
   mess.channel.messages.fetch({ limit: 1}).then(async messages => {
     let lastMessage = messages.first();
     lastBruh = lastMessage;
@@ -223,6 +316,9 @@ exports.bruh = (params, mess) => {
   }).catch();
 }
 
+/** UN-BRUH
+ * Enlève les réactions "B" "R" "U" "H" au dernier message, ou à celui choisi
+ */
 exports.unbruh = (params, mess) =>{
   let messId;
 
@@ -245,6 +341,9 @@ exports.unbruh = (params, mess) =>{
   }
 }
 
+/** BIG BRUH
+ * Permet de realiser la commande "BRUH" sur n'importe message tant qu'on a le lien
+ */
 exports.bigbruh = (params, mess) => {
   const messId = params[0].split('/')[6];
   if (messId === undefined){}
@@ -258,6 +357,9 @@ exports.bigbruh = (params, mess) => {
   }
 }
 
+/** STEP BRUH
+ * Permet de realiser la commande "UN-BRUH" sur n'importe message tant qu'on a le lien
+ */
 exports.stepbruh = (params, mess) => {
   const messId = params[0].split('/')[6];
   const chanId = params[0].split('/')[5];
@@ -276,17 +378,15 @@ exports.stepbruh = (params, mess) => {
   }
 }
 
-exports.e = (params, mess) => {
-  bot.sayOn(mess.channel, Math.E);
-}
+/****--------- */
+/**** ✔ O T E  */
+/****--------- */
 
-exports.phi = (params, mess) =>{
-  bot.sayOn(mess.channel, (Math.sqrt(5)+1)/2);
-}
+let lastVote; // Sauvegarde la référence du dernier message ayant reçu la demande "VOTE"
 
-exports.φ = exports.phi;
-
-let lastVote;
+/** VOTE
+ * Ajoute les réactions de vote "oui" et "non" sur le dernier message
+ */
 exports.vote = (params, mess) => {
   mess.channel.messages.fetch({limit: 1}).then(async messages => {
     let lastMessage = messages.first();
@@ -296,6 +396,9 @@ exports.vote = (params, mess) => {
   }).catch();
 }
 
+/** UN-VOTE
+ * Enlève les réactions de vote sur le dernier message
+ */
 exports.unvote = (params, mess) =>{
   try{
     if (lastVote){
@@ -307,6 +410,9 @@ exports.unvote = (params, mess) =>{
   } catch(e) {}
 }
 
+/** STOP THE COUNT
+ * Permet de "UN-VOTE" n'importe quel message dont on a le lien
+ */
 exports.stopthecount = (params, mess) => {
   const messId = params[0].split('/')[6];
   const chanId = params[0].split('/')[5];
@@ -322,3 +428,50 @@ exports.stopthecount = (params, mess) => {
     }).catch();
   }
 }
+
+/***=========================== **/
+/*** GESTION DES SONS EN VOCAL  **/
+/***=========================== **/
+
+let tokenSound = true;
+
+async function playSound(params,mess,file,soundVolume){
+  if(mess.member.voice.channel) {
+    if (tokenSound){
+      tokenSound = false;
+      const connection = await mess.member.voice.channel.join();
+      const dispatcher = connection.play(file,{volume : soundVolume});
+      dispatcher.on("finish", () => {connection.disconnect(); tokenSound = true;});
+    }
+  }
+    else {
+      bot.sayOn(mess.channel, 'Gros pd, tu doit être connecté à un voice channel pour utiliser cette commande >:(', 15);
+    }
+} 
+
+exports.somaj = (params, mess) => {
+ playSound(params,mess,'./datas/mp3/somaj.mp3',2.0);
+}
+
+exports.bong = (params, mess) => {
+  playSound(params,mess,'./datas/mp3/bong.mp3',0.5);
+}
+
+exports.bruh2 = (params, mess) => {
+  playSound(params,mess,'./datas/mp3/bruh-sound-effect-2.mp3',1.0);
+}
+
+exports.yooooooooooo = (params, mess) => {
+  playSound(params,mess,'./datas/mp3/yooooooooooo.mp3',0.7);
+}
+
+exports.kfc = (params, mess) => {
+  playSound(params,mess,'./datas/mp3/11-tenders-kfc-pour-seulement-695eur-le-mardi.mp3',1.0);
+}
+
+exports.ine = (params, mess) => {
+  playSound(params,mess,'./datas/mp3/ine.mp3',1.0);
+}
+
+
+
