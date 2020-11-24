@@ -473,5 +473,6 @@ exports.ine = (params, mess) => {
   playSound(params,mess,'./datas/mp3/ine.mp3',1.0);
 }
 
-
-
+exports.wooow = (params, mess) => {
+  playSound(params,mess,'./datas/mp3/wooow.mp3',1.0);
+}
