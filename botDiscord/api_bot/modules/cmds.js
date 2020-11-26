@@ -199,7 +199,7 @@ exports.default = async (params, mess) => {
   if(lastTimeDancePlay + 30000 < Date.now()) {
     lastTimeDancePlay = Date.now();
 
-    playSound(params,mess,'./datas/mp3/fortnite-default-dance-sound.mp3',1.0);
+    if(mess.member.voice.channel) playSound(params,mess,'./datas/mp3/fortnite-default-dance-sound.mp3',1.0);
 
     mess.channel.send("```"+ ddf[0] +"```")
     .then(async (_mess) => {
