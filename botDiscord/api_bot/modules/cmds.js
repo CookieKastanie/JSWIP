@@ -105,6 +105,10 @@ exports.pk = (params, mess) => {
   bot.sayOn(mess.channel, "Quel est le chemin le plus court pour aller vers ton coeur ?");
 }
 
+exports.PUTAIN = (params, mess) => {
+  bot.sayOn(mess.channel, "https://tenor.com/view/christmas-tree-hit-crazy-random-angry-gif-19034195");
+}
+
 /***=========== **/
 /*** DES MATHS  **/
 /***=========== **/
@@ -199,7 +203,7 @@ exports.default = async (params, mess) => {
   if(lastTimeDancePlay + 30000 < Date.now()) {
     lastTimeDancePlay = Date.now();
 
-    playSound(params,mess,'./datas/mp3/fortnite-default-dance-sound.mp3',1.0);
+    if(mess.member.voice.channel) playSound(params,mess,'./datas/mp3/fortnite-default-dance-sound.mp3',1.0);
 
     mess.channel.send("```"+ ddf[0] +"```")
     .then(async (_mess) => {
@@ -437,7 +441,7 @@ let tokenSound = true;
 
 async function playSound(params,mess,file,soundVolume){
   if(mess.member.voice.channel) {
-    if (tokenSound){
+    /*if (tokenSound)*/{
       tokenSound = false;
       const connection = await mess.member.voice.channel.join();
       const dispatcher = connection.play(file,{volume : soundVolume});
