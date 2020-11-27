@@ -461,6 +461,10 @@ exports.bong = (params, mess) => {
   playSound(params,mess,'./datas/mp3/bong.mp3',0.5);
 }
 
+exports.bang = (params, mess) => {
+  playSound(params,mess,'./datas/mp3/bang.mp3',1.0);
+}
+
 exports.bruh2 = (params, mess) => {
   playSound(params,mess,'./datas/mp3/bruh-sound-effect-2.mp3',1.0);
 }
