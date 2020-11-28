@@ -503,9 +503,14 @@ const ytOpts = {
 exports.play = (params, mess) => {
   const songName = params.join(' ');
 
+  const options = {
+    filter: 'audioonly',
+    dlChunkSize: 2000000
+  }
+
   if(songName) {
     if(songName.startsWith('http')) {
-      playSound(params, mess, ytdl(songName), 0.2);
+      playSound(params, mess, ytdl(songName, options), 0.2);
     } else {
       ytSearch(songName, ytOpts, (err, results) => {
         if(err){
@@ -514,7 +519,7 @@ exports.play = (params, mess) => {
         }
         
         if(results.length >= 1) {
-          playSound(params, mess, ytdl(results[0].link), 0.2);
+          playSound(params, mess, ytdl(results[0].link, options), 0.2);
         } else {
           bot.sayOn(mess.channel, `Aucun résultat pour : ${songName}`, 10);
         }
