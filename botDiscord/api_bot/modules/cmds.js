@@ -439,12 +439,12 @@ exports.stopthecount = (params, mess) => {
 
 let tokenSound = true;
 
-const playSound = async (params, mess, file, soundVolume) => {
+const playSound = async (params, mess, file, soundVolume, soundTimestamp = 0) => {
   if(mess.member.voice.channel) {
     /*if (tokenSound)*/{
       tokenSound = false;
       const connection = await mess.member.voice.channel.join();
-      const dispatcher = connection.play(file, {volume: soundVolume});
+      const dispatcher = connection.play(file, {volume: soundVolume, seek : soundTimestamp});
       dispatcher.on("finish", () => {connection.disconnect(); tokenSound = true;});
     }
   }
@@ -514,7 +514,10 @@ exports.play = (params, mess) => {
 
   if(songName) {
     if(songName.startsWith('http')) {
-      playSound(params, mess, ytdl(songName, options), 0.2);
+      const n = params[params.length-1].search("\\?t=");
+      let time = n!==-1?params[params.length-1].substr(n+2,params[params.length-1].length):0;
+      time = time?parseInt(time.match(/\d+/),10):0;
+      playSound(params, mess, ytdl(songName, options), 0.2, time);
     } else {
       ytSearch(songName, ytOpts, (err, results) => {
         if(err){
