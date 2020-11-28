@@ -11,7 +11,7 @@ export class Process {
 
         Process.display = new Display(600, 600, {webGLVersion: 2, antialias: false});
         Process.display.disable(Display.DEPTH_TEST);
-        Process.display.setClearColor(0.0, 0.0, 0.0, 1.0);
+        Process.display.setClearColor(0.0, 0.0, 0.0, 0.0);
         Process.display.clear();
 
         Process.debbugTexture = new Texture(null, 1, 1);

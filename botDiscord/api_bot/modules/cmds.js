@@ -444,7 +444,7 @@ async function playSound(params,mess,file,soundVolume){
     /*if (tokenSound)*/{
       tokenSound = false;
       const connection = await mess.member.voice.channel.join();
-      const dispatcher = connection.play(file,{volume : soundVolume});
+      const dispatcher = connection.play(file, {volume : soundVolume});
       dispatcher.on("finish", () => {connection.disconnect(); tokenSound = true;});
     }
   }
@@ -489,3 +489,36 @@ exports.cum = (params, mess) => {
   playSound(params,mess,'./datas/mp3/keanu-reeves-says-why-do-you-cum.mp3',1.0);
 }
 
+/***=========================== **/
+/***     MUSIQUES  YOUTUBE      **/
+/***=========================== **/
+
+const ytdl = require("ytdl-core");
+const ytSearch = require('youtube-search');
+const ytOpts = {
+  maxResults: 1,
+  key: require('../secrete.json').ytApiKey
+};
+
+exports.play = (params, mess) => {
+  const songName = params.join(' ');
+
+  if(songName) {
+    ytSearch(songName, ytOpts, (err, results) => {
+      if(err) return console.log(err);
+      
+      if(results.length >= 1) {
+        playSound(params, mess, ytdl(results[0].link), 0.2);
+      } else {
+        bot.sayOn(mess.channel, `Aucun résultat pour : ${songName}`);
+      }
+    });
+  }
+}
+
+exports.tg = exports.stop = async (params, mess) => {
+  if(mess.member.voice.channel) {
+    const connection = await mess.member.voice.channel.join();
+    connection.disconnect();
+  }
+}
