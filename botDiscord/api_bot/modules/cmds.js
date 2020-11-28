@@ -439,19 +439,19 @@ exports.stopthecount = (params, mess) => {
 
 let tokenSound = true;
 
-async function playSound(params,mess,file,soundVolume){
+const playSound = async (params, mess, file, soundVolume) => {
   if(mess.member.voice.channel) {
     /*if (tokenSound)*/{
       tokenSound = false;
       const connection = await mess.member.voice.channel.join();
-      const dispatcher = connection.play(file, {volume : soundVolume});
+      const dispatcher = connection.play(file, {volume: soundVolume});
       dispatcher.on("finish", () => {connection.disconnect(); tokenSound = true;});
     }
   }
     else {
       bot.sayOn(mess.channel, 'Gros pd, tu doit être connecté à un voice channel pour utiliser cette commande >:(', 15);
     }
-} 
+}
 
 exports.somaj = (params, mess) => {
  playSound(params,mess,'./datas/mp3/somaj.mp3',2.0);
@@ -463,6 +463,10 @@ exports.bong = (params, mess) => {
 
 exports.bang = (params, mess) => {
   playSound(params,mess,'./datas/mp3/bang.mp3',1.0);
+}
+
+exports.dearsister = exports.bang2 = (params, mess) => {
+  playSound(params,mess,'./datas/mp3/DearSister.wav',0.3);
 }
 
 exports.bruh2 = (params, mess) => {
@@ -503,22 +507,35 @@ const ytOpts = {
 exports.play = (params, mess) => {
   const songName = params.join(' ');
 
+  const options = {
+    filter: 'audioonly',
+    dlChunkSize: 2000000
+  }
+
   if(songName) {
-    ytSearch(songName, ytOpts, (err, results) => {
-      if(err) return console.log(err);
-      
-      if(results.length >= 1) {
-        playSound(params, mess, ytdl(results[0].link), 0.2);
-      } else {
-        bot.sayOn(mess.channel, `Aucun résultat pour : ${songName}`);
-      }
-    });
+    if(songName.startsWith('http')) {
+      playSound(params, mess, ytdl(songName, options), 0.2);
+    } else {
+      ytSearch(songName, ytOpts, (err, results) => {
+        if(err){
+          bot.sayOn(mess.channel, `Youtube c'est de la merde, utilise une url directe`, 10);
+          return console.log(err);
+        }
+        
+        if(results.length >= 1) {
+          playSound(params, mess, ytdl(results[0].link, options), 0.2);
+        } else {
+          bot.sayOn(mess.channel, `Aucun résultat pour : ${songName}`, 10);
+        }
+      });
+    }
   }
 }
 
 exports.tg = exports.stop = async (params, mess) => {
   if(mess.member.voice.channel) {
-    const connection = await mess.member.voice.channel.join();
-    connection.disconnect();
+    try {
+      await mess.member.voice.channel.leave();
+    } catch (error) {}
   }
 }
