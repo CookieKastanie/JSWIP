@@ -18,7 +18,7 @@ module.exports = app => {
 
   app.route("/reunion").post((req, res) => {
     let data = req.body;
-    if(!canaux.text.includes(data.canal)) {
+    if(!bot.getCannaux().text.includes(data.canal)) {
       res.sendStatus(400);
       return;
     }

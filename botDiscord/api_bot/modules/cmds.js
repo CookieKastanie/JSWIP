@@ -234,9 +234,9 @@ exports.default = async (params, mess) => {
  * N'est plus utile car Discord le gère maintenant
  */
 exports.screen = (params, mess) => {
-  if(mess.member.voiceChannel) {
+  if(mess.member.voice.channel) {
     bot.sayOn(mess.channel, bot.richEmbed()
-    .addField('Lien du channel vocal:', `https://discordapp.com/channels/${mess.member.guild.id}/${mess.member.voiceChannel.id}`)
+    .addField('Lien du channel vocal:', `https://discordapp.com/channels/${mess.guild.id}/${mess.member.voice.channel.id}`)
     .setColor(0x9B59B6));
   } else {
     bot.sayOn(mess.channel, 'Gros pd, tu doit être connecté à un voice channel pour utiliser cette commande >:(', 15);
