@@ -31,7 +31,9 @@ body {
     max-height: 100%;
 }
 
-
+#logo {
+    height: 80%;
+}
 
 #code {
     height: 90%;

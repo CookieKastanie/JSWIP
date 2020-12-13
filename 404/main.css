@@ -1,0 +1,17 @@
+.container {
+    margin-top: 5em;
+    text-align: center;
+}
+
+.img-fluid {
+   width: 70%;
+   max-height: 50vh;
+}
+
+a {
+    color: white;
+}
+
+a:hover{
+    color: white;
+}

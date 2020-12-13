@@ -37,7 +37,7 @@ function lireDossier($chemin, $exept = array()){
             <div class="list-group">
                 <?php
 
-                $liste = lireDossier("./", array("index.php", "favicon.ico", "CV", "Tests", "WIPGL", "Site16mb"));
+                $liste = lireDossier("./", array("index.php", "favicon.ico", "CV", "Tests", "WIPGL", "Site16mb", "404"));
                 sort($liste);
 
                 foreach ($liste as $e) {
