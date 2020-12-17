@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="list"></div>
+    <br>
+    <br>
+    <br>
+    <form id="upload">
+        <label for="name">Nom :</label>
+        <input id="name" type="text">
+
+        <label for="psw">Mot de passe :</label>
+        <input id="psw" type="text">
+
+        <label for="files">Fichiers :</label>
+        <input id="files" type="file" multiple>
+
+        <input type="submit" value="Envoyer">
+    </form>
+    <progress id="progressBar" value="0" max="100" style="width:300px;"></progress>
+
+    <link rel="stylesheet" href="./bundle.css">
+    <script src="./bundle.js"></script>
+</body>
+</html>
