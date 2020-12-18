@@ -7,20 +7,20 @@ const flex = new Flex();
 
 const refreshList = () => {
     flex.getFilesList().then(files => {
-        const div = UITools.cleanQuery('#list');
+        const table = UITools.cleanQuery('#list');
 
         for(const f of files) {
-            const d = UITools.create('div');
+            const tr = UITools.create('tr');
 
-            const p = UITools.create('pre', {text: f.name}); 
-            const psw = UITools.create('input', {type: 'text', placeholder: 'Mot de passe'});
-            const dow = UITools.create('button', {text: 'Télécharger'});
-            const del = UITools.create('button', {text: 'Supprimer'});
+            const p = UITools.create('p', {text: f.name}); 
+            const psw = UITools.create('input', {type: 'text', class: 'form-control', placeholder: 'Mot de passe'});
+            const dow = UITools.create('button', {text: 'Télécharger', class: ['btn', 'btn-outline-primary']});
+            const del = UITools.create('button', {text: 'Supprimer', class: ['btn', 'btn-outline-danger']});
 
 
             dow.addEventListener('click', () => {
                 const a = UITools.create('a', {
-                    href: `${flex.host}/get/${f.name}/${psw.value ? psw.value : '_'}`,
+                    href: `${flex.host}/get/${f.name}/${psw.value}`,
                     download: f.name,
                     style: 'display: none;'
                 });
@@ -35,11 +35,11 @@ const refreshList = () => {
                 });
             });
 
-            d.appendChild(p);
-            d.appendChild(psw);
-            d.appendChild(dow);
-            d.appendChild(del);
-            div.appendChild(d);
+            tr.appendChild(UITools.encap('td', p));
+            tr.appendChild(UITools.encap('td', psw));
+            tr.appendChild(UITools.encap('td', dow));
+            tr.appendChild(UITools.encap('td', del));
+            table.appendChild(tr);
         }
     });
 }
@@ -70,7 +70,7 @@ form.addEventListener('submit', e => {
     isUploading = true;
     flex.send(nameInput.value, pswInput.value, 0, filesInput.files, e => {
         const percent = (e.loaded / e.total) * 100;
-        progressBar.value = Math.round(percent);
+        progressBar.setAttribute('style', `width:${Math.round(percent)}%`);
     }).then(() => {
         refreshList();
 

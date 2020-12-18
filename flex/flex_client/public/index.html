@@ -1,29 +1,44 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta name="description" content="Flex - Files Exchanges.">
+    <title>Flex</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
 </head>
 <body>
-    <div id="list"></div>
-    <br>
-    <br>
-    <br>
-    <form id="upload">
-        <label for="name">Nom :</label>
-        <input id="name" type="text">
+    <div class="container">
+        <h1>Flex.</h1>
+        <hr>
+        <table class="table">
+              <tbody id="list"></tbody>
+        </table>
+        <hr>
+        <br>
+        <form id="upload">
+            <div class="form-group">
+                <label for="name" class="form-label">Nom :</label>
+                <input id="name" type="text" class="form-control">
+            </div>
 
-        <label for="psw">Mot de passe :</label>
-        <input id="psw" type="text">
+            <div class="form-group">
+                <label for="psw" class="form-label">Mot de passe :</label>
+                <input id="psw" type="text" class="form-control">
+            </div>
 
-        <label for="files">Fichiers :</label>
-        <input id="files" type="file" multiple>
-
-        <input type="submit" value="Envoyer">
-    </form>
-    <progress id="progressBar" value="0" max="100" style="width:300px;"></progress>
-
+            <div class="form-group">
+                <label for="files" class="form-label">Fichiers :</label>
+                <input id="files" type="file" multiple class="form-control">
+            </div>
+            <br>
+            <button type="submit" class="btn btn-outline-primary">Envoyer</button>
+        </form>
+        <br>
+        <div class="progress">
+            <div id="progressBar" class="progress-bar" style="width:0%" role="progressbar"></div>
+        </div>
+    </div>
     <link rel="stylesheet" href="./bundle.css">
     <script src="./bundle.js"></script>
 </body>

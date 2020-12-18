@@ -1,3 +1,21 @@
-pre {
-    display: inline-block;
+h1 {
+    margin-top: 0.5em;
+}
+
+.table td {
+    border: none;
+    text-align: center;   
+}
+
+@media 
+only screen and (max-width: 760px),
+(min-device-width: 768px) and (max-device-width: 1024px)  {
+	table, thead, tbody, th, td, tr { 
+		display: block; 
+	}
+	
+	td { 
+		position: relative;
+		padding-left: 50%; 
+	}
 }
