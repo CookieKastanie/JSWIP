@@ -44,6 +44,10 @@ export class Flex {
         });
     }
 
+    linkFrom(name, password) {
+        return `${this.host}/get/${name}/${password}`;
+    }
+
     async delete(name, password) {
         const formData = new FormData();
         formData.append('name', name);

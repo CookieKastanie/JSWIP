@@ -5,6 +5,10 @@ import { UITools } from './UITools';
 
 const flex = new Flex();
 
+const copyToClipboard = str => {
+    navigator.clipboard.writeText(str).then(() => {}).catch(console.log);
+};
+
 const refreshList = () => {
     flex.getFilesList().then(files => {
         const table = UITools.cleanQuery('#list');
@@ -15,18 +19,23 @@ const refreshList = () => {
             const p = UITools.create('p', {text: f.name}); 
             const psw = UITools.create('input', {type: 'text', class: 'form-control', placeholder: 'Mot de passe'});
             const dow = UITools.create('button', {text: 'Télécharger', class: ['btn', 'btn-outline-primary']});
+            const link = UITools.create('button', {text: '🔗', class: ['btn', 'btn-outline-secondary']});
             const del = UITools.create('button', {text: 'Supprimer', class: ['btn', 'btn-outline-danger']});
 
 
             dow.addEventListener('click', () => {
                 const a = UITools.create('a', {
-                    href: `${flex.host}/get/${f.name}/${psw.value}`,
+                    href: flex.linkFrom(f.name, psw.value),
                     download: f.name,
                     style: 'display: none;'
                 });
                 document.body.appendChild(a);
                 a.click();
                 document.body.removeChild(a);
+            });
+
+            link.addEventListener('click', () => {
+                copyToClipboard(flex.linkFrom(f.name, psw.value));
             });
 
             del.addEventListener('click', () => {
@@ -38,6 +47,7 @@ const refreshList = () => {
             tr.appendChild(UITools.encap('td', p));
             tr.appendChild(UITools.encap('td', psw));
             tr.appendChild(UITools.encap('td', dow));
+            tr.appendChild(UITools.encap('td', link));
             tr.appendChild(UITools.encap('td', del));
             table.appendChild(tr);
         }
