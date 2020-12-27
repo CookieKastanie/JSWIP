@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Flex - Files Exchanges.">
     <title>Flex</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <link href="https://bootswatch.com/4/sketchy/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
     <div class="container">
@@ -19,7 +19,7 @@
         <form id="upload">
             <div class="form-group">
                 <label for="name" class="form-label">Nom :</label>
-                <input id="name" type="text" class="form-control">
+                <input id="name" type="text" class="form-control" required>
             </div>
 
             <div class="form-group">
@@ -29,14 +29,14 @@
 
             <div class="form-group">
                 <label for="files" class="form-label">Fichiers :</label>
-                <input id="files" type="file" multiple class="form-control">
+                <input id="files" type="file" multiple class="form-control" required>
             </div>
             <br>
             <button type="submit" class="btn btn-outline-primary">Envoyer</button>
         </form>
         <br>
         <div class="progress">
-            <div id="progressBar" class="progress-bar" style="width:0%" role="progressbar"></div>
+            <div id="progressBar" class="progress-bar bg-info" style="width:0%" role="progressbar"></div>
         </div>
     </div>
     <link rel="stylesheet" href="./bundle.css">

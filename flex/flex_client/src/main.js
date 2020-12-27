@@ -18,7 +18,7 @@ const refreshList = () => {
 
             const p = UITools.create('p', {text: f.name}); 
             const psw = UITools.create('input', {type: 'text', class: 'form-control', placeholder: 'Mot de passe'});
-            const dow = UITools.create('button', {text: 'Télécharger', class: ['btn', 'btn-outline-primary']});
+            const dow = UITools.create('button', {text: 'Télécharger', class: ['btn', 'btn-outline-info']});
             const link = UITools.create('button', {text: '🔗', class: ['btn', 'btn-outline-secondary']});
             const del = UITools.create('button', {text: 'Supprimer', class: ['btn', 'btn-outline-danger']});
 
@@ -44,8 +44,8 @@ const refreshList = () => {
                 });
             });
 
-            tr.appendChild(UITools.encap('td', p));
-            tr.appendChild(UITools.encap('td', psw));
+            tr.appendChild(UITools.encap('td', p, {class: 'td-data'}));
+            tr.appendChild(UITools.encap('td', psw, {class: 'td-data'}));
             tr.appendChild(UITools.encap('td', dow));
             tr.appendChild(UITools.encap('td', link));
             tr.appendChild(UITools.encap('td', del));

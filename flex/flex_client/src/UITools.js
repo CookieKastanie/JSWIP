@@ -28,8 +28,8 @@ export class UITools {
         return e;
     }
 
-    static encap(name, elem) {
-        const d = UITools.create(name);
+    static encap(name, elem, options = {}) {
+        const d = UITools.create(name, options);
         d.appendChild(elem);
         return d;
     }
