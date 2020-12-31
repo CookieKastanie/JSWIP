@@ -8,5 +8,9 @@
     "start": "node main.js"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "tus-metadata": "^1.0.2",
+    "tus-node-server": "^0.3.2"
+  }
 }

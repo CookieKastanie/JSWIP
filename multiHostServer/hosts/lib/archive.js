@@ -35,11 +35,6 @@ module.exports = {
     },
 
     unzip(folder, zipName) {
-        return new Promise((resolve, reject) => {
-            extract(`./${zipName}.zip`, {dir: `${process.cwd()}/${folder}`}, err => {
-                if(err) reject(err);
-                else resolve();
-            });
-        });
+        return extract(`./${zipName}.zip`, {dir: `${process.cwd()}/${folder}`});
     }
 }

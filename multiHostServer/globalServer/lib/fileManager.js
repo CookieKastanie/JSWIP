@@ -9,9 +9,9 @@ module.exports = {
         });
     },
 
-    save(name, data) {
+    save(name, tmp) {
         return new Promise((resolve, reject) => {
-            fs.writeFile(`./saves/${name}.zip`, data, err => {
+            fs.rename(tmp, `./saves/${name}.zip`, err => {
                 if(err) {
                     reject(err);
                 } else {

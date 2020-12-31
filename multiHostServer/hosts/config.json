@@ -1,6 +1,6 @@
 {
     "api": {
-        "hostname": "letoutchaud.fr",
+        "hostname": "localhost",
         "port": 4100
     },
 

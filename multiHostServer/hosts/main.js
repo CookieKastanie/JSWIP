@@ -32,7 +32,7 @@ const main = async () => {
 
         const address = await api.getAddress();
         console.log(`////////////////////////////////////////////////\n`);
-        console.log(`Adresse public: ${address}`);
+        console.log(`Adresse public: ${address}\n`);
         console.log(`////////////////////////////////////////////////\n`);
 
         const zipName = `${server.name}#${server.shared_folder}`;
@@ -50,30 +50,31 @@ const main = async () => {
             await state.set(state.UNZIPPING);
             await archive.unzip(server.folder, zipName_recieved);
         } else {
-            console.log('le fichier n existe pas');
+            console.log('Le fichier n existe pas');
         }
 
         console.log('Demmarrage du programme');
         await state.set(state.RUNNING);
         await host();
-        console.log('Fin du programme');
+        console.log('\nFin du programme\n');
 
-        console.log('Préparations des fichiers');
+        console.log('Preparations des fichiers');
         await state.set(state.ZIPPING);
         await archive.zip(server.folder, server.shared_folder, zipName_sended);
 
         console.log('Envoi des fichiers de sauvegarde');
         await state.set(state.SENDING);
         await api.send(zipName, zipName_sended, p => {
-            //process.stdout.write("\x1b[K--> " + (p * 100).toString().substring(0, 5) + " %\r");
-            process.stdout.write('.');
+            process.stdout.write("\x1b[K--> " + (p * 100).toString().substring(0, 5) + " %\r");
+            //process.stdout.write('.');
         });
 
         await state.set(state.READY);
-        console.log('\n\nTerminé !');
+        console.log('\n\nTermine !');
 
         exit();
     } catch(e) {
+        console.log();
         console.log(e);
         exit();
     }

@@ -2,6 +2,7 @@ const http = require('http');
 const { api } = require('./config');
 const { secret } = require('../secret.json');
 const fs = require('fs');
+const tus = require('tus-js-client');
 
 module.exports = {
     get(action) {
@@ -30,7 +31,7 @@ module.exports = {
                 });
             });
 
-            req.on("error", reject);
+            req.on('error', reject);
     
             req.end();
         });
@@ -65,7 +66,7 @@ module.exports = {
                 });
             });
 
-            req.on("error", reject);
+            req.on('error', reject);
 
             req.write(data);
             req.end();
@@ -73,7 +74,7 @@ module.exports = {
     },
 
     sendFile(path, name, progress) {
-        return new Promise((resolve, reject) => {
+        /*return new Promise((resolve, reject) => {
             fs.readFile(path, (err, data) => {
                 if(err) {
                     reject(err);
@@ -107,7 +108,10 @@ module.exports = {
                     });
                 });
 
-                req.on("error", reject);
+                req.on('error', e => {
+                    clearInterval(tmrID);
+                    reject(e);
+                });
     
                 req.write(data);
                 req.end();
@@ -115,6 +119,41 @@ module.exports = {
                 const tmrID = setInterval(() => {
                     progress();
                 }, 1000);
+            });
+        });*/
+
+        return new Promise((resolve, reject) => {
+            fs.readFile(path, (err, file) => {
+                if(err) {
+                    reject(err);
+                    return;
+                }
+
+                const upload = new tus.Upload(file, {
+                    endpoint: `http://${api.hostname}:${api.port}/upload`,
+                    retryDelays: [0, 3000, 5000, 10000, 20000],
+                    metadata: {
+                        filename: name
+                    },
+                    headers: {
+                        'Content-Type': 'bin/zip',
+                        'authorization': secret
+                    },
+    
+                    onError(error) {
+                        reject(error);
+                    },
+    
+                    onProgress(bytesUploaded, bytesTotal) {
+                        progress(bytesUploaded / bytesTotal);
+                    },
+    
+                    onSuccess() {
+                        resolve();
+                    }
+                });
+    
+                upload.start();
             });
         });
     },

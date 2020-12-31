@@ -24,17 +24,17 @@ module.exports = {
         return {exist: await fileManager.exist(name)};
     },
 
-    upload(req, data) {
+    /*upload(req, tmp) {
         const name = req.headers['resource-name'];
         if(name) {
-            return fileManager.save(name, data).then(() => {return {valid: true}}).catch(e => {
+            return fileManager.save(name, tmp).then(() => {return {valid: true}}).catch(e => {
                 console.log(e);
                 return {valid: false}
             })
         } else {
             return {valid: false};
         }
-    },
+    },*/
 
     download(req, data) {
         const {name} = data;
