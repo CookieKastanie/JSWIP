@@ -74,8 +74,22 @@ form.addEventListener('submit', e => {
     const nameInput = UITools.query('#name');
     const pswInput = UITools.query('#psw');
     const filesInput = UITools.query('#files');
+    const sendBtn = UITools.query('#send-btn');
 
     const progressBar = UITools.query('#progressBar');
+
+    nameInput.setAttribute('disabled', '');
+    pswInput.setAttribute('disabled', '');
+    filesInput.setAttribute('disabled', '');
+    sendBtn.setAttribute('disabled', '');
+
+    const endEvent = () => {
+        nameInput.removeAttribute('disabled');
+        pswInput.removeAttribute('disabled');
+        filesInput.removeAttribute('disabled');
+        sendBtn.removeAttribute('disabled');
+        isUploading = false;
+    }
 
     isUploading = true;
     flex.send(nameInput.value, pswInput.value, 0, filesInput.files, e => {
@@ -88,14 +102,12 @@ form.addEventListener('submit', e => {
         pswInput.value = '';
         filesInput.value = '';
 
-        isUploading = false;
+        endEvent();
     }).catch(() => {
-        isUploading = false;
+        endEvent();
     });
 
     return false;
 });
 
 refreshList();
-
-window.flex = flex;
