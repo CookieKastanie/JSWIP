@@ -1,4 +1,8 @@
 export class Doc { // Classe utilitaire pour construire le document html dynamiquement
+    static init() {
+        Doc.container = document.querySelector('#content');
+    }
+
     static printTitle(title) {
         const h1 = document.createElement('h1');
         h1.textContent = title;
@@ -48,5 +52,5 @@ export class Doc { // Classe utilitaire pour construire le document html dynamiq
     }
 }
 
-Doc.container = document.querySelector('#content');
+Doc.container = null;
 Doc.currentSection = null;

@@ -101,7 +101,8 @@ export class PI {
         Doc.print(`PI : ${Math.PI}...`);
 
         Doc.printFuture(Task.submit({
-            func: PI.calculate1,
+            class: 'PI',
+            func: 'calculate1',
             args: [1e8, 1]
         }), {
             waiting: `Calcule de l'estimation en cours ...`,
@@ -110,7 +111,8 @@ export class PI {
         });
 
         Doc.printFuture(Task.submit({
-            func: PI.calculate2,
+            class: 'PI',
+            func: 'calculate2',
             args: [1e8, 1]
         }), {
             waiting: `Calcule de l'estimation en cours ...`,
@@ -119,7 +121,8 @@ export class PI {
         });
 
         Doc.printFuture(Task.submit({
-            func: PI.calculate3,
+            class: 'PI',
+            func: 'calculate3',
             args: [1e8, 2, 3]
         }), {
             waiting: `Calcule de l'estimation en cours ...`,

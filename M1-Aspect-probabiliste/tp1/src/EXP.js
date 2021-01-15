@@ -51,7 +51,8 @@ export class EXP {
         Doc.print(`E : ${Math.E}...`);
 
         Doc.printFuture(Task.submit({
-            func: EXP.calculate1,
+            class: 'EXP',
+            func: 'calculate1',
             args: [1e8]
         }), {
             waiting: `Calcule de l'estimation en cours ...`,
@@ -60,7 +61,8 @@ export class EXP {
         });
 
         Doc.printFuture(Task.submit({
-            func: EXP.calculate2,
+            class: 'EXP',
+            func: 'calculate2',
             args: [1e8]
         }), {
             waiting: `Calcule de l'estimation en cours ...`,

@@ -10,6 +10,7 @@ import { Doc } from './Doc';
 //console.log('E ~=', EXP.calculate2(1e8));
 
 Task.init();
+Doc.init();
 Doc.printTitle('Aspects probabilistes - TP1');
 
 PI.execTests();

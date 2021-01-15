@@ -1,5 +1,3 @@
-import { RNG } from "./RNG";
-
 export class Task { 
     static init() {
         Task.worker = new Worker('worker.js');
@@ -13,18 +11,10 @@ export class Task {
 
     static submit(params) {
         return new Promise((resolve) => {
-            let func = params.func.toString();
-
-            func = `${RNG.toString()}\n(function ${func})(${params.args.join(',')})`;
-            func = func.replace(/_RNG__WEBPACK_IMPORTED_MODULE_1__\["RNG"\]/g, `RNG`);
-
             const id = Task.idMax++; 
             Task.queue.set(id, resolve);
-
-            Task.worker.postMessage({
-                id,
-                func,
-            });
+            params.id = id;
+            Task.worker.postMessage(params);
         });
     }
 }
