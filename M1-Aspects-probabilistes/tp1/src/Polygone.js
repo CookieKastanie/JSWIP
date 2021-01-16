@@ -1,5 +1,5 @@
-import { RNG } from "./RNG";
-import { Doc } from "./Doc";
+import { RNG } from "./utils/RNG";
+import { Doc } from "./utils/Doc";
 
 export class Polygone {
     constructor(vCount = 8, l = 1) {

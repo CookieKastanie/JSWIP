@@ -1,6 +1,6 @@
-import { Doc } from "./Doc";
-import { RNG } from "./RNG";
-import { Task } from "./Task";
+import { Doc } from "./utils/Doc";
+import { RNG } from "./utils/RNG";
+import { Task } from "./utils/Task";
 
 export class PI {
     static calculate1(n = 1e8, r = 1) {
@@ -26,30 +26,6 @@ export class PI {
 
         return (4 * c) / n;
     }
-
-    /*static calculate3(n = 1e8, l = 1) {
-        let count = 0;
-
-        for(let i = 0; i < n; ++i) {
-            const a = RNG.range(0, Math.PI / 2);
-            let y = Math.sin(a) * l; // <- ca c'est bien
-
-            
-            //let x = RNG.range(0, l);
-            //let y = RNG.range(0, l);
-            
-            //let length = Math.sqrt(x * x + y * y);
-    
-            //y = (y / length) * l; // <- ca c'est de la merde (tend vers 45° => mauvaise distribution)
-    
-            
-            y += RNG.range(0, l);
-
-            if(y >= l) ++count;
-        }
-    
-        return 2 * n / count;
-    }*/
 
     static calculate3(n = 1e8, w = 1, l = 1) {
         let count = 0;

@@ -1,6 +1,6 @@
-import { Doc } from "./Doc";
-import { RNG } from "./RNG";
-import { Task } from "./Task";
+import { Doc } from "./utils/Doc";
+import { RNG } from "./utils/RNG";
+import { Task } from "./utils/Task";
 
 export class EXP {
     static calculate1(N = 1e8) {

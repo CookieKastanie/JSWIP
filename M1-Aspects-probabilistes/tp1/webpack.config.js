@@ -7,7 +7,7 @@ const config = {
     mode: 'development',
     entry: {
         bundle: path.resolve(__dirname, 'src/main.js'),
-        worker: path.resolve(__dirname, 'src/worker.js')
+        worker: path.resolve(__dirname, 'src/utils/worker.js')
     },
     output: {
         filename: '[name].js',

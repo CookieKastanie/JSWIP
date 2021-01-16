@@ -1,5 +1,5 @@
-import { PI } from "./PI";
-import { EXP } from "./EXP";
+import { PI } from "../PI";
+import { EXP } from "../EXP";
 
 const classes = {
     PI,
