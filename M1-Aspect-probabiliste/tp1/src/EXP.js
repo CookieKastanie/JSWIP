@@ -55,7 +55,7 @@ export class EXP {
             func: 'calculate1',
             args: [1e8]
         }), {
-            waiting: `Calcule de l'estimation en cours ...`,
+            waiting: `Calcul de l'estimation en cours ...`,
             before: 'Estimation (technique 1) : ',
             after: ''
         });
@@ -65,7 +65,7 @@ export class EXP {
             func: 'calculate2',
             args: [1e8]
         }), {
-            waiting: `Calcule de l'estimation en cours ...`,
+            waiting: `Calcul de l'estimation en cours ...`,
             before: 'Estimation (technique 2) : ',
             after: ''
         });

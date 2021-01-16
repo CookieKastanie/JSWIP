@@ -10,7 +10,7 @@ self.onmessage = e => {
     const d = e.data;
 
     const t0 = performance.now();
-    const result =  classes[d.class][d.func].call(d.args); 
+    const result = classes[d.class][d.func].call(d.args); 
     const t1 = performance.now();
 
     self.postMessage({
