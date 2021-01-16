@@ -1,5 +1,6 @@
 import { PI } from "../PI";
 import { EXP } from "../EXP";
+import { Timer } from "./Timer";
 
 const classes = {
     PI,
@@ -9,13 +10,15 @@ const classes = {
 self.onmessage = e => {
     const d = e.data;
 
-    const t0 = performance.now();
+    const timer = new Timer();
+
+    timer.start();
     const result = classes[d.class][d.func].call(d.args); 
-    const t1 = performance.now();
+    timer.stop();
 
     self.postMessage({
         id: d.id,
         result,
-        seconds: (t1 - t0) * 0.001
+        seconds: timer.getDelta()
     });
 };

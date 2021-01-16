@@ -50,24 +50,22 @@ export class EXP {
 
         Doc.print(`E : ${Math.E}...`);
 
-        Doc.printFuture(Task.submit({
+        const p1 = Doc.print(`Calcul de l'estimation en cours ...`);
+        Task.submit({
             class: 'EXP',
             func: 'calculate1',
             args: [1e8]
-        }), {
-            waiting: `Calcul de l'estimation en cours ...`,
-            before: 'Estimation (technique 1) : ',
-            after: ''
+        }).then(e => {
+            p1.textContent = `Estimation (Méthode 1) : ${e.result} (en ${e.seconds} s)`;
         });
 
-        Doc.printFuture(Task.submit({
+        const p2 = Doc.print(`Calcul de l'estimation en cours ...`);
+        Task.submit({
             class: 'EXP',
             func: 'calculate2',
             args: [1e8]
-        }), {
-            waiting: `Calcul de l'estimation en cours ...`,
-            before: 'Estimation (technique 2) : ',
-            after: ''
+        }).then(e => {
+            p2.textContent = `Estimation (Méthode 2) : ${e.result} (en ${e.seconds} s)`;
         });
     }
 }

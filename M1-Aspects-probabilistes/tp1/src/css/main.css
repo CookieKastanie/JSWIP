@@ -2,6 +2,10 @@ h1 {
     margin-bottom: 1em;
 }
 
+h3 {
+    margin-top: 1em;
+}
+
 .container {
     margin-top: 1em;
     margin-bottom: 10em;
@@ -14,5 +18,10 @@ section {
 }
 
 p {
+    display: block;
     margin: 0;
+}
+
+canvas {
+    display: block;
 }

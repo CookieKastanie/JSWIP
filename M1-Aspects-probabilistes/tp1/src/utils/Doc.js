@@ -20,7 +20,13 @@ export class Doc { // Classe utilitaire pour construire le document html dynamiq
         }
     }
 
-    static createAndAddCanvas(width, height) {
+    static createAndAddCanvas(width, height, title) {
+        if(title) {
+            const h3 = document.createElement('h3');
+            h3.textContent = title;
+            Doc.currentSection.appendChild(h3);
+        }
+
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
 
@@ -44,11 +50,9 @@ export class Doc { // Classe utilitaire pour construire le document html dynamiq
         return p;
     }
 
-    static printFuture(f, texts) {
-        const p = Doc.print(texts.waiting);
-        f.then(e => {
-            p.textContent = `${texts.before}${e.result}${texts.after} (en ${Number(e.seconds).toFixed(3)} s)`;
-        });
+    static br() {
+        const br = document.createElement('br');
+        Doc.currentSection.appendChild(br);
     }
 }
 
