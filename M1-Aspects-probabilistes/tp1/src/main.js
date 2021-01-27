@@ -1,6 +1,6 @@
 import './css/loadCss';
 import { PI } from "./PI";
-import { EXP } from "./EXP";
+import { E } from "./E";
 import { Polygone } from "./Polygone";
 import { Task } from './utils/Task';
 import { Doc } from './utils/Doc';
@@ -10,7 +10,7 @@ Doc.init();
 Doc.printTitle('Aspects probabilistes - TP1');
 
 PI.execTests();
-EXP.execTests();
+E.execTests();
 Polygone.execTests();
 
 

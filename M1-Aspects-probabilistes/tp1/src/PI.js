@@ -1,3 +1,4 @@
+import { Chart } from "./utils/Chart";
 import { Doc } from "./utils/Doc";
 import { RNG } from "./utils/RNG";
 import { Task } from "./utils/Task";
@@ -52,50 +53,63 @@ export class PI {
         return (2 * n * l) / (count * w);
     }
 
-    static compareTime(n = 1e6, testCount = 10) {
+    static compare(n = 1e6, testCount = 10) {
+        const times = new Array(3);
+        const differences = [0, 0, 0];
+
         const timer = new Timer();
         timer.start();
-        for(let i = 0; i < testCount; ++i) PI.calculate1(n, 1);
+        for(let i = 0; i < testCount; ++i) differences[0] += Math.abs(Math.PI - PI.calculate1(n, 1));
         timer.stop();
 
-        const meth1Mean = timer.getDelta() / testCount;
-
-        timer.start();
-        for(let i = 0; i < testCount; ++i) PI.calculate2(n, 1);
-        timer.stop();
-
-        const meth2Mean = timer.getDelta() / testCount;
+        times[0] = timer.getDelta() / testCount;
+        differences[0] /= testCount;
 
 
         timer.start();
-        for(let i = 0; i < testCount; ++i) PI.calculate3(n, 2, 3);
+        for(let i = 0; i < testCount; ++i) differences[1] += Math.abs(Math.PI - PI.calculate2(n, 1));
         timer.stop();
 
-        const meth3Mean = timer.getDelta() / testCount;
+        times[1] = timer.getDelta() / testCount;
+        differences[1] /= testCount;
 
-        return [
-            meth1Mean,
-            meth2Mean,
-            meth3Mean
-        ]
+
+        timer.start();
+        for(let i = 0; i < testCount; ++i) differences[2] += Math.abs(Math.PI - PI.calculate3(n, 2, 3));
+        timer.stop();
+
+        times[2] = timer.getDelta() / testCount;
+        differences[2] /= testCount;
+
+        return {
+            times,
+            differences
+        }
     }
 
-    static compareSpeed(max = 1e7, multStep = 1e1) {
-        const results = new Array();
+    static compareAll(max = 1e7, multStep = 1e1) {
+        const timeResults = new Array();
+        const differenceResults = new Array();
 
         for(let i = multStep; i <= max; i *= multStep) {
-            results.push({
+            const r = PI.compare(i, i > 1e7 ? 1 : 10);
+            timeResults.push({
                 n: i,
-                times: PI.compareTime(i, 10)
+                value: r.times
+            });
+
+            differenceResults.push({
+                n: i,
+                value: r.differences
             });
         }
 
-        return results;
+        return {
+            times: timeResults,
+            differences: differenceResults
+        };
     }
 
-    static comparePrecision() {
-        
-    }
 
     ///////////////////////////////////////////////////
 
@@ -198,61 +212,18 @@ export class PI {
             p3.textContent = `Estimation à 3 digits (Méthode 3) : ${e.result} (en ${e.seconds} s)`;
         });
 
-
-        const sCtx = Doc.createAndAddCanvas(600, 500, 'Vitesses de calcul moyennes').ctx;
-        sCtx.setTransform(1, 0, 0, 1, 0, 0);
-        sCtx.fillStyle = '#EEE';
-        sCtx.font = '25px Arial';
-        sCtx.fillText('Calcul en cours ...', 10, 50);
-
+        const chart1 = new Chart(Doc.createAndAddCanvas(600, 500, 'Vitesses de calcul moyennes'));
+        const chart2 = new Chart(Doc.createAndAddCanvas(600, 500, 'Ecart avec PI => | PI - Estimation |'));
         Task.submit({
             class: 'PI',
-            func: 'compareSpeed',
-            args: [1e7, 1e1]
+            func: 'compareAll',
+            args: [1e8, 1e1]
         }).then(e => {
-            const results = e.result;
-            sCtx.fillStyle = '#111';
-            sCtx.fillRect(0, 0, 600, 500);
+            chart1.drawRange(0, 0.7, 0.1, 's');
+            chart1.drawDatas(['Méthode 1', 'Méthode 2', 'Méthode 3'], e.result.times);
 
-            sCtx.setTransform(600, 0, 0, 500, 0, 0);
-            sCtx.translate(0, -0.2);
-            sCtx.strokeStyle = '#EEE';
-            sCtx.fillStyle = '#EEE';
-            sCtx.lineWidth = 1 / 500;
-            for(let i = 0; i < 1; i += 0.1) {
-                sCtx.beginPath();
-                sCtx.moveTo(0, 1 - i);
-                sCtx.lineTo(1, 1 - i);
-                sCtx.stroke();
-
-                sCtx.save();
-                sCtx.setTransform(1, 0, 0, 1, 0, -0.2 * 500);
-                sCtx.fillText(Number(i).toFixed(1) + 's', 0, 500 - i * 500 - 5);
-                sCtx.restore();
-            }
-
-            sCtx.save();
-            sCtx.setTransform(1, 0, 0, 1, 0, 0);
-            sCtx.font = '20px Arial';
-            sCtx.fillText('Rouge : Méthode 1', 10, 440);
-            sCtx.fillText('Vert : Méthode 2', 10, 460);
-            sCtx.fillText('Bleu : Méthode 3', 10, 480);
-            sCtx.restore();
-
-            sCtx.lineWidth = 2 / 500;
-
-            for(let m = 0; m < 3; ++m) {
-                if(m == 0) sCtx.strokeStyle = '#F22';
-                if(m == 1) sCtx.strokeStyle = '#2F2';
-                if(m == 2) sCtx.strokeStyle = '#22F';
-                
-                sCtx.beginPath();
-                sCtx.moveTo(0, 1);
-                for(let i = 0; i < results.length; ++i) {
-                    sCtx.lineTo(i / results.length, 1 - results[i].times[m]);
-                }
-                sCtx.stroke();
-            }
+            chart2.drawRange(0, 0.4, 0.05, '');
+            chart2.drawDatas(['Méthode 1', 'Méthode 2', 'Méthode 3'], e.result.differences);
         });
     }
 }
