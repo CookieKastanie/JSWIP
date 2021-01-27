@@ -1,7 +1,7 @@
 import { RNG } from "./utils/RNG";
 import { Doc } from "./utils/Doc";
 
-export class Polygone {
+export class Polygon {
     constructor(vCount = 8, l = 1) {
         this.vertices = new Array();
 
@@ -110,7 +110,7 @@ export class Polygone {
 
         const { canvas, ctx } = Doc.createAndAddCanvas(600, 600); 
 
-        const p = new Polygone(15, 300);
+        const p = new Polygon(15, 300);
 
         p.drawMonteCarlo(ctx);
         p.draw(ctx);
