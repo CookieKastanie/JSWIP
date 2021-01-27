@@ -12,5 +12,3 @@ Doc.printTitle('Aspects probabilistes - TP1');
 PI.execTests();
 E.execTests();
 Polygon.execTests();
-
-

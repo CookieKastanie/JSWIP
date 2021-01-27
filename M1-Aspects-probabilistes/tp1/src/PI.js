@@ -37,6 +37,7 @@ export class PI {
             let y = Math.sin(a) * l;
 
             /*
+            // Mauvaise répartition
             let x = RNG.range(0, l);
             let y = RNG.range(0, l);
             let length = Math.sqrt(x * x + y * y);
