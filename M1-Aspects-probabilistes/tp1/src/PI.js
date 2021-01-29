@@ -5,7 +5,9 @@ import { Task } from "./utils/Task";
 import { Timer } from "./utils/Timer";
 
 export class PI {
-    static calculate1(n = 1e8, r = 1) {
+
+    // Méthode 1
+    static calculate1(n, r) {
         let s = 0;
 
         for(let i = 0; i < n; ++i) {
@@ -16,7 +18,8 @@ export class PI {
         return (4 * s) / (n * r);
     }
 
-    static calculate2(n = 1e8, r = 1) {
+    // Méthode 2
+    static calculate2(n, r) {
         let c = 0;
 
         for(let i = 0; i < n; ++i) {
@@ -29,13 +32,11 @@ export class PI {
         return (4 * c) / n;
     }
 
-    static calculate3(n = 1e8, w = 1, l = 1) {
+    // Méthode 3
+    static calculate3(n, w, l) {
         let count = 0;
 
         for(let i = 0; i < n; ++i) {
-            const a = RNG.range(0, Math.PI);
-            let y = Math.sin(a) * l;
-
             /*
             // Mauvaise répartition
             let x = RNG.range(0, l);
@@ -43,6 +44,9 @@ export class PI {
             let length = Math.sqrt(x * x + y * y);
             y = (y / length) * l;
             */
+
+           const a = RNG.range(0, Math.PI);
+           let y = Math.sin(a) * l;
 
             y += RNG.range(0, w);
             while(y >= w) {
@@ -190,9 +194,9 @@ export class PI {
         Task.submit({
             class: 'PI',
             func: 'calculate1',
-            args: [1e8, 1]
+            args: [1e7, 1]
         }).then(e => {
-            p1.textContent = `Estimation à 3 digits (Méthode 1) : ${e.result} (en ${e.seconds} s)`;
+            p1.textContent = `Estimation à 3 digits avec la méthode 1 (1e7 tirages) : ${e.result} (en ${e.seconds} s)`;
         });
 
         const p2 = Doc.print(`Calcul de l'estimation en cours ...`);
@@ -201,7 +205,16 @@ export class PI {
             func: 'calculate2',
             args: [1e8, 1]
         }).then(e => {
-            p2.textContent = `Estimation à 3 digits (Méthode 2) : ${e.result} (en ${e.seconds} s)`;
+            p2.textContent = `Estimation à 3 digits avec la méthode 2 (1e8 tirages) : ${e.result} (en ${e.seconds} s)`;
+        });
+
+        const p2Bis = Doc.print(`Calcul de l'estimation en cours ...`);
+        Task.submit({
+            class: 'PI',
+            func: 'calculate2',
+            args: [1e8, 10]
+        }).then(e => {
+            p2Bis.textContent = `Estimation à 3 digits avec la méthode 2 (r = 10 et 1e8 tirages) : ${e.result} (en ${e.seconds} s)`;
         });
 
         const p3 = Doc.print(`Calcul de l'estimation en cours ...`);
@@ -210,7 +223,7 @@ export class PI {
             func: 'calculate3',
             args: [1e8, 2, 3]
         }).then(e => {
-            p3.textContent = `Estimation à 3 digits (Méthode 3) : ${e.result} (en ${e.seconds} s)`;
+            p3.textContent = `Estimation à 3 digits avec la méthode 3 (1e8 tirages) : ${e.result} (en ${e.seconds} s)`;
         });
 
         const chart1 = new Chart(Doc.createAndAddCanvas(600, 500, 'Vitesses de calcul moyennes'));

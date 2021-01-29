@@ -5,7 +5,8 @@ import { Task } from "./utils/Task";
 import { Timer } from "./utils/Timer";
 
 export class E {
-    static calculate1(N = 1e8) {
+    // Méthode 1
+    static calculate1(N) {
         let sum = 0;
 
         for(let i = 0; i < N; ++i) {
@@ -23,7 +24,8 @@ export class E {
         return sum / N;
     }
 
-    static calculate2(N = 1e8) {
+    // Méthode 2
+    static calculate2(N) {
         let sum = 0;
 
         for(let i = 0; i < N; ++i) {

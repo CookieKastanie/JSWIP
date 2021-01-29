@@ -24,7 +24,7 @@ export class Polygon {
         }
     }
 
-    isInside(x, y) {
+    pointIsInside(x, y) {
         // https://wrf.ecse.rpi.edu/Research/Short_Notes/pnpoly.html
 
         let inside = false;
@@ -40,14 +40,14 @@ export class Polygon {
         return inside;
     }
 
-    approxArea(n = 1e6) {
+    approxArea(n) {
         let count = 0;
 
         for(let i = 0; i < n; ++i) {
             let x = RNG.range(this.xMin, this.xMax);
             let y = RNG.range(this.yMin, this.yMax);
 
-            if(this.isInside(x, y)) ++count;
+            if(this.pointIsInside(x, y)) ++count;
         }
 
         const boundingBoxArea = (this.xMax - this.xMin) * (this.yMax - this.yMin);
@@ -98,7 +98,7 @@ export class Polygon {
             let x = RNG.range(this.xMin, this.xMax);
             let y = RNG.range(this.yMin, this.yMax);
 
-            if(this.isInside(x, y)) ctx.fillStyle = '#22F';
+            if(this.pointIsInside(x, y)) ctx.fillStyle = '#22F';
             else ctx.fillStyle = '#F22';
 
             ctx.fillRect(x, y, 1, 1);
@@ -115,7 +115,12 @@ export class Polygon {
         p.drawMonteCarlo(ctx);
         p.draw(ctx);
 
-        Doc.print(`Aire exacte : ${Number(p.exactArea()).toFixed(1)} pixels²`);
-        Doc.print(`Aire approximative : ${Number(p.approxArea(1e6)).toFixed(1)} pixels²`);
+        const area = p.exactArea();
+        const estimation = p.approxArea(1e6);
+        const diff = Math.abs(area - estimation);
+
+        Doc.print(`Aire exacte : ${Number(area).toFixed(1)} pixels²`);
+        Doc.print(`Aire approximative (1e6 tirages) : ${Number(estimation).toFixed(1)} pixels²`);
+        Doc.print(`Ecart : ${Number(diff).toFixed(1)}`);
     }
 }
