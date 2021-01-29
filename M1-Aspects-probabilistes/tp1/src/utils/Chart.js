@@ -9,7 +9,7 @@ export class Chart {
         this.ctx.setTransform(1, 0, 0, 1, 0, 0);
         this.ctx.fillStyle = '#EEE';
         this.ctx.font = '25px Arial';
-        this.ctx.fillText('Calcul en cours ...', 10, 50);
+        this.ctx.fillText('Calculs en cours ...', 10, 50);
     }
 
     drawRange(begin, end, step, unit) {
