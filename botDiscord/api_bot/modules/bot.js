@@ -100,8 +100,8 @@ const sayOn = (canal, message, secs = 0) => {
 }
 exports.sayOn = sayOn;
 
-exports.getUserById = id => {
-  return bot.fetchUser(id);
+exports.getUserById = async id => {
+   return await bot.users.fetch(id);
 }
 
 exports.getTextChannels = () => {
@@ -113,5 +113,5 @@ exports.getVocalChannels = () => {
 }
 
 exports.richEmbed = () => {
-  return new Discord.RichEmbed();
+  return new Discord.MessageEmbed();
 }

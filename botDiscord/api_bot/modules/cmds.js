@@ -234,9 +234,9 @@ exports.default = async (params, mess) => {
  * N'est plus utile car Discord le gère maintenant
  */
 exports.screen = (params, mess) => {
-  if(mess.member.voiceChannel) {
+  if(mess.member.voice.channel) {
     bot.sayOn(mess.channel, bot.richEmbed()
-    .addField('Lien du channel vocal:', `https://discordapp.com/channels/${mess.member.guild.id}/${mess.member.voiceChannel.id}`)
+    .addField('Lien du channel vocal:', `https://discordapp.com/channels/${mess.guild.id}/${mess.member.voice.channel.id}`)
     .setColor(0x9B59B6));
   } else {
     bot.sayOn(mess.channel, 'Gros pd, tu doit être connecté à un voice channel pour utiliser cette commande >:(', 15);
@@ -439,12 +439,12 @@ exports.stopthecount = (params, mess) => {
 
 let tokenSound = true;
 
-const playSound = async (params, mess, file, soundVolume) => {
+const playSound = async (params, mess, file, soundVolume, soundTimestamp = 0) => {
   if(mess.member.voice.channel) {
     /*if (tokenSound)*/{
       tokenSound = false;
       const connection = await mess.member.voice.channel.join();
-      const dispatcher = connection.play(file, {volume: soundVolume});
+      const dispatcher = connection.play(file, {volume: soundVolume, seek : soundTimestamp});
       dispatcher.on("finish", () => {connection.disconnect(); tokenSound = true;});
     }
   }
@@ -489,6 +489,10 @@ exports.wooow = (params, mess) => {
   playSound(params,mess,'./datas/mp3/wooow.mp3',1.0);
 }
 
+exports.cum = (params, mess) => {
+  playSound(params,mess,'./datas/mp3/keanu-reeves-says-why-do-you-cum.mp3',1.0);
+}
+
 /***=========================== **/
 /***     MUSIQUES  YOUTUBE      **/
 /***=========================== **/
@@ -510,7 +514,10 @@ exports.play = (params, mess) => {
 
   if(songName) {
     if(songName.startsWith('http')) {
-      playSound(params, mess, ytdl(songName, options), 0.2);
+      const n = params[params.length-1].search("\\?t=");
+      let time = n!==-1?params[params.length-1].substr(n+2,params[params.length-1].length):0;
+      time = time?parseInt(time.match(/\d+/),10):0;
+      playSound(params, mess, ytdl(songName, options), 0.2, time);
     } else {
       ytSearch(songName, ytOpts, (err, results) => {
         if(err){
