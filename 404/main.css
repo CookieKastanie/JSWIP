@@ -3,9 +3,13 @@
     text-align: center;
 }
 
+.gif-holder {
+    height: 50vh;
+}
+
 .img-fluid {
-   width: 70%;
-   max-height: 50vh;
+    height: 100%;
+    object-fit: contain;
 }
 
 a {
