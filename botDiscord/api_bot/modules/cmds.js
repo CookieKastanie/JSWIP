@@ -25,6 +25,10 @@ const listeCommande = `Liste des commandes :
   //console.log(mess.author.username);
 }*/
 
+exports.noCommand = (params,mess) =>{
+  bot.sayOn(mess.channel, "```fix\nCommande invalide ("+ params[0] +") -> "+ bot.cmdChar +"help pour afficher les commandes disponibles ```", 15);
+}
+
 /***====================== **/
 /*** FONCTIONS STANDARDES  **/
 /***====================== **/
@@ -70,9 +74,9 @@ exports.ciseaux = (params, mess) => {
 
 /**** Gestion du bot */
 /* Change le jeu de l'activité de GLaDOS*/
-exports.game = (params, mess) => {
+/*exports.game = (params, mess) => {
   if(params[0]) bot.setGame(params.join(" "));
-}
+}*/
 
 /* Pour que GlaDOS t'envoies un petit message*/
 exports.private = (params, mess) => {
@@ -106,7 +110,7 @@ exports.pk = (params, mess) => {
 }
 
 exports.PUTAIN = (params, mess) => {
-  bot.sayOn(mess.channel, "https://tenor.com/view/christmas-tree-hit-crazy-random-angry-gif-19034195");
+  bot.sayOn(mess.channel, "https://tenor.com/view/christmas-tree-hit-crazy-random-angry-gif-19034195",10);
 }
 
 /***=========== **/
