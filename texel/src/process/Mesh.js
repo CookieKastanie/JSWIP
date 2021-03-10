@@ -4,8 +4,7 @@ export class Mesh {
     static init() {
         Mesh.quad = new VAO()
         .addVBO(new VBO([
-            1,1,   -1,1,  -1,-1,
-            1,1,   -1,-1,   1,-1 
+            3,1,   -1,1,  -1,-3,
         ], 2, 0));
     }
 }
