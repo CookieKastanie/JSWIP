@@ -17,7 +17,7 @@ exports.init = () => {
     const debutAspirateur             = new schedule.RecurrenceRule();
           debutAspirateur.dayOfWeek   = [new schedule.Range(0,6)];
           debutAspirateur.hour        = 20;
-          debutAspirateur.minute      = 45;
+          debutAspirateur.minute      = 55;
 
     const finAspirateur               = new schedule.RecurrenceRule();
           finAspirateur.dayOfWeek     = [new schedule.Range(0,6)];
