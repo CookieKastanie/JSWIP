@@ -35,8 +35,10 @@ export class Editor {
         label.setAttribute('style', 'position: absolute; top: -100px;');
         label.textContent = 'woula';
         const t = document.querySelector('.CodeMirror textarea');
-        t.parentElement.appendChild(label);
-        t.setAttribute('id', 'code-area');
+        if(t) {
+            t.parentElement.appendChild(label);
+            t.setAttribute('id', 'code-area');
+        }
 
         this.errorZone = document.querySelector('#error-zone');
 
