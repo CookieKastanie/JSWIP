@@ -18,6 +18,13 @@ export class ShaderLayer extends Shader {
         return this.currentError;
     }
 
+    textureInfoUniformExist(name) {
+        return (this.getUniformLocation(name +'.sampler') != undefined) ||
+               (this.getUniformLocation(name +'.size') != undefined) ||
+               (this.getUniformLocation(name +'.ratio') != undefined) ||
+               (this.getUniformLocation(name +'.yInv') != undefined);
+    }
+
     updateFragment(s) {
         const frag = SB.buidFragmentShader(s);
 
@@ -38,7 +45,7 @@ export class ShaderLayer extends Shader {
         else this.uniformFlags.time = false;
 
         this.use();
-        if(this.getUniformLocation(SB.CURRENT_BUFFER +'.sampler')) {
+        if(this.textureInfoUniformExist(SB.CURRENT_BUFFER)) {
             this.sendInt(SB.CURRENT_BUFFER +'.sampler', 15);
             this.uniformFlags.currentBuffer = true;
         } else {
@@ -46,9 +53,9 @@ export class ShaderLayer extends Shader {
         }
 
         for(let i = 0; i < SB.BUFFERCOUNT; ++i) {
-            const uName = SB.BUFFER + SB.ALPHABET[i] +'.sampler';
-            if(this.getUniformLocation(uName)) {
-                this.sendInt(uName, i);
+            const uName = SB.BUFFER + SB.ALPHABET[i];
+            if(this.textureInfoUniformExist(uName)) {
+                this.sendInt(uName +'.sampler', i);
                 this.uniformFlags.buffers[i] = true;
             } else {
                 this.uniformFlags.buffers[i] = false;
@@ -56,10 +63,10 @@ export class ShaderLayer extends Shader {
         }
 
         for(let i = 0; i < SB.TEXCOUNT; ++i) {
-            const uName = SB.TEX + SB.ALPHABET[i] +'.sampler';
-            if(this.getUniformLocation(uName)) {
-                this.sendInt(uName, i + SB.BUFFERCOUNT);
-                this.sendInt(SB.TEX + SB.ALPHABET[i] +'.yInv', 1);
+            const uName = SB.TEX + SB.ALPHABET[i];
+            if(this.textureInfoUniformExist(uName)) {
+                this.sendInt(uName +'.sampler', i + SB.BUFFERCOUNT);
+                this.sendInt(uName +'.yInv', 1);
                 this.uniformFlags.textures[i] = true;
             } else {
                 this.uniformFlags.textures[i] = false;
