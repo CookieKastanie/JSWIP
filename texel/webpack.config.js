@@ -5,9 +5,13 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 const config = {
     mode: 'development',
-    entry: path.resolve(__dirname, 'src/main.js'),
+    entry: {
+        bundle: path.resolve(__dirname, 'src/main.js'),
+        //loading: path.resolve(__dirname, 'src/css/importLoadingCSS.js')
+        loading: path.resolve(__dirname, 'src/css/loading.css')
+    },
     output: {
-        filename: 'bundle.js',
+        filename: '[name].js',
         path: path.resolve(__dirname, 'public'),
     },
     module: {
@@ -22,7 +26,7 @@ const config = {
         minimizer: [new TerserPlugin({}), new OptimizeCSSAssetsPlugin({})],
     },
     plugins: [
-        new MiniCssExtractPlugin({filename: 'bundle.css'}),
+        new MiniCssExtractPlugin({filename: '[name].css'})
     ]
 };
 

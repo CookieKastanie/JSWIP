@@ -93,6 +93,14 @@ export class ShaderLayer extends Shader {
     
         return shader;
     }
+
+    // @override
+    initUniformLocation(nom){
+        nom = nom.replace(/\[0\]/,'');
+        
+        const pointer = Display.ctx.getUniformLocation(this.program, nom);
+        if(pointer) this.uniformList[nom] = pointer;
+    }
 }
 
 ShaderLayer.customAtoms = `

@@ -11,7 +11,16 @@ export default {
     noError: 'Aucune erreur.',
     help: 'Aide',
     helpText:
-`Liste des variables/constantes :
+`Types spécifiques :
+
+    struct TextureInfo {
+        sampler2D sampler;
+        vec2 size;
+        float ratio;
+        int yInv;
+    }
+
+Liste des variables/constantes :
 
     TextureInfo currentBuffer
     TextureInfo buffer[A..D]
@@ -26,6 +35,7 @@ export default {
 Liste des fonctions additionnelles :
 
     vec4 texture(TextureInfo, vec2)
+    vec4 fxaa(TextureInfo, vec2)
 
     vec3 rgb2hsv(vec3)
     vec3 hsv2rgb(vec3)
