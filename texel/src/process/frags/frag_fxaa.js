@@ -2,7 +2,7 @@ export default [
     {
         name: 'fxaa',
         frag: `
-        vec4 fxaa(TextureInfo tex, vec2 uv) {
+        vec4 fxaa(TextureInfos tex, vec2 uv) {
             const float FXAA_REDUCE_MIN = (1.0 / 128.0);
             const float FXAA_REDUCE_MUL = (1.0 / 8.0);
             const float FXAA_SPAN_MAX = 8.0;
@@ -16,11 +16,11 @@ export default [
             vec2 v_rgbSE = (fragCoord + vec2(1.0, 1.0)) * inverseVP;
             vec2 v_rgbM = vec2(fragCoord * inverseVP);
             
-            vec3 rgbNW = texture(tex, v_rgbNW).xyz;
-            vec3 rgbNE = texture(tex, v_rgbNE).xyz;
-            vec3 rgbSW = texture(tex, v_rgbSW).xyz;
-            vec3 rgbSE = texture(tex, v_rgbSE).xyz;
-            vec4 texColor = texture(tex, v_rgbM);
+            vec3 rgbNW = texture(tex.sampler, v_rgbNW).xyz;
+            vec3 rgbNE = texture(tex.sampler, v_rgbNE).xyz;
+            vec3 rgbSW = texture(tex.sampler, v_rgbSW).xyz;
+            vec3 rgbSE = texture(tex.sampler, v_rgbSE).xyz;
+            vec4 texColor = texture(tex.sampler, v_rgbM);
             vec3 rgbM = texColor.xyz;
             
             const vec3 luma = vec3(0.299, 0.587, 0.114);
@@ -46,11 +46,11 @@ export default [
                       dir * rcpDirMin)) * inverseVP;
             
             vec3 rgbA = 0.5 * (
-                texture(tex, fragCoord * inverseVP + dir * (1.0 / 3.0 - 0.5)).xyz +
-                texture(tex, fragCoord * inverseVP + dir * (2.0 / 3.0 - 0.5)).xyz);
+                texture(tex.sampler, fragCoord * inverseVP + dir * (1.0 / 3.0 - 0.5)).xyz +
+                texture(tex.sampler, fragCoord * inverseVP + dir * (2.0 / 3.0 - 0.5)).xyz);
             vec3 rgbB = rgbA * 0.5 + 0.25 * (
-                texture(tex, fragCoord * inverseVP + dir * -0.5).xyz +
-                texture(tex, fragCoord * inverseVP + dir * 0.5).xyz);
+                texture(tex.sampler, fragCoord * inverseVP + dir * -0.5).xyz +
+                texture(tex.sampler, fragCoord * inverseVP + dir * 0.5).xyz);
         
             vec4 color;
             float lumaB = dot(rgbB, luma);

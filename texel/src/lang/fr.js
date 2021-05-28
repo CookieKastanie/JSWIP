@@ -13,18 +13,17 @@ export default {
     helpText:
 `Types spécifiques :
 
-    struct TextureInfo {
+    struct TextureInfos {
         sampler2D sampler;
         vec2 size;
         float ratio;
-        int yInv;
     }
 
 Liste des variables/constantes :
 
-    TextureInfo currentBuffer
-    TextureInfo buffer[A..D]
-    TextureInfo tex[A..F]
+    TextureInfos currentBuffer
+    TextureInfos buffer[A..D]
+    TextureInfos tex[A..F]
 
     float time
 
@@ -34,8 +33,7 @@ Liste des variables/constantes :
 
 Liste des fonctions additionnelles :
 
-    vec4 texture(TextureInfo, vec2)
-    vec4 fxaa(TextureInfo, vec2)
+    vec4 fxaa(TextureInfos, vec2)
 
     vec3 rgb2hsv(vec3)
     vec3 hsv2rgb(vec3)

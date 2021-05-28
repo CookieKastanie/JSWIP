@@ -10,7 +10,7 @@ export class FileOptions {
 
         const dropdown = UITools.create('div', {class: 'file-options-content'});
 
-        const importinput = UITools.create('input', {value: Text.get('import'), type: 'file', accept: '.texel'});
+        const importinput = UITools.create('input', {value: Text.get('import'), type: 'file', accept: '.txl'});
         importinput.addEventListener('change', event => {
             const input = event.target;
             if(input.files && input.files[0]) {

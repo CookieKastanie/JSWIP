@@ -1,8 +1,5 @@
 export const frags = new Array();
 
-import tex from './frag_texture';
-frags.push(...tex);
-
 import hsv from './frag_hsv';
 frags.push(...hsv);
 

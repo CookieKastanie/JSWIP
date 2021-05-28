@@ -173,7 +173,7 @@ module.exports = function(CodeMirror, customFuncNames = '', customAtomNames ='')
       "min max clamp mix step smoothstep length distance dot cross " +
       "normalize faceforward reflect refract matrixCompMult lessThan " +
       "lessThanEqual greaterThan greaterThanEqual equal notEqual any all " +
-      "not dFdx dFdy fwidth texture2D texture2DProj texture2DLod " +
+      "not dFdx dFdy fwidth texture texture2D texture2DProj texture2DLod " +
       "texture2DProjLod textureCube textureCubeLod require export";
 
     var glslAtoms = "null";

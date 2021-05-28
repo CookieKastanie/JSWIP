@@ -3,7 +3,7 @@ import { SB } from './SB';
 
 export class ShaderLayer extends Shader {
     constructor(fs) {
-        super(SB.buidVertexShader(), SB.buidFragmentShader(fs));
+        super(SB.buidVertexShader(), SB.buidFragmentShader(`void main(){}`));
 
         this.uniformFlags = {
             time: false,
@@ -12,6 +12,8 @@ export class ShaderLayer extends Shader {
         };
 
         this.currentError = '';
+
+        this.updateFragment(fs);
     }
 
     getCurrentError() {
@@ -33,6 +35,16 @@ export class ShaderLayer extends Shader {
             newShader = this.createShader(Display.ctx.FRAGMENT_SHADER, frag);
         } catch (error) {
             this.currentError = error.substr(0, error.length - 1);
+
+            const offset = -1; // ajuste le numero de ligne de l'erreur
+            this.currentError = this.currentError.replaceAll(/ERROR: [0-9]+:[0-9]+:/g, m => {
+                return m.replace(/:[0-9]+:/g, e => {
+                    return e.replace(/[0-9]+/g, n => {
+                        return parseInt(n) + offset;
+                    });
+                });
+            })
+
             return false;
         }
         this.delShad(this.fragmantShader);

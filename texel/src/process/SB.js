@@ -2,22 +2,25 @@ import { frags } from './frags/importFrags';
 
 export class SB {
     static buidVertexShader() {
-        return `
+        return `#version 300 es
         precision mediump float;
         
-        attribute vec2 position;
+        layout(location = 0) in vec3 a_position;
+        layout(location = 1) in vec2 a_uv;
+        layout(location = 2) in vec3 a_normal;
         
-        varying vec2 uv;
+        out vec2 i_uv;
+        out vec3 i_normal;
         
         void main(){
-            gl_Position = vec4(position, 0.0, 1.0);
-            uv = vec2(position.x * 0.5 + 0.5, position.y * 0.5 + 0.5);
-        }
-        `;
+            gl_Position = vec4(a_position, 1.0);
+            i_uv = a_uv;
+            i_normal = a_normal;
+        }`;
     }
 
     static buidFragmentShader(s) {
-        return `${fragBegin}${s}${fragEnd}`;
+        return `${fragBegin}${s}`;
     }
 }
 
@@ -39,22 +42,21 @@ SB.ALPHABET = ['A', 'B', 'C', 'D', 'E', 'F'];
 SB.BUFFERCOUNT = 4;
 SB.TEXCOUNT = 6;
 
-const fragBegin =
+const fragBegin = '#version 300 es\n'+
 `precision mediump float;
 
-struct TextureInfo {
+struct TextureInfos {
     sampler2D sampler;
     vec2 size;
     float ratio;
-    int yInv;
 };
 
-uniform TextureInfo ${SB.CURRENT_BUFFER};
+uniform TextureInfos ${SB.CURRENT_BUFFER};
 
 ${(() => {
     let str = '';
     for(let i = 0; i < SB.BUFFERCOUNT; ++i) {
-        str += `uniform TextureInfo ${SB.BUFFER}${SB.ALPHABET[i]};\n`;
+        str += `uniform TextureInfos ${SB.BUFFER}${SB.ALPHABET[i]};\n`;
     }
 
     return str;
@@ -63,15 +65,13 @@ ${(() => {
 ${(() => {
     let str = '';
     for(let i = 0; i < SB.TEXCOUNT; ++i) {
-        str += `uniform TextureInfo ${SB.TEX}${SB.ALPHABET[i]};\n`;
+        str += `uniform TextureInfos ${SB.TEX}${SB.ALPHABET[i]};\n`;
     }
 
     return str;
 })()}
 
 uniform float ${SB.TIME};
-
-varying vec2 uv;
 
 const float ${SB.PI}      = 3.1415926535897932;
 const float ${SB.HALF_PI} = 1.5707963267948966;
@@ -82,10 +82,4 @@ ${(() => {
     return str;
 })()}
 
-`.replace(/\r?\n|\r/g, ' ').replace(/\s+/g, ' ');
-
-const fragEnd = `
-void main() {
-    gl_FragColor = mainColor(uv);
-}
 `.replace(/\r?\n|\r/g, ' ').replace(/\s+/g, ' ');

@@ -2,8 +2,8 @@ export default [
     {
         name: 'voronoi',
         frag: `vec3 voronoi_hash3(vec2 p) {
-            vec3 q = vec3( dot(p,vec2(127.1,311.7)), 
-                           dot(p,vec2(269.5,183.3)), 
+            vec3 q = vec3( dot(p,vec2(127.1,311.7)),
+                           dot(p,vec2(269.5,183.3)),
                            dot(p,vec2(419.2,371.9)) );
             return fract(sin(q)*43758.5453);
         }
@@ -44,7 +44,7 @@ export default [
             for(int i=-1; i<=1; ++i) {
                 vec2 g = vec2(float(i),float(j));
                 vec2 o = voronoiDist_hash2(n + g);
-                o = 0.5 + 0.5*sin(offset + 6.2831*o);	
+                o = 0.5 + 0.5*sin(offset + 6.2831*o);
                 vec2 r = g + o - f;
                 float d = dot(r,r);
         

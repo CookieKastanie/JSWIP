@@ -1,5 +1,5 @@
 import { Time } from "akila/time";
-import { FrameBuffer } from "akila/webgl";
+import { FrameBuffer, Texture } from "akila/webgl";
 import { Editor } from "../editor/Editor";
 import { Mesh } from "./Mesh";
 import { Process } from "./Process";
@@ -7,13 +7,38 @@ import { ShaderLayer } from "./ShaderLayer";
 
 export class Layer {
     constructor(unit) {
-        if(unit == 0) this.savedFragment = `vec4 mainColor(vec2 uv) {\n\treturn vec4(uv, 0.0, 1.0);\n}\n`;
-        else this.savedFragment = `vec4 mainColor(vec2 uv) {\n\treturn vec4(0.0, 0.0, 0.0, 1.0);\n}\n`;
+        if(unit == 0) this.savedFragment =
+`in vec2 i_uv;
+in vec3 i_normal;
+
+out vec4 fragColor;
+
+void main() {
+    fragColor = vec4(i_uv, 0.0, 1.0);
+}
+`;
+        else this.savedFragment =
+`in vec2 i_uv;
+in vec3 i_normal;
+
+out vec4 fragColor;
+
+void main() {
+    fragColor = vec4(0.0, 0.0, 0.0, 1.0);
+}
+`;
 
         this.shader = new ShaderLayer(this.savedFragment);
         this.framebuffer = new FrameBuffer(600, 600, {
             texColor: true, texColorUnit: unit,
             depthTest: false,
+        });
+
+        this.framebuffer.getTexture().setParameters({
+            magFilter: Texture.LINEAR,
+            minFilter: Texture.LINEAR,
+            wrapS: Texture.REPEAT,
+            wrapT: Texture.REPEAT
         });
 
         this.shaderIsValid = true;

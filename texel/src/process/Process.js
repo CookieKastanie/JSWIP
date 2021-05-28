@@ -25,7 +25,7 @@ export class Process {
 
         Process.textures = new Array();
         for(let i = 0; i < Process.textureNumber; ++i) {
-            Process.textures.push(new Texture(null, 1, 1).setUnit(i + Process.layerNumber));
+            Process.textures.push(new Texture(null, 1, 1).setParameters({flipY: true}).setUnit(i + Process.layerNumber));
         }
 
         Process.newTextureData = new Array();
@@ -117,7 +117,7 @@ export class Process {
     }
 
     static downloadPrograms() {
-        Downloader.text('program.texel', Process.serializePrograms());
+        Downloader.text('program.txl', Process.serializePrograms());
     }
 
     static uploadPrograms(file) {
