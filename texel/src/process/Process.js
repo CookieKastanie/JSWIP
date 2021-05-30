@@ -1,4 +1,5 @@
 import { Display, Texture } from "akila/webgl";
+import { Mouse } from "akila/inputs";
 import { Layer } from "./Layer";
 import { Mesh } from "./Mesh";
 import { UI } from "../editor/UI";
@@ -9,6 +10,7 @@ export class Process {
     static init() {
         UI.init();
 
+        Mouse.DOM_TARGET_CANVAS = true;
         Process.display = new Display(600, 600, {webGLVersion: 2, antialias: false});
         Process.display.disable(Display.DEPTH_TEST);
         Process.display.setClearColor(0.0, 0.0, 0.0, 0.0);
@@ -60,6 +62,10 @@ export class Process {
         
         Process.selectedLayer.setSize(width, height);
         Process.display.setSize(width, height);
+    }
+
+    static setSelectedLayerMesh(mesh) {
+        Process.selectedLayer.setMesh(mesh);
     }
 
     static updateTexture(index, img) {

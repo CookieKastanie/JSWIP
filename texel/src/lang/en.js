@@ -10,5 +10,9 @@ export default {
     apply: 'Apply',
     noError: 'No error.',
     help: 'Help',
-    helpText: 'WIP'
+    helpText: 'WIP',
+    meshSelectorLabel: 'Mesh :',
+    defaultMeshName: 'Default',
+    spheretMeshName: 'Sphere',
+    cubeMeshName: 'Cube'
 }

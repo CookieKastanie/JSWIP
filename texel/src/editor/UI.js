@@ -7,6 +7,7 @@ import { BufferSelector } from "./widgets/BufferSelector";
 import { Help } from "./widgets/Help";
 import { TexturePanel } from "./widgets/TexturePanel";
 import { FileOptions } from "./widgets/FileOptions";
+import { MeshSelector } from "./widgets/MeshSelector";
 
 export class UI {
     static init() {
@@ -21,5 +22,6 @@ export class UI {
         new TexturePanel(UITools.cleanQuery('#texture-panel'));
         new Help(UITools.cleanQuery('#help-section'));
         new FileOptions(UITools.cleanQuery('#file-options'));
+        new MeshSelector(UITools.cleanQuery('#mesh-selector'));
     }
 }

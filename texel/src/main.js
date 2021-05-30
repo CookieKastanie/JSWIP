@@ -29,6 +29,9 @@ window.cmd = {
     loadRayMarching: () => {
         Editor.setValue(Exemples.rayMarching());
     },
+    loadUvTest: () => {
+        Editor.setValue(Exemples.uvTest());
+    },
     setLang: lang => {
         Text.setLanguage(lang);
         UI.createMenus();

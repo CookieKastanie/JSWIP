@@ -1,34 +1,42 @@
 export class Exemples {
     static circle () {
-        return `float circle(float radius, vec2 coord, vec2 pos) {
+        return `in vec2 i_uv;
+
+out vec4 fragColor;
+
+float circle(float radius, vec2 coord, vec2 pos) {
     float v = length(coord - pos) / radius;
     if(radius < 1.0) return smoothstep(0.5, 0.495 - (1.0 - radius) * 0.01, v);
     else return smoothstep(0.5, 0.495, v);
 }
 
-vec4 mainColor(vec2 uv) {
+void main() {
     vec3 f = vec3(0.1, 0.1, 0.1);
-    
-    f = mix(f, vec3(1.0, 0.2, 0.1), circle(1.0, uv, vec2(0.5, 0.5)));
-    f = mix(f, vec3(0.2, 1.0, 0.1), circle(0.2, uv, vec2(0.5, 0.8)));
-    f = mix(f, vec3(0.1, 0.2, 1.0), circle(0.4, uv, vec2(0.3, 0.5)));
-    f = mix(f, vec3(0.8, 0.8, 0.2), circle(0.4, uv, vec2(0.75, 0.24)));
-    
-    return vec4(f, 1.0);
+
+    f = mix(f, vec3(1.0, 0.2, 0.1), circle(1.0, i_uv, vec2(0.5, 0.5)));
+    f = mix(f, vec3(0.2, 1.0, 0.1), circle(0.2, i_uv, vec2(0.5, 0.8)));
+    f = mix(f, vec3(0.1, 0.2, 1.0), circle(0.4, i_uv, vec2(0.3, 0.5)));
+    f = mix(f, vec3(0.8, 0.8, 0.2), circle(0.4, i_uv, vec2(0.75, 0.24)));
+
+    fragColor = vec4(f, 1.0);
 }
 `;
     }
 
     static mandelbrot() {
-        return `const vec2 center = vec2(0.7, 0.0);
+        return `in vec2 i_uv;
+
+out vec4 fragColor;
+
+const vec2 center = vec2(0.7, 0.0);
 const float scale = 2.0;
 const int iter = 200;
 
-vec4 mainColor(vec2 uv) {
+void main() {
     vec2 z, c;
 
-    c.x = 1.3333 * (uv.x - 0.5) * scale - center.x;
-    c.y = (uv.y - 0.5) * scale * 1.4 - center.y;
+    c.x = 1.3333 * (i_uv.x - 0.5) * scale - center.x;
+    c.y = (i_uv.y - 0.5) * scale * 1.4 - center.y;
 
     int i = 0;
     z = c;
@@ -42,13 +50,17 @@ vec4 mainColor(vec2 uv) {
         z.y = y;
     }
 
-    return vec4(((i == iter ? 0.0 : float(i)) / 100.0), 0.0, 0.0, 1.0);
-}        
+    fragColor = vec4(((i == iter ? 0.0 : float(i)) / 100.0), 0.0, 0.0, 1.0);
+}
 `;
     }
 
     static convolution() {
-        return `const mat3 mx = mat3(
+        return `in vec2 i_uv;
+
+out vec4 fragColor;
+
+const mat3 mx = mat3(
     -1.0, 0.0, 1.0,
     -2.0, 0.0, 2.0,
     -1.0, 0.0, 1.0
@@ -60,38 +72,42 @@ const mat3 my = mat3(
     1.0, 2.0, 1.0
 );
 
-vec3 convolution(TextureInfo buffer, mat3 m, vec2 uv) {
+vec3 convolution(TextureInfos buffer, mat3 m, vec2 uv) {
     float psx = 1.0 / buffer.size.x;
     float psy = 1.0 / buffer.size.y;
     
     vec3 b = vec3(0.0);
     
-    b += texture(buffer, vec2(uv.x - psx, uv.y + psy)).rgb * m[0][0];
-    b += texture(buffer, vec2(uv.x      , uv.y + psy)).rgb * m[0][1];
-    b += texture(buffer, vec2(uv.x + psx, uv.y + psy)).rgb * m[0][2];
-    b += texture(buffer, vec2(uv.x - psx, uv.y      )).rgb * m[1][0];
-    b += texture(buffer, vec2(uv.x      , uv.y      )).rgb * m[1][1];
-    b += texture(buffer, vec2(uv.x + psx, uv.y      )).rgb * m[1][2];
-    b += texture(buffer, vec2(uv.x - psx, uv.y - psy)).rgb * m[2][0];
-    b += texture(buffer, vec2(uv.x      , uv.y - psy)).rgb * m[2][1];
-    b += texture(buffer, vec2(uv.x + psx, uv.y - psy)).rgb * m[2][2];
+    b += texture(buffer.sampler, vec2(uv.x - psx, uv.y + psy)).rgb * m[0][0];
+    b += texture(buffer.sampler, vec2(uv.x      , uv.y + psy)).rgb * m[0][1];
+    b += texture(buffer.sampler, vec2(uv.x + psx, uv.y + psy)).rgb * m[0][2];
+    b += texture(buffer.sampler, vec2(uv.x - psx, uv.y      )).rgb * m[1][0];
+    b += texture(buffer.sampler, vec2(uv.x      , uv.y      )).rgb * m[1][1];
+    b += texture(buffer.sampler, vec2(uv.x + psx, uv.y      )).rgb * m[1][2];
+    b += texture(buffer.sampler, vec2(uv.x - psx, uv.y - psy)).rgb * m[2][0];
+    b += texture(buffer.sampler, vec2(uv.x      , uv.y - psy)).rgb * m[2][1];
+    b += texture(buffer.sampler, vec2(uv.x + psx, uv.y - psy)).rgb * m[2][2];
     
     return b;
 }
 
-vec4 mainColor(vec2 uv) {
-    vec3 resx = convolution(texA, mx, uv);
-    vec3 resy = convolution(texA, my, uv);
+void main() {
+    vec3 resx = convolution(texA, mx, i_uv);
+    vec3 resy = convolution(texA, my, i_uv);
     
     vec3 res = log(sqrt(resx * resx + resy * resy) * 4.0);
     
-    return vec4(res, 1.0);
+    fragColor = vec4(res, 1.0);
 }
 `;
     }
 
     static rayMarching() {
-        return `const int MAX_MARCHING_STEPS = 255;
+        return `in vec2 i_uv;
+
+out vec4 fragColor;
+
+const int MAX_MARCHING_STEPS = 255;
 const float MIN_DIST = 0.0;
 const float MAX_DIST = 100.0;
 const float EPSILON = 0.0001;
@@ -342,8 +358,8 @@ mat3 viewMatrix(vec3 eye, vec3 center, vec3 up) {
     return mat3(s, u, -f);
 }
 
-vec4 mainColor(vec2 uv) {
-    vec3 viewDir = rayDirection(45.0, currentBuffer.size, uv * currentBuffer.size);
+void main() {
+    vec3 viewDir = rayDirection(45.0, currentBuffer.size, i_uv * currentBuffer.size);
     vec3 eye = vec3(8.0, 5.0 * sin(0.2 * time), 7.0);
     
     mat3 viewToWorld = viewMatrix(eye, vec3(0.0, 0.0, 0.0), vec3(0.0, 1.0, 0.0));
@@ -354,7 +370,8 @@ vec4 mainColor(vec2 uv) {
     
     if (dist > MAX_DIST - EPSILON) {
         // Didn't hit anything
-        return vec4(0.0, 0.0, 0.0, 0.0);
+        fragColor = vec4(0.0, 0.0, 0.0, 0.0);
+        discard;
     }
     
     // The closest point on the surface to the eyepoint along the view ray
@@ -368,7 +385,32 @@ vec4 mainColor(vec2 uv) {
     
     vec3 color = phongIllumination(K_a, K_d, K_s, shininess, p, eye);
     
-    return vec4(color, 1.0);
+    fragColor = vec4(color, 1.0);
+}
+`;
+    }
+
+    static uvTest() {
+        return `in vec2 i_uv;
+in vec3 i_normal;
+
+out vec4 fragColor;
+
+void main() {
+    vec3 color = texture(texA.sampler, i_uv).rgb;
+
+    vec3 N = normalize(i_normal);
+    vec3 V = normalize(camera.pos);
+    float f = dot(N, V);
+
+    color += vec3(max(1.- f * 1.5, 0.));
+
+    color = rgb2hsv(color);
+    color.x += i_uv.y + time * 0.1;
+    color.y = .5;
+    color = hsv2rgb(color);
+        
+    fragColor = vec4(color, 1.);
 }
 `;
     }

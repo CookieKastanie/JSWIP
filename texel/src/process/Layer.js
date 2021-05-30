@@ -1,4 +1,6 @@
 import { Time } from "akila/time";
+import { TrackBallCamera } from "akila/utils";
+import { NeutralCamera } from "./NeutralCamera";
 import { FrameBuffer, Texture } from "akila/webgl";
 import { Editor } from "../editor/Editor";
 import { Mesh } from "./Mesh";
@@ -50,6 +52,15 @@ void main() {
         this.unit = unit;
 
         this.vec2Buffer = new Float32Array([0, 0]);
+
+        this.defaultCamera = new NeutralCamera();
+
+        this.controleCamera = new TrackBallCamera(600, 600);
+        this.controleCamera.setScrollSpeed(0.4);
+        this.controleCamera.setDistance(2.1);
+
+        this.currentCamera = this.defaultCamera;
+        this.currentMesh = Mesh.quad;
     }
 
     bind() {
@@ -59,6 +70,19 @@ void main() {
         });
         Editor.setValue(this.savedFragment);
         this.needRender = true;
+    }
+
+    setMesh(mesh) {
+        this.currentMesh = mesh;
+        if(mesh == Mesh.quad) this.currentCamera = this.defaultCamera;
+        else this.currentCamera = this.controleCamera;
+
+        this.needUpdate = true;
+        this.needRender = true;
+    }
+
+    getMesh() {
+        return this.currentMesh;
     }
 
     forceRender() {
@@ -92,13 +116,14 @@ void main() {
     setSize(width, height) {
         this.getFrameBuffer().setSize(width, height);
         this.forceRender();
+        this.controleCamera.setSize(width, height);
     }
 
     updateFragment() {
         this.savedFragment = Editor.getValue();
         this.shaderIsValid = this.shader.updateFragment(this.savedFragment);
         if(this.shaderIsValid) {
-            this.realTime = this.shader.getUniformFlags().time;
+            this.realTime = this.shader.getUniformFlags().time || (this.currentCamera != this.defaultCamera);
 
             if(!this.realTime) {
                 const flags = this.shader.getUniformFlags().buffers;
@@ -130,6 +155,9 @@ void main() {
             this.framebuffer.use();
             this.framebuffer.clear();
             this.shader.sendFloat('time', Time.now);
+
+            if(isSelected) this.currentCamera.update();
+            this.shader.sendMat4('PV', this.currentCamera.getVPMatrix());
 
             if(this.shader.getUniformFlags().currentBuffer) {
                 const texture = this.getFrameBuffer().getTexture();
@@ -168,7 +196,13 @@ void main() {
                 }
             }
 
-            Mesh.quad.draw();
+            if(this.shader.getUniformFlags().camera) {
+                this.shader.sendMat4(`camera.view`, this.currentCamera.getCameraMatrix());
+                this.shader.sendMat4(`camera.projection`, this.currentCamera.getProjectionMatrix());
+                this.shader.sendVec3(`camera.pos`, this.currentCamera.getPosition());
+            }
+
+            this.currentMesh.draw();
 
             if(isSelected) this.framebuffer.blitToScreen(FrameBuffer.NEAREST);
         }

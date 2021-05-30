@@ -19,11 +19,19 @@ export default {
         float ratio;
     }
 
+    struct Camera {
+        mat4 view;
+        mat4 projection;
+        vec3 pos;
+    }
+
 Liste des variables/constantes :
 
     TextureInfos currentBuffer
     TextureInfos buffer[A..D]
     TextureInfos tex[A..F]
+
+    Camera camera
 
     float time
 
@@ -46,5 +54,9 @@ Liste des fonctions additionnelles :
     float snoise(vec[2,3,4])
     float voronoi(vec2, float, float)
     vec3 voronoiDist(vec2, float)
-`
+`,
+    meshSelectorLabel: 'Modèle :',
+    defaultMeshName: 'Défaut',
+    spheretMeshName: 'Sphère',
+    cubeMeshName: 'Cube'
 }

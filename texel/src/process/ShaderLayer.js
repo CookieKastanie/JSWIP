@@ -8,7 +8,8 @@ export class ShaderLayer extends Shader {
         this.uniformFlags = {
             time: false,
             buffers: new Array(SB.BUFFERCOUNT),
-            textures: new Array(SB.TEXCOUNT)
+            textures: new Array(SB.TEXCOUNT),
+            camera: false
         };
 
         this.currentError = '';
@@ -23,8 +24,13 @@ export class ShaderLayer extends Shader {
     textureInfoUniformExist(name) {
         return (this.getUniformLocation(name +'.sampler') != undefined) ||
                (this.getUniformLocation(name +'.size') != undefined) ||
-               (this.getUniformLocation(name +'.ratio') != undefined) ||
-               (this.getUniformLocation(name +'.yInv') != undefined);
+               (this.getUniformLocation(name +'.ratio') != undefined);
+    }
+
+    cameraInfoUniformExist(name) {
+        return (this.getUniformLocation(name +'.view') != undefined) ||
+               (this.getUniformLocation(name +'.projection') != undefined) ||
+               (this.getUniformLocation(name +'.pos') != undefined);
     }
 
     updateFragment(s) {
@@ -85,6 +91,8 @@ export class ShaderLayer extends Shader {
             }
         }
 
+        this.uniformFlags.camera = this.cameraInfoUniformExist('camera');
+
         this.currentError = '';
         return true;
     }
@@ -130,6 +138,6 @@ ${(() => {
     }
 
     return str;
-})()} ${SB.CURRENT_BUFFER} ${SB.TIME} ${SB.PI} ${SB.HALF_PI}`;
+})()} ${SB.CURRENT_BUFFER} ${SB.TIME} ${SB.PI} ${SB.HALF_PI} ${SB.CAMERA}`;
 
 ShaderLayer.customFuncs = `${SB.FUNCNAMES}`;

@@ -12,8 +12,10 @@ export class SB {
         out vec2 i_uv;
         out vec3 i_normal;
         
+        uniform mat4 PV;
+
         void main(){
-            gl_Position = vec4(a_position, 1.0);
+            gl_Position = PV * vec4(a_position, 1.0);
             i_uv = a_uv;
             i_normal = a_normal;
         }`;
@@ -30,6 +32,7 @@ SB.BUFFER = 'buffer';
 SB.TIME = 'time';
 SB.PI = 'PI';
 SB.HALF_PI = 'HALF_PI';
+SB.CAMERA = 'camera';
 
 SB.FUNCNAMES = (() => {
     let str = '';
@@ -49,6 +52,12 @@ struct TextureInfos {
     sampler2D sampler;
     vec2 size;
     float ratio;
+};
+
+struct Camera {
+    mat4 view;
+    mat4 projection;
+    vec3 pos;
 };
 
 uniform TextureInfos ${SB.CURRENT_BUFFER};
@@ -72,6 +81,8 @@ ${(() => {
 })()}
 
 uniform float ${SB.TIME};
+
+uniform Camera ${SB.CAMERA};
 
 const float ${SB.PI}      = 3.1415926535897932;
 const float ${SB.HALF_PI} = 1.5707963267948966;

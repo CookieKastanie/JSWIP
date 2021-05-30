@@ -2,6 +2,7 @@ import { Text } from "../../lang/Text";
 import { Process } from "../../process/Process";
 import { UITools } from "../UITools";
 import { SizeSelector } from "./SizeSelector";
+import { MeshSelector } from "./MeshSelector";
 
 import './BufferSelector.css';
 
@@ -21,6 +22,7 @@ export class BufferSelector {
         selector.addEventListener('change', () => {
             Process.selectLayer(selector.selectedIndex);
             SizeSelector.refresh();
+            MeshSelector.refresh();
         });
     }
 }
