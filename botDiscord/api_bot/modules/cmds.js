@@ -109,8 +109,9 @@ exports.pk = (params, mess) => {
   bot.sayOn(mess.channel, "Quel est le chemin le plus court pour aller vers ton coeur ?");
 }
 
+/* Affiche un gif de rage */
 exports.PUTAIN = (params, mess) => {
-  bot.sayOn(mess.channel, "https://tenor.com/view/christmas-tree-hit-crazy-random-angry-gif-19034195",10);
+  bot.sayOn(mess.channel, "https://tenor.com/view/christmas-tree-hit-crazy-random-angry-gif-19034195", 10);
 }
 
 /***=========== **/
@@ -513,7 +514,7 @@ exports.play = (params, mess) => {
 
   const options = {
     filter: 'audioonly',
-    dlChunkSize: 2000000
+    dlChunkSize: 0
   }
 
   if(songName) {
