@@ -36,6 +36,8 @@ export class Process {
         UI.createMenus();
 
         Process.loadLocalStorage();
+
+        Process.afterDraw = () => {}; // A changer
     }
 
     static selectLayer(n) {
@@ -85,6 +87,8 @@ export class Process {
         for(let i = 0; i < Process.layerNumber; ++i) {
             Process.layers[i].draw(Process.selectedLayerIndex == i);
         }
+
+        Process.afterDraw(); // A changer
     }
 
     static serializePrograms() {
@@ -122,12 +126,21 @@ export class Process {
         }
     }
 
-    static downloadPrograms() {
-        Downloader.text('program.txl', Process.serializePrograms());
+    static downloadPrograms(fileName = 'program.txl') {
+        Downloader.text(fileName, Process.serializePrograms());
     }
 
     static uploadPrograms(file) {
         Process.unserializePrograms(file);
+    }
+
+    static saveCurrentImage(fileName = 'render.png') {
+        // A changer
+        Process.layers[Process.selectedLayerIndex].forceRender();
+        Process.afterDraw = () => {
+            Downloader.canvasImage(fileName, Process.display.getCanvas());
+            Process.afterDraw = () => {};
+        }
     }
 }
 

@@ -2,6 +2,7 @@ export default {
     fileOptions: 'Fichier',
     import: 'Importer',
     export: 'Exporter',
+    saveImage: 'Sauvegarder l\'image',
     textureLabel: 'Textures',
     bufferSelectorLabel: 'Buffer actuel :',
     size: 'Taille :',

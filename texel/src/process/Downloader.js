@@ -3,9 +3,9 @@ export class Downloader {
         const element = document.createElement('a');
 
         switch(type) {  
-            /*case 0:
-                element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(data));
-                break;*/
+            case Downloader.IMAGE:
+                element.setAttribute('href', data);
+                break;
 
             default:
                 element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(data));
@@ -25,6 +25,11 @@ export class Downloader {
     static text(filename, text) {
         Downloader.data(filename, Downloader.TEXT, text);
     }
+
+    static canvasImage(filename, canvas) {
+        Downloader.data(filename, Downloader.IMAGE, canvas.toDataURL('image/png'));
+    }
 }
 
 Downloader.TEXT = 'TEXT';
+Downloader.IMAGE = 'IMAGE';

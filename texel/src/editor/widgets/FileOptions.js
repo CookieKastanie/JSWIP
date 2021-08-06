@@ -30,6 +30,14 @@ export class FileOptions {
         dropdown.appendChild(exportButton);
 
 
+        /////////////////////////////////////
+
+        const saveImageButton = UITools.create('button', {text: Text.get('saveImage')});
+        saveImageButton.addEventListener('click', () => {
+            Process.saveCurrentImage();
+        });
+        dropdown.appendChild(saveImageButton);
+
         conatainer.appendChild(fileOptionsButton);
         conatainer.appendChild(dropdown);
     }
