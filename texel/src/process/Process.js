@@ -5,6 +5,8 @@ import { Mesh } from "./Mesh";
 import { UI } from "../editor/UI";
 import { Editor } from "../editor/Editor";
 import { Downloader } from './Downloader';
+import { Time } from "akila/time";
+import { GIFRecorder } from '../libs/gif/GIFRecorder';
 
 export class Process {
     static init() {
@@ -38,6 +40,8 @@ export class Process {
         Process.loadLocalStorage();
 
         Process.afterDraw = () => {}; // A changer
+
+        Process.gifRecorder = new GIFRecorder();
     }
 
     static selectLayer(n) {
@@ -84,11 +88,16 @@ export class Process {
     }
 
     static draw() {
+        if(Process.gifRecorder.isRecording()) Process.timeNow = Process.gifRecorder.getTime();
+        else Process.timeNow = Time.now;
+
         for(let i = 0; i < Process.layerNumber; ++i) {
             Process.layers[i].draw(Process.selectedLayerIndex == i);
         }
 
         Process.afterDraw(); // A changer
+
+        Process.gifRecorder.update(Process.display.getCtx());
     }
 
     static serializePrograms() {

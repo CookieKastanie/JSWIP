@@ -42,6 +42,9 @@ window.cmd = {
             localStorage.clear();
         }, true);
         location.reload();
+    },
+    record: (duration) => {
+        Process.gifRecorder.record(duration);
     }
 }
 

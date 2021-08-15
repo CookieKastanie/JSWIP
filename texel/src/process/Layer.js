@@ -154,7 +154,7 @@ void main() {
             this.shader.use();
             this.framebuffer.use();
             this.framebuffer.clear();
-            this.shader.sendFloat('time', Time.now);
+            this.shader.sendFloat('time', Process.timeNow);
 
             if(isSelected) this.currentCamera.update();
             this.shader.sendMat4('PV', this.currentCamera.getVPMatrix());
