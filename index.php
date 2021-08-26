@@ -42,6 +42,11 @@ function lireDossier($chemin, $exept = array()){
             margin-bottom: 20px;
           }
 
+          h1 {
+              font-size: 3em;
+              margin: 20px 0;
+          }
+
           .g1 .list-group-item {
             background: rgba(168, 102, 255, 0.2);
             border-color: rgba(168, 102, 255, 0.5);
@@ -60,7 +65,7 @@ function lireDossier($chemin, $exept = array()){
     </head>
     <body>
         <div class="container">
-            <h2>CookieKastanie</h2>
+            <h1>CookieKastanie</h1>
 
             <div class="list-group g1">
                 <?php
