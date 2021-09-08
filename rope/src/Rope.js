@@ -86,4 +86,4 @@ export class Rope {
     }
 }
 
-Rope.CONSTRAINS_ITERATION_COUNT = 64;
+Rope.CONSTRAINS_ITERATION_COUNT = 50;
