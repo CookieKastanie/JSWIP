@@ -1,36 +1,41 @@
-export class Vector2 {
-    constructor(x = 0, y = 0) {
+export class Vector {
+    constructor(x = 0, y = 0, z = 0) {
         this.x = x;
         this.y = y;
+        this.z = z;
     }
 
     add(vec) {
-        return new Vector2(this.x + vec.x, this.y + vec.y);
+        return new Vector(this.x + vec.x, this.y + vec.y, this.z + vec.z);
     }
 
     sub(vec) {
-        return new Vector2(this.x - vec.x, this.y - vec.y);
+        return new Vector(this.x - vec.x, this.y - vec.y, this.z - vec.z);
     }
 
     scalarMult(n) {
-        return new Vector2(this.x * n, this.y * n);
+        return new Vector(this.x * n, this.y * n, this.z * n);
     }
 
     normalize() {
-        const length = Math.hypot(this.x, this.y);
-        if(length === 0) return new Vector2();
-        else return new Vector2(this.x / length, this.y / length);
+        const length = Math.hypot(this.x, this.y, this.z);
+        if(length === 0) return new Vector();
+        else return new Vector(this.x / length, this.y / length, this.z / length);
     }
 
     static dist(v1, v2) {
-        return Math.hypot(v1.x - v2.x, v1.y - v2.y);
+        return Math.hypot(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z);
+    }
+
+    static lerp(v1, v2, t) {
+        return v1.scalarMult(1 - t).add(v2.scalarMult(t));
     }
 }
 
 export class Point {
-    constructor(x = 0, y = 0) {
-        this.position = new Vector2(x, y);
-        this.prevPosition = new Vector2(x, y);
+    constructor(x = 0, y = 0, z = 0) {
+        this.position = new Vector(x, y, z);
+        this.prevPosition = new Vector(x, y, z);
         this.isLocked = false;
     }
 }
@@ -39,7 +44,7 @@ export class Stick {
     constructor(pa = new Point(), pb = new Point()) {
         this.pointA = pa;
         this.pointB = pb;
-        this.length = Vector2.dist(this.pointA.position, this.pointB.position);
+        this.length = Vector.dist(this.pointA.position, this.pointB.position);
         this.halfLength = this.length / 2;
     }
 }
@@ -86,4 +91,4 @@ export class Rope {
     }
 }
 
-Rope.CONSTRAINS_ITERATION_COUNT = 50;
+Rope.CONSTRAINS_ITERATION_COUNT = 32;
