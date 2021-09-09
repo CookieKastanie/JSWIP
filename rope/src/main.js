@@ -1,5 +1,5 @@
 import { Point, Stick, Rope, Vector } from './Rope';
-
+import { Sphere } from './Sphere'
 
 const canvas = document.querySelector('canvas');
 const ctx = canvas.getContext('2d');
@@ -18,6 +18,8 @@ let middlePointIndex;
 let timeElapsed = 0;
 
 let deleteCount = 0;
+
+let sphere;
 
 const init = () => {
     rope = new Rope();
@@ -76,6 +78,9 @@ const init = () => {
             }
         }
     }
+
+    sphere = new Sphere(200);
+    sphere.position = new Vector(300, 800, 0);
 }
 
 init();
@@ -98,8 +103,6 @@ const draw = (ms) => {
     ctx.fillRect(0, 0, W, H);
 
     ctx.lineWidth = 2;
-
-    ctx.strokeStyle = '#29F';
     
     if(timeElapsed > 5) rope2.points[middlePointIndex].isLocked = false;
     if(timeElapsed > 10) {
@@ -130,13 +133,25 @@ const draw = (ms) => {
         init();
     }
 
-    rope2.update(delta);
+    sphere.position = Vector.lerp(sphere.position, new Vector(300, 500, 0), delta);
+    ctx.strokeStyle = '#F92';
+    sphere.draw(ctx);
+
+    const gravity = 900 * delta * delta;
+
+    rope2.update(point => {
+        point.position.y += gravity;
+        point.position = sphere.pointCollide(point.position);
+    });
+    ctx.strokeStyle = '#29F';
     rope2.draw(ctx);
 
 
+    rope.update(point => {
+        point.position.y += gravity;
+        point.position = sphere.pointCollide(point.position);
+    });
     ctx.strokeStyle = '#FFF';
-    
-    rope.update(delta);
     rope.draw(ctx);
     
     timeElapsed += delta;

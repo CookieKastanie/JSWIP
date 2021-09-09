@@ -55,7 +55,7 @@ export class Rope {
         this.sticks = [];
     }
 
-    update(delta) {
+    update(foreachPoint = () => {}) {
         for(const p of this.points) {
             if(!p.isLocked) {
                 // conservation du mouvement
@@ -63,9 +63,7 @@ export class Rope {
                 p.position = p.position.add(p.position.sub(p.prevPosition));
                 p.prevPosition = lastPos;
 
-                // ajout des forces externes
-                const gravity = 900;
-                p.position.y += gravity * delta * delta;
+                foreachPoint(p);
             }
         }
 
