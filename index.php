@@ -84,7 +84,7 @@ function lireDossier($chemin, $exept = array()){
 
             <div class="list-group g3">
                 <?php
-                    $group3 = array('splines', 'WIPCE', 'trails', 'mandelbrot', 'bubulles', 'noise');
+                    $group3 = array('rope', 'splines', 'WIPCE', 'trails', 'mandelbrot', 'bubulles', 'noise');
                     displayList($group3);
                 ?>
             </div>
