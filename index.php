@@ -76,7 +76,7 @@ function lireDossier($chemin, $exept = array()){
 
             <div class="list-group g2">
                 <?php
-                    $group2 = array('gameOfLife', 'balles', 'snake', 'p_test_1', '2dRaycast');
+                    $group2 = array('gameOfLife', 'mostu', 'balles', 'snake', 'p_test_1', '2dRaycast');
                     echo '<a class="list-group-item" href="https://ljdmdv.letoutchaud.fr" target="_blank" >LJDMDV</a>';
                     displayList($group2);
                 ?>
