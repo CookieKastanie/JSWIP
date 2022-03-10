@@ -1,0 +1,13 @@
+{
+  "name": "towebm",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+  },
+  "bin": {
+    "towebm": "./index.js"
+  },
+  "author": "",
+  "license": "ISC"
+}
