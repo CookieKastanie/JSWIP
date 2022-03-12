@@ -47,5 +47,26 @@ module.exports = {
             const file = parsePath(p);
             return this.exec(file.path, `./${toSafeName(file.name)}.webm`);
         }
+    },
+
+    execAudio: function(input, output) {
+        return new Promise((resolve, reject) => {
+            ffmpeg({source: input})
+            .noVideo()
+            .saveToFile(output)
+            .on('error', reject)
+            .on('end', resolve);
+        });
+    },
+
+    mp3: function(p) {
+        if(isYTURL(p)) {
+            return ytdl.getBasicInfo(p).then(infos => {
+                return this.execAudio(ytdl(p, {filter: 'audioonly'}), `./${toSafeName(infos.videoDetails.title)}.mp3`);
+            });
+        } else {
+            const file = parsePath(p);
+            return this.execAudio(file.path, `./${toSafeName(file.name)}.mp3`);
+        }
     }
 }
