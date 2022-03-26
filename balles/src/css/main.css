@@ -1,0 +1,99 @@
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    user-select: none;
+    -moz-user-select: none;
+}
+
+body {
+    margin: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+canvas {
+    z-index: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+section {
+    z-index: 10;
+    position: fixed;
+    top: 0;
+    left: 0;
+    
+    padding: 10px;
+    background: rgba(0, 0, 0, .5);
+    border-radius: 0 0 10px 0;
+}
+
+
+
+
+
+button {
+    display: inline-block;
+    padding: 0.35em 1.2em;
+    border: 0.1em solid #FFFFFF;
+    margin: 0 0.3em 0 0;
+    border-radius: 0.12em;
+    box-sizing: border-box;
+    text-decoration: none;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    color: #FFFFFF;
+    text-align: center;
+    transition: all 0.2s;
+    background: rgba(0, 0, 0, 0);
+}
+
+button:hover {
+    cursor: pointer;
+    border: 0.1em solid rgba(255, 255, 255, .8);
+}
+
+.darken {
+    color: rgba(255, 255, 255, .5);
+}
+
+#message {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    text-align: center;
+    z-index: 11;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    font-size: 3em;
+
+    color: rgba(255, 255, 255, .5);
+    
+    animation-name: colorAnime;
+    animation-duration: 5s;
+    animation-iteration-count: infinite;
+
+    pointer-events: none;
+}
+
+.hide {
+    display: none;
+}
+
+
+@keyframes colorAnime {
+    0% {
+        color: rgba(255, 255, 255, .5);
+    }
+    50% {
+        color: rgba(255, 255, 255, .1);
+    }
+    100% {
+        color: rgba(255, 255, 255, .5);
+    }
+}
