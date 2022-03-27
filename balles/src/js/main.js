@@ -9,8 +9,8 @@ const ctx = canvas.getContext('2d');
 const body = document.querySelector('body');
 
 const resize = () => {
-    canvas.width = body.offsetWidth;
-    canvas.height = body.offsetHeight;
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 }
 
 resize();
