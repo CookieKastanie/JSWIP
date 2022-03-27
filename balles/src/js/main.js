@@ -76,10 +76,12 @@ const endDrag = (x, y) => {
 
 
 canvas.addEventListener('mousedown', e => {
+    e.preventDefault();
     startDrag(e.clientX, e.clientY);
 });
 
 canvas.addEventListener('touchstart', e => {
+    e.preventDefault();
     e = e.touches[0];
     startDrag(e.clientX, e.clientY);
 });
