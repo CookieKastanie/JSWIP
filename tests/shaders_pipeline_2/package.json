@@ -12,7 +12,7 @@
     "webpack-cli": "^3.3.11"
   },
   "dependencies": {
-    "three": "^0.119.1",
+    "three": "^0.137.0",
     "three-collada-loader": "0.0.1"
   }
 }
