@@ -69,7 +69,7 @@ function lireDossier($chemin, $exept = array()){
 
             <div class="list-group g1">
                 <?php
-                    $group1 = array('texel', 'couleurs', 'flex', 'bot_manager', 'MachineDeTuring');
+                    $group1 = array('texel', 'couleurs', 'CS-PDF', 'MachineDeTuring');
                     displayList($group1);
                 ?>
             </div>
@@ -91,7 +91,7 @@ function lireDossier($chemin, $exept = array()){
 
             <div class="list-group">
                 <?php
-                    $list = lireDossier("./", array("index.php", "favicon.ico", "CV", "Tests", "WIPGL", "Site16mb", "404", ...$group1, ...$group2, ...$group3));
+                    $list = lireDossier("./", array("index.php", "favicon.ico", "CV", "Tests", "WIPGL", "Site16mb", "404", "bot_manager", "flex", ...$group1, ...$group2, ...$group3));
                     sort($list);
 
                     displayList($list);
