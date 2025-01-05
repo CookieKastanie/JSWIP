@@ -114,7 +114,7 @@ function menuDecor(textures,ctx)
 
 	NewVaissal();
 
-	window.requestAnimationFrame(menuDecorUpdate);
+	k_requestAnimationFrame(menuDecorUpdate);
 
 	function NewVaissal()
 	{
@@ -228,7 +228,7 @@ function menuDecor(textures,ctx)
 
 		ctx.restore();
 
-		if(playAnimation) { window.requestAnimationFrame(menuDecorUpdate)};
+		if(playAnimation) { k_requestAnimationFrame(menuDecorUpdate)};
 
 	};
 

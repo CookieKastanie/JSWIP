@@ -543,7 +543,7 @@ class Application {
     this.lastEnvoi = 0;
 
     const updateGlobal = (m) => {
-      requestAnimationFrame(updateGlobal);
+      k_requestAnimationFrame(updateGlobal);
 
       this.update();
 
@@ -555,7 +555,7 @@ class Application {
       this.lastCalledTime = m;
 
 
-      if(this.lastEnvoi + 80 < Date.now()){
+      if(this.lastEnvoi + 30 < Date.now()){
         this.lastEnvoi = Date.now()
         this.player.envoi(this.socket);
         //this.fps = Math.floor(((1/this.delta)+this.fps)/2);

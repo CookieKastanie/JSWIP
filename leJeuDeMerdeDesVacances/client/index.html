@@ -58,7 +58,25 @@
   <body>
     <canvas></canvas>
     <div id="menu"></div>
+    <script>
+      let lastTime = 0;
+      let accumulator = 0;
 
+      const k_requestAnimationFrame = clientCallback => {
+        const internLoop = (time) => {
+          accumulator += time - lastTime;
+          lastTime = time;
+          if(accumulator >= ((1/64) * 1000)) {
+            accumulator = 0;
+            clientCallback(time);
+          } else {
+            requestAnimationFrame(internLoop);
+          }
+        }
+
+        requestAnimationFrame(internLoop);
+      }
+    </script>
     <script src="js/ObjJeu.js"></script>
     <script src="js/Interpolation.js"></script>
     <script src="js/Boite.js"></script>

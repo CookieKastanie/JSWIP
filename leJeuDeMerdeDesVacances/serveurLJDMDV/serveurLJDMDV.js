@@ -34,6 +34,12 @@ var interragissable = new Array();
 var espace = {w: 15000, h: 15000};
 
 //////////////////////////////////////////////////////////////////////////
+io.engine.on("connection_error", (err) => {
+  console.log(err.req);      // the request object
+  console.log(err.code);     // the error code, for example 1
+  console.log(err.message);  // the error message, for example "Session ID unknown"
+  console.log(err.context);  // some additional error context
+});
 
 io.sockets.on('connection', function(socket){
   console.log("Connexion de: "+ socket.id);
@@ -245,7 +251,7 @@ function envoi(){
 
   io.emit('dataDebris', dataDebris);
 
-  setTimeout(envoi, 80);
+  setTimeout(envoi, 30);
 }
 
 
