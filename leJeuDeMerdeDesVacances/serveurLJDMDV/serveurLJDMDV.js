@@ -25,7 +25,12 @@ if(config.certificate_path != "" && config.certificate_key_path != "") {
 
 app.use(express.static('public'));
 var socket = require('socket.io');
-var io = socket(serveur);
+var io = socket(serveur, {
+  cors: {
+    origin: "https://ljdmdv.letoutchaud.fr",
+    credentials: true
+  }
+});
 
 var joueurs = new Array();
 var missiles = new Array();
