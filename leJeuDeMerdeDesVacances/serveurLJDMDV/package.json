@@ -1,6 +1,6 @@
 {
   "name": "serveurljdmdv",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "serveurLJDMDV.js",
   "scripts": {
@@ -11,6 +11,6 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.16.4",
-    "socket.io": "^2.2.0"
+    "socket.io": "^4.8.1"
   }
 }
